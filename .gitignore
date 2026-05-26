@@ -4,8 +4,7 @@ Thumbs.db
 *.pyc
 __pycache__/
 *.py
-# Large media (not stored in git)
-*.mp4
-*.flac
+# Over 100MB GitHub limit
+site_assets/微信视频2026-05-24_185052_908.mp4
 site_assets/backup/
 site_assets/backup2/
