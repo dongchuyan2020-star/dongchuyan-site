@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>社媒 · 董楚妍的个人宇宙</title>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@200;400;600;700;900&family=ZCOOL+QingKe+HuangYou&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+::selection { background: rgba(196,58,49,0.35); }
+:root { --bg: #2c2520; --text: #e8ddd0; --red: #c43a31; }
+html, body { height: 100%; overflow: hidden; }
+body {
+  font-family: "Noto Serif SC","STSong",serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content: ''; position: fixed; inset: 0;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  pointer-events: none; z-index: 0;
+}
+
+.back {
+  position: fixed; top: 32px; left: 32px; z-index: 30;
+  font-size: 13px; letter-spacing: 4px;
+  color: rgba(232,221,208,0.75);
+  text-decoration: none;
+  transition: all 0.2s;
+  padding: 6px 16px;
+  border: 1px solid rgba(232,221,208,0.08);
+  border-radius: 4px;
+  background: rgba(44,37,32,0.4);
+  backdrop-filter: blur(6px);
+}
+.back:hover {
+  color: rgba(232,221,208,0.95);
+  border-color: rgba(232,221,208,0.15);
+  background: rgba(44,37,32,0.6);
+}
+.back::before { content: '← '; }
+
+.music {
+  position: fixed; top: 32px; right: 32px; z-index: 30;
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; letter-spacing: 2px;
+  color: rgba(232,221,208,0.65);
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 5px 12px;
+  border: 1px solid rgba(232,221,208,0.06);
+  border-radius: 16px;
+  background: rgba(44,37,32,0.4);
+  backdrop-filter: blur(6px);
+}
+.music:hover {
+  color: rgba(232,221,208,0.9);
+  border-color: rgba(232,221,208,0.14);
+  background: rgba(44,37,32,0.6);
+}
+.music .dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: rgba(232,221,208,0.06);
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+.music .dot.on { background: var(--red); box-shadow: 0 0 10px rgba(196,58,49,0.4); }
+
+.scroll-wrap {
+  display: flex;
+  overflow-x: auto; overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  height: 100vh;
+}
+.scroll-wrap::-webkit-scrollbar { display: none; }
+
+.page {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 100px 10% 80px 10%;
+  position: relative;
+}
+.page::-webkit-scrollbar { display: none; }
+
+.content {
+  max-width: 640px;
+  margin: 0 auto;
+  position: relative; z-index: 2;
+}
+.content h2 {
+  font-family: "Ma Shan Zheng",cursive;
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 400;
+  letter-spacing: 6px;
+  color: var(--text);
+  margin-bottom: 6px;
+  opacity: 0.9;
+  line-height: 1.2;
+}
+.content h2::after {
+  content: '';
+  display: block;
+  width: 36px; height: 1.5px;
+  background: var(--red); opacity: 0.2;
+  margin-top: 6px;
+}
+.content .subtitle {
+  font-family: "Noto Serif SC",serif;
+  font-size: clamp(14px, 0.9vw, 16px);
+  color: rgba(232,221,208,0.45);
+  letter-spacing: 8px;
+  margin-bottom: 24px;
+  font-weight: 200;
+}
+.content p {
+  font-size: clamp(14px, 0.9vw, 16px);
+  line-height: 2;
+  color: rgba(232,221,208,0.7);
+  margin-bottom: 20px;
+  font-weight: 300;
+}
+
+.toc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 24px;
+  margin-top: 8px;
+}
+.toc-item {
+  font-family: "Ma Shan Zheng",cursive;
+  font-size: clamp(18px, 1.3vw, 24px);
+  letter-spacing: 4px;
+  color: rgba(232,221,208,0.65);
+  cursor: pointer;
+  padding: 8px 0 8px 20px;
+  border-left: 2px solid rgba(196,58,49,0.2);
+  transition: all 0.3s;
+  font-weight: 400;
+}
+.toc-item:hover {
+  color: rgba(232,221,208,0.8);
+  border-left-color: rgba(196,58,49,0.4);
+  padding-left: 20px;
+}
+
+/* 小红书截图网格 */
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 8px;
+  margin-top: 16px;
+}
+.photo-grid a {
+  display: block;
+  text-decoration: none;
+}
+.photo-grid img {
+  width: 100%; height: auto;
+  display: block; cursor: pointer;
+  filter: sepia(0.15) brightness(0.9);
+  border-radius: 2px;
+  transition: all 0.4s ease;
+}
+.photo-grid img:hover {
+  filter: sepia(0) brightness(1.1) contrast(1.05);
+  transform: scale(1.03);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  border-radius: 2px;
+}
+
+/* B站视频 */
+.video-box { width: 100%; margin-bottom: 16px; }
+.video-box video { width: 100%; border-radius: 2px; display: block; }
+.video-box .date {
+  font-size: 12px; letter-spacing: 2px;
+  color: rgba(232,221,208,0.3);
+  margin-top: 6px;
+}
+
+/* B站卡片 */
+.bili-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+.bili-card {
+  display: block; text-decoration: none;
+  border-radius: 2px; overflow: hidden;
+  border: 0.5px solid rgba(232,221,208,0.06);
+  transition: all 0.3s;
+  background: rgba(255,255,248,0.04);
+}
+.bili-card:hover {
+  border-color: rgba(232,221,208,0.15);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  background: rgba(255,255,248,0.08);
+}
+.bili-card img {
+  width: 100%; display: block;
+  filter: sepia(0.1) brightness(0.9);
+}
+.bili-card .bili-info {
+  padding: 10px 14px 14px;
+}
+.bili-card .bili-title {
+  font-size: 13px; line-height: 1.5;
+  color: rgba(232,221,208,0.8);
+  display: block;
+  font-weight: 300;
+}
+.bili-card .bili-date {
+  font-size: 11px; letter-spacing: 1px;
+  color: rgba(232,221,208,0.25);
+  display: block; margin-top: 4px;
+}
+
+/* ── 导航 ── */
+.nav {
+  position: fixed; inset: 0;
+  z-index: 20;
+  pointer-events: none;
+}
+.nav .arr {
+  position: absolute;
+  top: 50%; transform: translateY(-50%);
+  font-family: "Noto Serif SC",serif;
+  font-size: 52px;
+  color: rgba(232,221,208,0.6);
+  cursor: pointer;
+  background: none; border: none;
+  line-height: 1;
+  padding: 20px 12px;
+  transition: all 0.3s;
+  pointer-events: auto;
+  border-radius: 4px;
+}
+.nav .arr:hover {
+  color: rgba(232,221,208,0.9);
+  background: rgba(232,221,208,0.04);
+}
+#prevBtn { left: 6px; }
+#nextBtn { right: 6px; }
+
+.nav-dots {
+  position: absolute;
+  bottom: 28px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; align-items: center; gap: 6px;
+}
+.nav-dots .d {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: rgba(232,221,208,0.12);
+  cursor: pointer;
+  transition: all 0.3s;
+  pointer-events: auto;
+}
+.nav-dots .d.active {
+  background: var(--red);
+  width: 24px;
+  border-radius: 3px;
+  opacity: 0.7;
+}
+.nav-dots .d:hover { background: rgba(232,221,208,0.25); }
+
+/* ── Lightbox ── */
+.lightbox { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.9); }
+.lightbox.show { display: flex; justify-content: center; align-items: center; }
+.lightbox .stage { display: flex; justify-content: center; align-items: center; width: 95vw; height: 95vh; overflow: hidden; }
+.lightbox .stage img { display: block; max-width: 100%; max-height: 100%; object-fit: contain; cursor: zoom-in; border-radius: 2px; }
+.lightbox .stage.zoomed { display: block; overflow: auto; text-align: center; line-height: 0; }
+.lightbox .stage.zoomed img { max-width: none; max-height: none; width: auto; height: auto; cursor: grab; }
+.lightbox .stage.zoomed.grabbing img { cursor: grabbing; }
+
+@media (max-width: 700px) {
+  .page { padding: 90px 8% 60px 8%; }
+  .content h2 { font-size: clamp(22px, 5vw, 28px); }
+  .photo-grid { grid-template-columns: 1fr; }
+  .bili-grid { grid-template-columns: 1fr; }
+  .back { top: 28px; left: 20px; }
+  .music { top: 28px; right: 20px; }
+}
+</style>
+</head>
+<body>
+
+<a class="back" href="../personal_site.html#s3">返回</a>
+
+<div class="music" id="musicBtn">
+  <span class="dot" id="musicDot"></span>
+  <span>BGM</span>
+</div>
+<audio id="bgm" loop src="../site_assets/逍遥叹.flac" style="display:none"></audio>
+
+<div class="scroll-wrap" id="scrollWrap">
+
+  <!-- 卷首 · 留声 -->
+  <section class="page">
+    <div class="content">
+      <h2>留声</h2>
+      <p class="subtitle">在别处找到我</p>
+      <div class="toc-grid">
+        <span class="toc-item" data-i="0">小红书</span>
+        <span class="toc-item" data-i="1">B站</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 小红书 -->
+  <section class="page">
+    <div class="content">
+      <h2>小红书</h2>
+      <p>跨学科洞察 × 社会现象。用跨学科的视角解读社会现象，用洞察连接人群。</p>
+      <div class="photo-grid" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr))">
+        <a href="https://www.xiaohongshu.com/explore/68d7b9ca000000000e00ff25?xsec_token=AB6Cw8wFigpIayC96uF52thDKBsanTKDP-8dVKNxYERjA=&xsec_source=pc_user" target="_blank" rel="noopener"><img src="../site_assets/rednote_viral1.png" onclick="openLightbox(this.src)" onerror="this.style.display='none'"></a>
+        <a href="https://www.xiaohongshu.com/explore/6812f3d2000000002102fc12?xsec_token=ABUzYaxAKr-H5quad5f6zy5kTH-JVGhvlRivj4Dmc6Vyw=&xsec_source=pc_user" target="_blank" rel="noopener"><img src="../site_assets/rednote_viral2.png" onclick="openLightbox(this.src)" onerror="this.style.display='none'"></a>
+        <a href="https://www.xiaohongshu.com/explore/69edd1b5000000002202604c?xsec_token=ABMBFj1kLOumpXOTDJZqoH7vca-4XSqNNOrUHWJuWkGpU=&xsec_source=pc_user" target="_blank" rel="noopener"><img src="../site_assets/rednote_viral3.png" onclick="openLightbox(this.src)" onerror="this.style.display='none'"></a>
+        <a href="https://www.xiaohongshu.com/explore/66a23fbe0000000027013cfa?xsec_token=ABfKZCmpWeJl7205upk7MSpjJFIJS9ig_l4WK1-m4aVr0=&xsec_source=pc_user" target="_blank" rel="noopener"><img src="../site_assets/rednote_viral4.png" onclick="openLightbox(this.src)" onerror="this.style.display='none'"></a>
+        <a href="https://www.xiaohongshu.com/explore/682b2c460000000021008351?xsec_token=ABQd7ROL_vFMla0I67QLj9gji--K_RN4-PTQxdwZRi6-w=&xsec_source=pc_user" target="_blank" rel="noopener"><img src="../site_assets/rednote_viral5.png" onclick="openLightbox(this.src)" onerror="this.style.display='none'"></a>
+        <a href="https://www.xiaohongshu.com/explore/6a0c1a4c000000000702f803?xsec_token=ABLo5pcL9YJAwC4hRyhZZmbFAj5T9YoQGjW1KmQQBeIGM=&xsec_source=pc_user" target="_blank" rel="noopener"><img src="../site_assets/rednote_viral6.png" onclick="openLightbox(this.src)" onerror="this.style.display='none'"></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- B站 -->
+  <section class="page">
+    <div class="content">
+      <h2>B站</h2>
+      <p>剪辑与记录。在没有AI的时候，纯手搓的剪辑作品。</p>
+
+      <div class="video-box">
+        <video controls preload="metadata" src="../site_assets/微信视频2026-05-22_191247_958.mp4" onerror="this.style.display='none'"></video>
+        <div class="date">2026.05.22</div>
+      </div>
+      <div class="video-box">
+        <video controls preload="metadata" src="../site_assets/微信视频2026-05-24_154046_955.mp4" onerror="this.style.display='none'"></video>
+        <div class="date">2026.05.24</div>
+      </div>
+
+      <div class="bili-grid">
+        <a href="https://www.bilibili.com/video/BV15x411V7ao" target="_blank" class="bili-card">
+          <img src="../site_assets/bili_cover_a.jpg" alt="【马天宇】【慕容白】一个小练习">
+          <div class="bili-info">
+            <span class="bili-title">【马天宇】【慕容白】一个小练习</span>
+            <span class="bili-date">2017.09.29</span>
+          </div>
+        </a>
+        <a href="https://www.bilibili.com/video/BV1px411J7ng" target="_blank" class="bili-card">
+          <img src="../site_assets/bili_cover_b.jpg" alt="【吴磊杂志快剪】Bye Bye Bye">
+          <div class="bili-info">
+            <span class="bili-title">【吴磊杂志快剪】Bye Bye Bye</span>
+            <span class="bili-date">2017.08.18</span>
+          </div>
+        </a>
+        <a href="https://www.bilibili.com/video/BV15x411q7qP" target="_blank" class="bili-card">
+          <img src="../site_assets/bili_cover_c.jpg" alt="【我们的少年时代】【王俊凯】邬童个人向剪辑">
+          <div class="bili-info">
+            <span class="bili-title">【我们的少年时代】【王俊凯】邬童个人向剪辑</span>
+            <span class="bili-date">2017.07.25</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="nav">
+  <button class="arr" id="prevBtn">‹</button>
+  <div class="nav-dots" id="navDots"></div>
+  <button class="arr" id="nextBtn">›</button>
+</div>
+
+<div class="lightbox" id="lightbox">
+  <div class="stage" id="imgStage">
+    <img id="lightboxImg" src="">
+  </div>
+</div>
+
+<script>
+(function() {
+  const wrap = document.getElementById('scrollWrap');
+  const pages = document.querySelectorAll('.page');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const dotsContainer = document.getElementById('navDots');
+  let current = 0;
+
+  pages.forEach((_, i) => {
+    const d = document.createElement('span');
+    d.className = 'd' + (i === 0 ? ' active' : '');
+    d.dataset.i = i;
+    d.addEventListener('click', () => goTo(i));
+    dotsContainer.appendChild(d);
+  });
+  const dots = dotsContainer.querySelectorAll('.d');
+
+  function goTo(i) {
+    if (i < 0 || i >= pages.length) return;
+    pages[i].scrollIntoView({ behavior: 'smooth', inline: 'start' });
+  }
+
+  document.querySelectorAll('.toc-item').forEach(el => {
+    el.addEventListener('click', () => goTo(parseInt(el.dataset.i) + 1));
+  });
+
+  prevBtn.addEventListener('click', () => {
+    if (current <= 0) goTo(pages.length - 1);
+    else goTo(current - 1);
+  });
+  nextBtn.addEventListener('click', () => {
+    if (current >= pages.length - 1) goTo(0);
+    else goTo(current + 1);
+  });
+
+  function update(i) {
+    dots.forEach((d, idx) => d.classList.toggle('active', idx === i));
+  }
+
+  let ticking = false;
+  wrap.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        const idx = Math.round(wrap.scrollLeft / wrap.clientWidth);
+        if (idx >= 0 && idx < pages.length && idx !== current) {
+          current = idx;
+          update(idx);
+        }
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+  update(0);
+})();
+
+(function(){
+  const btn = document.getElementById('musicBtn');
+  const dot = document.getElementById('musicDot');
+  const audio = document.getElementById('bgm');
+  let playing = false;
+  const saved = localStorage.getItem('bgmPlaying');
+  const savedTime = localStorage.getItem('bgmTime');
+  if (saved === 'true' && savedTime) {
+    audio.currentTime = parseFloat(savedTime);
+    audio.play().catch(() => {});
+    dot.classList.add('on');
+    playing = true;
+  }
+  audio.addEventListener('timeupdate', () => {
+    localStorage.setItem('bgmTime', audio.currentTime);
+  });
+  btn.onclick = () => {
+    playing = !playing;
+    if (playing) {
+      audio.play().catch(() => { playing = false; });
+      dot.classList.add('on');
+      localStorage.setItem('bgmPlaying', 'true');
+    } else {
+      audio.pause();
+      dot.classList.remove('on');
+      localStorage.setItem('bgmPlaying', 'false');
+    }
+  };
+})();
+
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+const imgStage = document.getElementById('imgStage');
+let zoomed = false;
+
+function toggleZoom() {
+  zoomed = !zoomed;
+  imgStage.classList.toggle('zoomed', zoomed);
+  if (!zoomed) { imgStage.scrollLeft = 0; imgStage.scrollTop = 0; }
+}
+
+function closeLightbox() {
+  zoomed = false; imgStage.classList.remove('zoomed');
+  imgStage.scrollLeft = 0; imgStage.scrollTop = 0;
+  lightbox.classList.remove('show'); lightboxImg.src = '';
+}
+
+function openLightbox(src) {
+  lightboxImg.src = src; zoomed = false;
+  imgStage.classList.remove('zoomed');
+  imgStage.scrollLeft = 0; imgStage.scrollTop = 0;
+  lightbox.classList.add('show');
+}
+
+lightboxImg.addEventListener('click', (e) => {
+  e.stopPropagation(); toggleZoom();
+});
+lightbox.addEventListener('click', closeLightbox);
+
+let isPan = false, panStartX, panStartY, panScrollL, panScrollT;
+imgStage.addEventListener('mousedown', (e) => {
+  if (e.button !== 0 || !zoomed) return;
+  isPan = true; panStartX = e.pageX; panStartY = e.pageY;
+  panScrollL = imgStage.scrollLeft; panScrollT = imgStage.scrollTop;
+  imgStage.classList.add('grabbing'); e.preventDefault();
+});
+document.addEventListener('mousemove', (e) => {
+  if (!isPan) return;
+  imgStage.scrollLeft = panScrollL - (e.pageX - panStartX);
+  imgStage.scrollTop = panScrollT - (e.pageY - panStartY);
+  e.preventDefault();
+});
+document.addEventListener('mouseup', () => {
+  if (!isPan) return; isPan = false; imgStage.classList.remove('grabbing');
+});
+
+imgStage.addEventListener('touchstart', (e) => {
+  if (e.touches.length !== 1 || !zoomed) return;
+  isPan = true; panStartX = e.touches[0].pageX; panStartY = e.touches[0].pageY;
+  panScrollL = imgStage.scrollLeft; panScrollT = imgStage.scrollTop;
+}, { passive: true });
+document.addEventListener('touchmove', (e) => {
+  if (!isPan || e.touches.length !== 1) return;
+  imgStage.scrollLeft = panScrollL - (e.touches[0].pageX - panStartX);
+  imgStage.scrollTop = panScrollT - (e.touches[0].pageY - panStartY);
+}, { passive: true });
+document.addEventListener('touchend', () => { isPan = false; });
+</script>
+</body>
+</html>

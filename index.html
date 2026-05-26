@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>董楚妍 · 个人宇宙</title>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@200;400;600;700;900&family=ZCOOL+QingKe+HuangYou&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+::selection { background: rgba(196,58,49,0.25); }
+:root {
+  --bg: #e0d8ca;
+  --text: #1a1a1a;
+  --text2: rgba(26,26,26,0.62);
+  --text3: rgba(26,26,26,0.2);
+  --red: #c43a31;
+  --red-dim: rgba(196,58,49,0.08);
+  --red-line: rgba(196,58,49,0.15);
+  --card: rgba(255,255,255,0.35);
+  --card-border: rgba(26,26,26,0.06);
+}
+html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
+body {
+  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ===== TOP BAR ===== */
+.top-bar { display: none;
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(44,37,32,0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(232,221,208,0.06);
+}
+.top-inner {
+  max-width: 960px; margin: 0 auto;
+  display: flex; align-items: center;
+  height: 56px; gap: 4px;
+}
+.top-logo {
+  display: flex; align-items: baseline; gap: 0;
+  font-family: "STSong", "SimSun", "Noto Serif SC", serif;
+  margin-right: auto; white-space: nowrap;
+  letter-spacing: 2px;
+}
+.top-logo::before {
+  content: ''; flex-shrink: 0; align-self: center;
+  width: 3px; height: 18px;
+  background: var(--red); border-radius: 2px;
+  opacity: 0.35; margin-right: 10px;
+}
+.top-logo .ln {
+  font-size: 19px; font-weight: 700;
+  color: #e8ddd0; letter-spacing: 2px;
+}
+.top-logo .ls {
+  font-size: 13px; font-weight: 400;
+  color: rgba(232,221,208,0.4); letter-spacing: 2px;
+  margin-left: 6px;
+}
+.top-nav { display: flex; gap: 2px; }
+.top-nav a {
+  font-family: "Microsoft YaHei","PingFang SC",sans-serif;
+  font-size: 14px; font-weight: 600;
+  letter-spacing: 1px;
+  color: rgba(232,221,208,0.65); text-decoration: none;
+  padding: 6px 14px; border-radius: 4px;
+  transition: all 0.2s;
+  position: relative;
+}
+.top-nav a:hover { color: #e8ddd0; background: rgba(232,221,208,0.06); }
+.top-nav a::after {
+  content: ''; position: absolute;
+  bottom: 2px; left: 50%; right: 50%;
+  height: 2px; background: var(--red);
+  border-radius: 1px;
+  transition: all 0.25s; opacity: 0;
+}
+.top-nav a:hover::after { left: 30%; right: 30%; opacity: 0.5; }
+.top-nav a.active { color: #e8ddd0; background: rgba(232,221,208,0.08); }
+.top-nav a.active::after { left: 20%; right: 20%; opacity: 0.7; background: var(--red); }
+.top-music {
+  margin-left: 12px; flex-shrink: 0;
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: 500;
+  color: rgba(232,221,208,0.45);
+  padding: 5px 16px 5px 12px; border-radius: 20px;
+  border: 1px solid rgba(232,221,208,0.08);
+  cursor: pointer; transition: all 0.25s;
+  background: rgba(232,221,208,0.04);
+  letter-spacing: 0.5px;
+}
+.top-music:hover { border-color: rgba(232,221,208,0.15); background: rgba(232,221,208,0.08); color: #e8ddd0; }
+.top-music .icon {
+  font-size: 14px; line-height: 1;
+  opacity: 0.5; transition: opacity 0.2s;
+}
+.top-music:hover .icon { opacity: 0.8; }
+.top-music .dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--text3); transition: background 0.2s;
+  flex-shrink: 0;
+}
+.top-music .dot.playing { background: var(--red); box-shadow: 0 0 6px rgba(196,58,49,0.4); }
+
+.menu-btn { display: none; background: none; border: none; color: rgba(232,221,208,0.5); font-size: 20px; cursor: pointer; padding: 4px 8px; margin-left: auto; }
+
+.music {
+  position: fixed; top: 32px; right: 32px; z-index: 30;
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; letter-spacing: 2px;
+  color: rgba(232,221,208,0.65);
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 5px 12px;
+  border: 1px solid rgba(232,221,208,0.06);
+  border-radius: 16px;
+  background: rgba(44,37,32,0.4);
+  backdrop-filter: blur(6px);
+}
+.music:hover {
+  color: rgba(232,221,208,0.9);
+  border-color: rgba(232,221,208,0.14);
+  background: rgba(44,37,32,0.6);
+}
+.music .dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: rgba(232,221,208,0.06);
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+.music .dot.on { background: var(--red); box-shadow: 0 0 10px rgba(196,58,49,0.4); }
+.music .dot.playing { background: var(--red); box-shadow: 0 0 10px rgba(196,58,49,0.4); }
+
+/* ===== HERO (浮水) ===== */
+.hero {
+  height: 100vh;
+  display: flex; flex-direction: column;
+  justify-content: flex-end;
+  scroll-snap-align: start;
+  padding: 0 8% 10vh;
+  position: relative;
+  overflow: hidden;
+  background: #2c2520;
+  color: #e8ddd0;
+}
+/* 噪点纹理 */
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  pointer-events: none;
+  z-index: 0;
+}
+/* 水面 — 浅色底托 */
+.hero-water-surface {
+  position: absolute;
+  left: -5%; right: -5%; bottom: -5%;
+  height: 58%;
+  background: linear-gradient(to top, rgba(50,42,36,0.4) 0%, transparent 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+/* 水面波纹 */
+.hero-water-ripple {
+  position: absolute;
+  border: 0.5px solid rgba(232,221,208,0.04);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+}
+.hero-water-ripple:nth-child(1) { left: 30%; bottom: 18%; width: 180px; height: 30px; transform: rotate(-2deg); }
+.hero-water-ripple:nth-child(2) { left: 55%; bottom: 25%; width: 120px; height: 20px; transform: rotate(3deg); border-color: rgba(232,221,208,0.03); }
+/* 水中浮现的照片 */
+.hero-water-photo {
+  position: absolute; left: 55%; bottom: 0;
+  transform: translateX(-50%); height: 95vh;
+  opacity: 0.35;
+  filter: sepia(0.3) brightness(0.9) contrast(0.95);
+  z-index: 2; pointer-events: none;
+  mask-image: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,1) 25%, rgba(0,0,0,0.6) 55%, transparent 80%);
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,1) 25%, rgba(0,0,0,0.6) 55%, transparent 80%);
+}
+/* 清晰原照 */
+.hero-raw-photo {
+  position: absolute; left: 55%; bottom: 0;
+  transform: translateX(-50%); height: 72vh;
+  opacity: 1; filter: none;
+  z-index: 8; pointer-events: none;
+}
+/* 水中倒影 */
+.hero-water-reflection {
+  position: absolute; left: 50%; bottom: -2vh;
+  transform: translateX(-50%) scaleY(-0.6); height: 30vh;
+  opacity: 0.12;
+  filter: grayscale(1) brightness(0.5) blur(2px);
+  z-index: 1; pointer-events: none;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, transparent 80%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, transparent 80%);
+}
+/* 墨池 */
+.hero-ink-pool {
+  position: absolute; left: -10%; bottom: -8%;
+  width: 70%; height: 45%;
+  background: radial-gradient(ellipse at 40% 80%, rgba(0,0,0,0.55) 0%, transparent 55%), radial-gradient(ellipse at 60% 60%, rgba(0,0,0,0.3) 0%, transparent 45%);
+  filter: blur(14px); pointer-events: none; z-index: 0;
+}
+.hero-ink-splash {
+  position: absolute; border-radius: 50%;
+  background: rgba(0,0,0,0.2); pointer-events: none; z-index: 0; filter: blur(5px);
+}
+.hero-ink-splash:nth-child(1) { left: 25%; bottom: 40%; width: 60px; height: 40px; border-radius: 60% 40% 50% 50%; }
+.hero-ink-splash:nth-child(2) { left: 55%; bottom: 45%; width: 30px; height: 25px; border-radius: 40% 60% 50% 50%; background: rgba(0,0,0,0.12); filter: blur(4px); }
+.hero-ink-splash:nth-child(3) { left: 70%; bottom: 35%; width: 20px; height: 15px; border-radius: 50% 40% 60% 50%; background: rgba(0,0,0,0.08); filter: blur(3px); }
+/* 地面线 */
+.hero-ground {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent 0%, rgba(232,221,208,0.08) 50%, transparent 100%);
+  z-index: 4;
+}
+/* 生根线 */
+.hero-root {
+  position: absolute; left: 15%; bottom: 0;
+  width: 1px; height: 35%;
+  background: linear-gradient(to top, rgba(232,221,208,0.06) 0%, transparent 100%);
+  z-index: 4;
+}
+/* 文字 */
+.hero-inner { position: relative; z-index: 10; }
+.hero-inner .chapter {
+  font-size: 11px; letter-spacing: 8px;
+  color: rgba(232,221,208,0.2); margin-bottom: 24px;
+}
+.hero-inner .name {
+  font-family: "ZCOOL QingKe HuangYou",cursive;
+  font-size: clamp(52px, 6.5vw, 86px);
+  font-weight: 400; letter-spacing: 2px;
+  color: #e8ddd0; line-height: 1.15; margin-bottom: 4px;
+  text-shadow: 0 3px 12px rgba(0,0,0,0.3);
+}
+.hero-inner .name-en {
+  font-size: clamp(13px, 0.9vw, 15px); letter-spacing: 6px;
+  color: rgba(232,221,208,0.3); font-weight: 200;
+  margin-bottom: 28px; display: block;
+}
+.hero-inner .line {
+  width: 60px; height: 1.5px;
+  background: #8a2e2a; opacity: 0.3;
+  margin-bottom: 24px;
+}
+.hero-inner .quote {
+  font-family: "Noto Serif SC","STSong",serif;
+  font-size: clamp(15px, 1.3vw, 18px); letter-spacing: 5px;
+  color: rgba(232,221,208,0.7); font-weight: 400; line-height: 2.2; max-width: 480px;
+}
+.hero-inner .quote em {
+  font-family: "ZCOOL QingKe HuangYou",cursive; font-style: normal;
+  color: rgba(196,58,49,0.5); font-size: clamp(18px, 1.6vw, 22px); letter-spacing: 6px;
+}
+/* 底部水印 */
+.hero-seal {
+  position: absolute; right: 10%; bottom: 12vh;
+  font-family: "ZCOOL QingKe HuangYou",cursive;
+  font-size: clamp(80px, 12vw, 180px);
+  color: rgba(232,221,208,0.02); line-height: 1;
+  pointer-events: none; z-index: 10;
+  writing-mode: vertical-rl; text-orientation: upright;
+}
+
+/* ===== SCROLL SECTION ===== */
+.scroll-section {
+  height: 100vh;
+  padding: 100px 24px 80px;
+  max-width: 820px; margin: 0 auto;
+  position: relative;
+  display: flex; flex-direction: column;
+  justify-content: center;
+  scroll-snap-align: start;
+  overflow-y: auto;
+}
+.scroll-section::before {
+  content: '';
+  position: absolute; left: 0; top: 8%; bottom: 8%;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, rgba(26,26,26,0.08), transparent);
+}
+.scroll-content {
+  opacity: 0; transform: translateY(30px);
+  transition: all 0.8s ease;
+}
+.scroll-section.visible .scroll-content {
+  opacity: 1; transform: translateY(0);
+}
+
+/* ===== SECTION SUMMARY (定调文字) ===== */
+.section-summary {
+  margin-bottom: 2.5rem;
+}
+.section-summary .ch-number {
+  font-family: "STSong", "SimSun", "Noto Serif SC", serif;
+  font-size: clamp(18px, 1.8vw, 22px);
+  letter-spacing: 6px;
+  color: var(--red); font-weight: 700;
+  margin-bottom: 6px;
+}
+.section-summary h2 {
+  font-family: "STSong", "SimSun", "Noto Serif SC", serif;
+  font-size: clamp(36px, 5vw, 60px);
+  letter-spacing: 12px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+.section-summary .sub {
+  font-size: clamp(14px, 1.3vw, 18px);
+  letter-spacing: 4px;
+  color: var(--text2);
+  font-weight: 300;
+}
+
+/* ===== CARD ===== */
+.summary-card {
+  display: flex; gap: 0;
+  margin-bottom: 14px;
+  border: 1px solid var(--card-border);
+  border-radius: 6px;
+  background: var(--card);
+  backdrop-filter: blur(2px);
+  overflow: hidden;
+  transition: all 0.2s;
+}
+.summary-card:hover { border-color: rgba(26,26,26,0.35); background: rgba(255,255,255,0.45); }
+
+.card-label {
+  flex: 0 0 130px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+  font-size: 15px; letter-spacing: 4px;
+  font-weight: 700; color: var(--text);
+  padding: 20px 12px;
+}
+.card-label.left { order: 0; }
+.card-label.right { order: 1; }
+
+.card-preview {
+  flex: 1; padding: 14px 16px;
+  border-left: 1px solid var(--card-border);
+  display: flex; flex-direction: column; gap: 5px;
+}
+.summary-card:has(.card-label.right) .card-preview {
+  border-left: none;
+  border-right: 1px solid var(--card-border);
+}
+
+.card-preview .p-item {
+  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+  font-size: 13px; line-height: 1.6;
+  color: var(--text2);
+  display: flex; align-items: baseline; gap: 6px;
+}
+.card-preview .p-item::before {
+  content: '·';
+  color: var(--red); opacity: 0.4;
+  font-weight: 700;
+}
+.card-preview .p-photos {
+  display: flex; gap: 4px; margin-top: 4px;
+}
+.card-preview .p-photos img {
+  width: 48px; height: 48px;
+  object-fit: cover; border-radius: 3px;
+  background: var(--bg);
+}
+.hobby-grid {
+  display: flex; gap: 8px;
+  width: 100%;
+}
+.hobby-card {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 4px; padding: 14px 8px;
+  border: 1px solid var(--card-border);
+  border-radius: 6px;
+  background: rgba(255,255,255,0.5);
+  text-decoration: none;
+  transition: all 0.25s;
+  cursor: pointer;
+}
+.hobby-card:hover {
+  border-color: rgba(196,58,49,0.25);
+  background: rgba(255,255,255,0.8);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+}
+.hobby-icon { font-size: 22px; line-height: 1.2; }
+.hobby-name {
+  font-family: "Noto Serif SC","STSong",serif;
+  font-size: 15px; font-weight: 600;
+  color: var(--text); letter-spacing: 4px;
+}
+.hobby-desc {
+  font-size: 11px; color: var(--text3);
+  letter-spacing: 2px;
+}
+.hobby-card:hover .hobby-name { color: var(--red); }
+
+.btn-more {
+  display: inline-block; margin-top: 6px;
+  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+  font-size: 12px; font-weight: 500;
+  letter-spacing: 1px;
+  color: var(--red); text-decoration: none;
+  padding: 4px 12px;
+  border: 1px solid var(--red-line);
+  border-radius: 3px;
+  transition: all 0.2s; cursor: pointer;
+  align-self: flex-start; background: none;
+}
+.btn-more:hover { background: var(--red-dim); }
+
+/* ===== S1 PANELS ===== */
+.s1-panels {
+  display: flex; gap: 0;
+  flex: 1;
+  border-radius: 0 0 10px 10px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.4);
+  border: 1px solid rgba(26,26,26,0.08);
+  border-top: none;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  opacity: 0; transform: translateY(18px);
+  transition: all 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.scroll-section.visible .s1-panels {
+  animation: s1Fade 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes s1Fade {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.s1-panel {
+  flex: 1;
+  display: flex; flex-direction: column;
+  justify-content: center;
+  position: relative;
+  padding: 14px 16px;
+  border-right: 1px solid rgba(26,26,26,0.04);
+  transition: flex 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  overflow: hidden;
+  text-decoration: none; color: inherit;
+  cursor: pointer;
+}
+.s1-panel:last-child { border-right: none; }
+.s1-panel:hover { flex: 1.4; }
+
+.s1-panel-bg {
+  position: absolute; inset: 0;
+  opacity: 0;
+  transition: opacity 0.5s;
+  pointer-events: none;
+}
+.s1-panel-bg.thought { background: linear-gradient(135deg, #1a1a1a 0%, #2a2520 100%); }
+.s1-panel-bg.hobbies { background: linear-gradient(135deg, #1a1a1a 0%, #2a2520 100%); }
+.s1-panel-bg.poetry { background: linear-gradient(135deg, #1a1a1a 0%, #2a2520 100%); }
+.s1-panel:hover .s1-panel-bg { opacity: 1; }
+
+.s1-panel-content { position: relative; z-index: 1; }
+
+.s1-panel-num {
+  font-size: 10px; letter-spacing: 2px;
+  color: rgba(26,26,26,0.35);
+  margin-bottom: 6px;
+  transition: color 0.4s;
+}
+
+.s1-panel-title {
+  writing-mode: vertical-rl;
+  font-size: 26px; font-weight: 700;
+  letter-spacing: 8px;
+  margin-bottom: 8px;
+  transition: color 0.4s;
+  line-height: 1.2;
+}
+
+.s1-panel-quote {
+  font-size: 12px; line-height: 1.6;
+  color: rgba(26,26,26,0.3);
+  font-weight: 200;
+  max-width: 100px;
+  transition: color 0.4s;
+}
+
+.s1-panel-enter {
+  margin-top: 8px;
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; letter-spacing: 3px;
+  color: var(--text2);
+  text-decoration: none;
+  padding: 6px 16px;
+  border: 1px solid var(--card-border);
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+.s1-panel-enter .arr { transition: transform 0.3s; display: inline-block; }
+
+.s1-panel:hover .s1-panel-num,
+.s1-panel:hover .s1-panel-quote {
+  color: rgba(255,255,255,0.45);
+}
+.s1-panel:hover .s1-panel-title { color: rgba(255,255,255,0.95); }
+.s1-panel:hover .s1-panel-enter {
+  color: rgba(255,255,255,0.9);
+  border-color: rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.06);
+}
+.s1-panel:hover .s1-panel-enter .arr { transform: translateX(6px); }
+
+
+.s1-poetry-mark {
+  font-size: 28px; line-height: 0.7;
+  color: rgba(26,26,26,0.04);
+  font-family: "Noto Serif SC",serif;
+  margin-bottom: 4px;
+  transition: color 0.4s;
+}
+.s1-panel:hover .s1-poetry-mark { color: rgba(255,255,255,0.08); }
+
+/* ===== S1 融合饰带 HEADER ===== */
+#s1.scroll-section,
+#s2.scroll-section,
+#s3.scroll-section,
+#planet.scroll-section,
+#connect.scroll-section {
+  max-width: 100%;
+  padding: 0;
+  display: block;
+  overflow: hidden;
+}
+#s1 .scroll-content,
+#s2 .scroll-content,
+#s3 .scroll-content,
+#planet .scroll-content,
+#connect .scroll-content {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 0 40px 16px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.sec-header, .s1-header-d {
+  display: flex; align-items: stretch;
+  margin-bottom: 6px;
+  min-height: 44px;
+  background: rgba(255,255,255,0.45);
+  border: 1px solid rgba(26,26,26,0.1);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  border-radius: 10px 10px 0 0;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.s1-header-d .bar {
+  width: 6px;
+  background: var(--red); opacity: 0.3;
+  flex-shrink: 0;
+}
+.s1-header-d .body {
+  flex: 1;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 24px;
+}
+.s1-header-d .left {
+  display: flex; align-items: baseline; gap: 12px;
+}
+.s1-header-d .ch {
+  font-family: "Noto Serif SC","STSong",serif;
+  font-size: 16px; font-weight: 700;
+  color: var(--red); opacity: 0.35;
+  letter-spacing: 4px;
+}
+.s1-header-d h1 {
+  font-family: "Noto Serif SC","STSong",serif;
+  font-size: 22px; font-weight: 700;
+  letter-spacing: 12px;
+  color: var(--text);
+}
+.s1-header-d .sub {
+  font-size: 13px; letter-spacing: 3px;
+  color: var(--text2);
+  font-weight: 300;
+  white-space: nowrap;
+}
+
+/* ===== TAG GRID ===== */
+.tag-grid { display: flex; flex-wrap: wrap; gap: 4px; }
+.tag-grid .t {
+  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+  font-size: 12px; color: var(--text2);
+  padding: 3px 10px;
+  border: 1px solid var(--card-border);
+  border-radius: 3px;
+  transition: all 0.15s;
+}
+.tag-grid .t:hover { border-color: var(--red-dim); color: var(--red); }
+
+/* ===== PHOTO GRID ===== */
+.photo-grid { display: flex; flex-wrap: wrap; gap: 4px; }
+.photo-grid img {
+  width: 80px; height: 80px;
+  object-fit: cover; cursor: pointer;
+  background: rgba(0,0,0,0.02);
+  border-radius: 3px;
+  transition: opacity 0.2s;
+}
+.photo-grid img:hover { opacity: 0.7; }
+
+/* ===== DIVIDER ===== */
+.sec-divider {
+  text-align: center; padding: 2rem 0;
+  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+  font-size: 12px; letter-spacing: 6px;
+  color: var(--text3);
+  position: relative;
+}
+.sec-divider::before, .sec-divider::after {
+  content: '';
+  position: absolute; top: 50%; width: calc(50% - 60px);
+  height: 1px; background: var(--card-border);
+}
+.sec-divider::before { left: 0; }
+.sec-divider::after { right: 0; }
+
+/* ===== CONNECT ===== */
+.connect { display: flex; gap: 10px; flex-wrap: wrap; }
+.connect a {
+  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+  font-size: 14px; font-weight: 500;
+  text-decoration: none;
+  color: var(--text2); letter-spacing: 2px;
+  padding: 8px 20px;
+  border: 1px solid var(--card-border);
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+.connect a:hover { color: var(--red); border-color: var(--red-dim); background: var(--red-dim); }
+
+/* ===== FOOTER ===== */
+.site-footer {
+  text-align: center; padding: 48px 24px 80px;
+  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+  font-size: 12px; letter-spacing: 6px;
+  color: var(--text3);
+}
+
+/* ===== 涉猎星球 ===== */
+#planet.scroll-section {
+  background: #2c2520;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+#planet .globe-mantra {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  color: rgba(255,200,150,0.15);
+  font-size: clamp(20px, 3vw, 32px);
+  letter-spacing: 16px;
+  font-family: "Noto Serif SC","Songti SC",serif;
+  pointer-events: none;
+  white-space: nowrap;
+  user-select: none;
+  z-index: 0;
+}
+#planet .globe-hint {
+  position: absolute; bottom: 30px; left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255,200,150,0.25);
+  font-size: 11px; letter-spacing: 4px;
+  font-family: "Noto Serif SC","Songti SC",serif;
+  pointer-events: none;
+  z-index: 4;
+}
+#planet .globe-ch {
+  position: absolute; top: 36px; left: 32px;
+  font-size: 24px; letter-spacing: 12px;
+  font-weight: 900;
+  color: rgba(255,220,180,0.55);
+  font-family: "Noto Serif SC","STSong",serif;
+  pointer-events: none;
+  z-index: 4;
+}
+#globe-container {
+  position: absolute; inset: 0;
+  z-index: 2;
+  cursor: grab;
+}
+#globe-container:active { cursor: grabbing; }
+#globe-labels {
+  position: absolute; inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  overflow: hidden;
+}
+#globe-canvas {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  display: block;
+}
+
+/* ===== CONNECT 墨尾 ===== */
+#connect.scroll-section {
+  background: #2c2520;
+}
+.connect-scene {
+  flex: 1;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 0;
+  position: relative;
+  overflow: hidden;
+}
+/* 底部光池 — 暗色底上透出的暖光 */
+.connect-ink-pool {
+  position: absolute;
+  left: -10%; right: -10%; bottom: -10%;
+  height: 40%;
+  background:
+    radial-gradient(ellipse at 40% 80%, rgba(232,221,208,0.05) 0%, transparent 55%),
+    radial-gradient(ellipse at 60% 60%, rgba(232,221,208,0.03) 0%, transparent 45%);
+  filter: blur(20px);
+  pointer-events: none;
+  z-index: 0;
+}
+.connect-line {
+  width: 40px; height: 1px;
+  background: var(--red); opacity: 0.25;
+  margin-bottom: 28px;
+}
+.connect-title {
+  font-family: "Noto Serif SC","STSong",serif;
+  font-size: clamp(28px, 3.5vw, 40px);
+  font-weight: 900;
+  letter-spacing: 12px;
+  color: #e8ddd0;
+  margin-bottom: 6px;
+  position: relative; z-index: 1;
+}
+.connect-sub {
+  font-size: 12px; letter-spacing: 6px;
+  color: rgba(232,221,208,0.2);
+  font-weight: 300;
+  margin-bottom: 40px;
+  position: relative; z-index: 1;
+}
+.connect-links {
+  display: flex; align-items: center; gap: 16px;
+  position: relative; z-index: 1;
+}
+.connect-links a {
+  font-size: 14px; letter-spacing: 4px;
+  color: rgba(232,221,208,0.5);
+  text-decoration: none;
+  padding: 8px 28px;
+  border: 1px solid rgba(232,221,208,0.1);
+  border-radius: 3px;
+  transition: all 0.2s;
+  position: relative;
+}
+.connect-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 10%; right: 10%;
+  height: 1px;
+  background: rgba(196,58,49,0.2);
+  transition: all 0.2s;
+}
+.connect-links a:hover {
+  color: #e8ddd0;
+  border-color: rgba(232,221,208,0.2);
+}
+.connect-links a:hover::after {
+  left: 5%; right: 5%;
+  background: rgba(196,58,49,0.4);
+}
+.connect-links .arr {
+  display: inline-block;
+  margin-left: 6px;
+  font-family: sans-serif;
+  font-size: 12px;
+  opacity: 0.3;
+  transition: transform 0.2s, opacity 0.2s;
+}
+.connect-links a:hover .arr {
+  transform: translate(2px, -1px);
+  opacity: 0.7;
+}
+.connect-seal {
+  position: absolute;
+  right: 6%; bottom: 18%;
+  font-family: "ZCOOL QingKe HuangYou",cursive;
+  font-size: clamp(40px, 6vw, 80px);
+  color: rgba(232,221,208,0.04);
+  line-height: 1;
+  pointer-events: none;
+  z-index: 0;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+}
+.connect-site-footer {
+  position: relative; z-index: 1;
+  text-align: center; padding: 32px 24px 40px;
+  font-size: 12px; letter-spacing: 6px;
+  color: rgba(232,221,208,0.12);
+}
+
+/* ===== SIDE NAV ===== */
+.scroll-nav {
+  position: fixed; right: 20px; top: 50%; transform: translateY(-50%);
+  display: flex; flex-direction: column; align-items: flex-end;
+  gap: 2px; z-index: 15;
+}
+/* 默认（浅色段）：全部可见 */
+.scroll-nav a {
+  font-family: 'Noto Serif SC','STSong',serif;
+  font-size: 13px; letter-spacing: 4px;
+  color: rgba(26,26,26,0.5);
+  text-decoration: none;
+  transition: all 0.4s; cursor: pointer;
+  padding: 4px 10px;
+  line-height: 1.5;
+  text-align: right;
+}
+.scroll-nav a:hover { color: rgba(26,26,26,0.75); }
+.scroll-nav a.active {
+  color: var(--red);
+  border-right: 2px solid var(--red);
+  padding-right: 8px;
+}
+/* 在深色 hero 上：只亮当前项 */
+.scroll-nav.at-hero a {
+  color: rgba(232,221,208,0.15);
+}
+.scroll-nav.at-hero a.active {
+  color: var(--red);
+  border-right-color: var(--red);
+}
+
+/* ===== LIGHTBOX ===== */
+.lightbox {
+  display: none; position: fixed; inset: 0; z-index: 200;
+  background: rgba(0,0,0,0.85);
+  justify-content: center; align-items: center;
+  cursor: zoom-out;
+}
+.lightbox.show { display: flex; }
+.lightbox img { max-width: 90vw; max-height: 85vh; object-fit: contain; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 700px) {
+  .hero-inner { text-align: center; }
+  .top-nav { display: none; }
+  .top-nav.open {
+    display: flex; flex-direction: column;
+    position: fixed; top: 56px; left: 0; right: 0;
+    background: rgba(44,37,32,0.95);
+    backdrop-filter: blur(12px);
+    padding: 8px;
+  }
+  .top-nav.open a { padding: 12px 16px; font-size: 15px; }
+  .menu-btn { display: block; }
+  .scroll-section { padding: 80px 16px 60px; }
+  .summary-card { flex-direction: column; }
+  .card-label { flex: none; padding: 14px 16px 0; justify-content: flex-start; }
+  .card-label.right { order: 0; }
+  .card-preview { border-left: none !important; border-right: none !important; border-top: 1px solid var(--card-border); }
+  .summary-card:has(.card-label.right) .card-preview { border-top: 1px solid var(--card-border); }
+  .photo-grid img { width: 60px; height: 60px; }
+  .scroll-nav { bottom: 16px; }
+  .music { top: 20px; right: 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== TOP BAR ===== -->
+<div class="top-bar">
+  <div class="top-inner">
+    <div class="top-logo"><span class="ln">董楚妍</span><span class="ls">的个人宇宙</span></div>
+    <nav class="top-nav" id="topNav">
+      <a href="#home" class="active">个人主页</a>
+      <a href="#planet">涉猎星球</a>
+      <a href="#s1">见自己</a>
+      <a href="#s2">见天地</a>
+      <a href="#s3">见众生</a>
+      <a href="#connect">联系我</a>
+    </nav>
+    <button class="menu-btn" onclick="document.getElementById('topNav').classList.toggle('open')">☰</button>
+    <div class="top-music">
+      <span class="icon">♫</span>
+      <span class="dot"></span>
+      <span>BGM：逍遥叹</span>
+    </div>
+    <audio id="bgm" loop src="site_assets/逍遥叹.flac" style="display:none"></audio>
+  </div>
+</div>
+
+<div class="music" id="musicBtn">
+  <span class="dot" id="musicDot"></span>
+  <span>BGM</span>
+</div>
+
+<!-- ===== 个人主页（浮水） ===== -->
+<section class="hero" id="home">
+  <div class="hero-ground"></div>
+  <div class="hero-root"></div>
+  <div class="hero-ink-pool"></div>
+  <div class="hero-ink-splash"></div>
+  <div class="hero-ink-splash"></div>
+  <div class="hero-ink-splash"></div>
+  <!-- 水面 -->
+  <div class="hero-water-surface"></div>
+  <div class="hero-water-ripple"></div>
+  <div class="hero-water-ripple"></div>
+  <!-- 从水中浮现 -->
+  <img class="hero-water-photo" src="site_assets/hero_1.png" alt="">
+  <img class="hero-water-reflection" src="site_assets/hero_1.png" alt="">
+  <!-- 清晰原照叠在最上层 -->
+  <img class="hero-raw-photo" src="site_assets/hero_1.png" alt="">
+  <div class="hero-seal">扎根</div>
+  <div class="hero-inner">
+    <div class="chapter">个 人 主 页</div>
+    <div class="name">董楚妍</div>
+    <div class="name-en">DONG CHUYAN</div>
+    <div class="line"></div>
+    <div class="quote">
+      甲木命 · 向上生长，向下扎根<br>
+      <em>在人世间修行</em>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<!-- ===== 壹 · 见自己 ===== -->
+<section class="scroll-section" id="s1">
+
+  <div class="scroll-content">
+
+    <div class="s1-header-d">
+      <div class="bar"></div>
+      <div class="body">
+        <div class="left">
+          <span class="ch">壹</span>
+          <h1>见自己</h1>
+        </div>
+        <div class="sub">向内走，然后向外发光</div>
+      </div>
+    </div>
+    <div class="s1-panels">
+
+      <a class="s1-panel" href="content/s1-thought.html">
+        <div class="s1-panel-bg thought"></div>
+        <div class="s1-panel-content">
+          <div class="s1-panel-num">SECTION 01</div>
+          <div class="s1-panel-title">思想精神</div>
+          <div class="s1-panel-quote">理想主义者，想和一群人做更大的事业</div>
+          <div class="s1-panel-enter">阅读<span class="arr">→</span></div>
+        </div>
+      </a>
+
+      <a class="s1-panel" href="content/s1-hobbies.html">
+        <div class="s1-panel-bg hobbies"></div>
+        <div class="s1-panel-content">
+          <div class="s1-panel-num">SECTION 02</div>
+          <div class="s1-panel-title">兴趣爱好</div>
+          <div class="s1-panel-quote">滑板 · 高尔夫 · 穿搭</div>
+          <div class="s1-panel-enter">阅读<span class="arr">→</span></div>
+        </div>
+      </a>
+
+      <a class="s1-panel poetry" href="content/s1-poetry.html">
+        <div class="s1-panel-bg poetry"></div>
+        <div class="s1-panel-content">
+          <div class="s1-panel-num">SECTION 03</div>
+          <div class="s1-panel-title">诗歌</div>
+          <div class="s1-poetry-mark">"</div>
+          <div class="s1-panel-quote">死亡和爱是邻居，<br>中间的墙壁是苦痛</div>
+          <div class="s1-panel-enter">阅读<span class="arr">→</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== 贰 · 见天地 ===== -->
+<section class="scroll-section" id="s2">
+  <div class="scroll-content">
+    <div class="s1-header-d">
+      <div class="bar"></div>
+      <div class="body">
+        <div class="left">
+          <span class="ch">贰</span>
+          <h1>见天地</h1>
+        </div>
+        <div class="sub">保持对世界的敬畏与好奇</div>
+      </div>
+    </div>
+    <div class="s1-panels">
+
+      <a class="s1-panel" href="content/s2-travel.html">
+        <div class="s1-panel-bg" style="background:linear-gradient(135deg,#1a1a1a 0%,#1a2520 100%);"></div>
+        <div class="s1-panel-content">
+          <div class="s1-panel-num">SECTION 01</div>
+          <div class="s1-panel-title">旅游</div>
+          <div class="s1-panel-quote">台湾 · 新加坡 · 印尼 · 泰国 · 马来西亚</div>
+          <div class="s1-panel-enter">了解<span class="arr">→</span></div>
+        </div>
+      </a>
+
+      <a class="s1-panel" href="content/s2-photo.html">
+        <div class="s1-panel-bg" style="background:linear-gradient(135deg,#1a1a1a 0%,#201a1a 100%);"></div>
+        <div class="s1-panel-content">
+          <div class="s1-panel-num">SECTION 02</div>
+          <div class="s1-panel-title">摄影</div>
+          <div class="s1-panel-quote">用镜头捕捉瞬间，让记忆有了形状</div>
+          <div class="s1-panel-enter">了解<span class="arr">→</span></div>
+        </div>
+      </a>
+
+      <a class="s1-panel" href="content/s2-tech.html">
+        <div class="s1-panel-bg" style="background:linear-gradient(135deg,#1a1a1a 0%,#1a1a20 100%);"></div>
+        <div class="s1-panel-content">
+          <div class="s1-panel-num">SECTION 03</div>
+          <div class="s1-panel-title">科技</div>
+          <div class="s1-panel-quote">好工具是手的延伸，更是思想的延伸</div>
+          <div class="s1-panel-enter">了解<span class="arr">→</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== 叁 · 见众生 ===== -->
+<section class="scroll-section" id="s3">
+  <div class="scroll-content">
+    <div class="s1-header-d">
+      <div class="bar"></div>
+      <div class="body">
+        <div class="left">
+          <span class="ch">叁</span>
+          <h1>见众生</h1>
+        </div>
+        <div class="sub">通过社交和作品与人链接</div>
+      </div>
+    </div>
+    <div class="s1-panels">
+
+      <a class="s1-panel" href="content/s3-practice.html">
+        <div class="s1-panel-bg" style="background:linear-gradient(135deg,#1a1a1a 0%,#1a1a25 100%);"></div>
+        <div class="s1-panel-content">
+          <div class="s1-panel-num">SECTION 01</div>
+          <div class="s1-panel-title">修行</div>
+          <div class="s1-panel-quote">与父母 · 命理学 · 自我成长</div>
+          <div class="s1-panel-enter">了解<span class="arr">→</span></div>
+        </div>
+      </a>
+
+      <a class="s1-panel" href="content/s3-reading.html">
+        <div class="s1-panel-bg" style="background:linear-gradient(135deg,#1a1a1a 0%,#1a1a25 100%);"></div>
+        <div class="s1-panel-content">
+          <div class="s1-panel-num">SECTION 02</div>
+          <div class="s1-panel-title">阅读</div>
+          <div class="s1-panel-quote">心理学导向，89本 · 心流、存在主义</div>
+          <div class="s1-panel-enter">了解<span class="arr">→</span></div>
+        </div>
+      </a>
+
+      <a class="s1-panel" href="content/s3-movies.html">
+        <div class="s1-panel-bg" style="background:linear-gradient(135deg,#1a1a1a 0%,#1a1a25 100%);"></div>
+        <div class="s1-panel-content">
+          <div class="s1-panel-num">SECTION 03</div>
+          <div class="s1-panel-title">观影</div>
+          <div class="s1-panel-quote">从 indie 到商业 · 327 部</div>
+          <div class="s1-panel-enter">了解<span class="arr">→</span></div>
+        </div>
+      </a>
+
+      <a class="s1-panel" href="content/s3-social.html">
+        <div class="s1-panel-bg" style="background:linear-gradient(135deg,#1a1a1a 0%,#1a1a25 100%);"></div>
+        <div class="s1-panel-content">
+          <div class="s1-panel-num">SECTION 04</div>
+          <div class="s1-panel-title">社媒</div>
+          <div class="s1-panel-quote">跨学科洞察 · B站视频</div>
+          <div class="s1-panel-enter">了解<span class="arr">→</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- ===== 涉猎星球 ===== -->
+<section class="scroll-section" id="planet">
+  <div class="globe-ch">✦ 涉 猎 星 球</div>
+  <div class="globe-mantra">一 花 一 叶 一 宇 宙</div>
+  <div class="globe-hint">· 转 动 星 辰 ·</div>
+  <div id="globe-container">
+    <canvas id="globe-canvas"></canvas>
+    <div id="globe-labels"></div>
+  </div>
+</section>
+
+<!-- ===== 联系我 ===== -->
+<section class="scroll-section" id="connect">
+  <div class="scroll-content">
+    <div class="connect-scene">
+      <div class="connect-line"></div>
+      <div class="connect-title">联系我</div>
+      <div class="connect-sub">在别处找到我</div>
+      <div class="connect-links">
+        <a href="https://space.bilibili.com/20703598" target="_blank">B站<span class="arr">↗</span></a>
+        <a href="https://www.xiaohongshu.com/user/profile/60bc673d000000000101fd0b" target="_blank">小红书<span class="arr">↗</span></a>
+      </div>
+      <div class="connect-seal">生长</div>
+    </div>
+  </div>
+</section>
+
+<footer class="connect-site-footer">慢 慢 来</footer>
+
+<!-- ===== NAV DOTS ===== -->
+<div class="scroll-nav" id="scrollNav">
+  <a onclick="goSection('home')" class="sn-label">主页</a>
+  <a onclick="goSection('s1')" class="sn-label">壹 见自己</a>
+  <a onclick="goSection('s2')" class="sn-label">贰 见天地</a>
+  <a onclick="goSection('s3')" class="sn-label">叁 见众生</a>
+  <a onclick="goSection('planet')" class="sn-label">星球</a>
+  <a onclick="goSection('connect')" class="sn-label">联系</a>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="this.classList.remove('show')">
+  <img id="lightboxImg" src="">
+</div>
+
+<script>
+// === Scroll reveal ===
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+    else e.target.classList.remove('visible');
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll('.scroll-section').forEach(s => observer.observe(s));
+
+// === Nav scroll spy ===
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.top-nav a');
+const navDots = document.querySelectorAll('.scroll-nav a');
+function updateNav() {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 300) current = s.id;
+  });
+  navLinks.forEach(a => a.classList.toggle('active', a.hash.slice(1) === current));
+  navDots.forEach(a => {
+    const id = a.getAttribute('onclick').match(/'([^']+)'/)[1];
+    a.classList.toggle('active', id === current);
+  });
+}
+window.addEventListener('scroll', updateNav);
+setTimeout(updateNav, 200);
+
+function goSection(id) {
+  document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+}
+
+// === Nav visibility: 深色段只亮当前项 ===
+const scrollNav = document.getElementById('scrollNav');
+function updateNavTheme() {
+  const hero = document.getElementById('home');
+  const planet = document.getElementById('planet');
+  const connect = document.getElementById('connect');
+  const inHero = window.scrollY < hero.offsetHeight - 200;
+  const inPlanet = planet && window.scrollY >= planet.offsetTop - 200 && window.scrollY < planet.offsetTop + planet.offsetHeight - 200;
+  const inConnect = window.scrollY >= connect.offsetTop - 200;
+  if (inHero || inPlanet || inConnect) {
+    scrollNav.classList.add('at-hero');
+  } else {
+    scrollNav.classList.remove('at-hero');
+  }
+}
+window.addEventListener('scroll', updateNavTheme);
+updateNavTheme();
+
+
+// === Lightbox ===
+function openLightbox(src) {
+  document.getElementById('lightboxImg').src = src;
+  document.getElementById('lightbox').classList.add('show');
+}
+
+// === BGM ===
+const btn = document.getElementById('musicBtn');
+const dot = document.getElementById('musicDot');
+const audio = document.getElementById('bgm');
+let playing = false;
+const saved = localStorage.getItem('bgmPlaying');
+const savedTime = localStorage.getItem('bgmTime');
+if (saved === 'true' && savedTime) {
+  audio.currentTime = parseFloat(savedTime);
+  audio.play().catch(() => {});
+  dot.classList.add('playing');
+  playing = true;
+}
+audio.addEventListener('timeupdate', () => {
+  localStorage.setItem('bgmTime', audio.currentTime);
+});
+btn.onclick = () => {
+  playing = !playing;
+  if (playing) {
+    audio.play().catch(() => { playing = false; });
+    dot.classList.add('playing');
+    localStorage.setItem('bgmPlaying', 'true');
+  } else {
+    audio.pause();
+    dot.classList.remove('playing');
+    localStorage.setItem('bgmPlaying', 'false');
+  }
+};
+
+
+
+// === 涉猎星球 Globe ===
+(function(){
+  var CFG = {
+    cats: [
+      ['见自己', '#d4886a', 's1'],
+      ['见天地', '#6a9ec4', 's2'],
+      ['见众生', '#b088aa', 's3'],
+    ],
+    autoRotateSpeed: 0.003,
+    starCount: 300,
+  };
+  var data = [
+    { n:'生死', la:10, lo:5, c:0, w:2 }, { n:'金钱', la:22, lo:18, c:0, w:1 }, { n:'感情', la:32, lo:8, c:0, w:3 },
+    { n:'事业心', la:-12, lo:22, c:0, w:2 }, { n:'生活', la:-28, lo:5, c:0, w:1 }, { n:'精神', la:15, lo:35, c:0, w:1 },
+    { n:'创作', la:5, lo:45, c:0, w:2 }, { n:'诗歌', la:35, lo:15, c:0, w:3 }, { n:'积木', la:25, lo:52, c:0, w:2 },
+    { n:'舞蹈', la:-2, lo:50, c:0, w:2 }, { n:'滑板', la:-12, lo:40, c:0, w:3 },
+    { n:'新加坡', la:20, lo:125, c:1, w:2 }, { n:'漳州', la:10, lo:140, c:1, w:1 }, { n:'台北', la:0, lo:130, c:1, w:2 },
+    { n:'潮汕', la:-15, lo:148, c:1, w:1 }, { n:'张家界', la:-25, lo:138, c:1, w:1 }, { n:'吉隆坡', la:15, lo:158, c:1, w:2 },
+    { n:'事业', la:-18, lo:118, c:1, w:2 },
+    { n:'与父母', la:20, lo:248, c:2, w:2 }, { n:'摄影', la:10, lo:270, c:2, w:3 }, { n:'视频', la:0, lo:258, c:2, w:1 },
+    { n:'命理学', la:-15, lo:278, c:2, w:2 }, { n:'社媒', la:25, lo:272, c:2, w:2 }, { n:'阅读', la:5, lo:295, c:2, w:3 },
+    { n:'观影', la:-8, lo:308, c:2, w:3 },
+  ];
+
+  var ctn = document.getElementById('globe-container');
+  var canvas = document.getElementById('globe-canvas');
+  var labelDiv = document.getElementById('globe-labels');
+  if (!ctn || !canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W, H, cx, cy, R;
+  var rotY = 0, rotX = 0.15, velY = 0, velX = 0;
+  var dragging = false, lastX, lastY, autoRotate = true, autoTimer = null;
+  var stars = [];
+
+  function resize() {
+    W = ctn.clientWidth; H = ctn.clientHeight;
+    canvas.width = W; canvas.height = H;
+    cx = W/2; cy = H/2; R = Math.min(W, H) * 0.35;
+    stars = [];
+    for (var i = 0; i < CFG.starCount; i++) stars.push({x:Math.random()*W, y:Math.random()*H, s:0.3+Math.random()*1.2});
+  }
+  resize();
+
+  function project(lat, lon, r) { if (r === undefined) r = 1;
+    var p = (90-lat)*Math.PI/180, t = lon*Math.PI/180;
+    var x = Math.sin(p)*Math.cos(t), y = Math.cos(p), z = Math.sin(p)*Math.sin(t);
+    var cy2 = Math.cos(rotY), sy2 = Math.sin(rotY);
+    var x1 = x*cy2 - z*sy2, z1 = x*sy2 + z*cy2;
+    x = x1; z = z1;
+    var cx2 = Math.cos(rotX), sx2 = Math.sin(rotX);
+    var y1 = y*cx2 - z*sx2, z2 = y*sx2 + z*cx2;
+    y = y1; z = z2;
+    return { sx: cx + x*R, sy: cy - y*R, z: z, dep: 1 + z*0.15 };
+  }
+
+  function hexR(h, a) {
+    var r = parseInt(h.slice(1,3),16), g = parseInt(h.slice(3,5),16), b = parseInt(h.slice(5,7),16);
+    return 'rgba('+r+','+g+','+b+','+a+')';
+  }
+
+  function draw() {
+    ctx.clearRect(0,0,W,H);
+    stars.forEach(function(s) {
+      ctx.fillStyle = 'rgba(255,220,180,'+(0.15+s.s*0.1)+')';
+      ctx.beginPath(); ctx.arc(s.x,s.y,Math.max(0.5,s.s*0.3),0,Math.PI*2); ctx.fill();
+    });
+    // Wireframe grid
+    ctx.strokeStyle = 'rgba(200,180,150,0.1)'; ctx.lineWidth = 0.5;
+    // Longitude lines (meridians)
+    for (var m = 0; m < 12; m++) {
+      var a = (m / 12) * 360;
+      ctx.beginPath();
+      for (var step = 0; step <= 36; step++) {
+        var lat = -90 + step * 5;
+        var p = project(lat, a);
+        if (step === 0) ctx.moveTo(p.sx, p.sy); else ctx.lineTo(p.sx, p.sy);
+      }
+      ctx.stroke();
+    }
+    // Latitude lines (parallels)
+    for (var pLat = -60; pLat <= 60; pLat += 30) {
+      ctx.beginPath();
+      for (var step2 = 0; step2 <= 72; step2++) {
+        var lon2 = step2 * 5;
+        var p2 = project(pLat, lon2);
+        if (step2 === 0) ctx.moveTo(p2.sx, p2.sy); else ctx.lineTo(p2.sx, p2.sy);
+      }
+      ctx.stroke();
+    }
+    // Brighter equator
+    ctx.strokeStyle = 'rgba(200,180,150,0.15)'; ctx.lineWidth = 0.8;
+    ctx.beginPath();
+    for (var eq = 0; eq <= 72; eq++) {
+      var pEq = project(0, eq * 5);
+      if (eq === 0) ctx.moveTo(pEq.sx, pEq.sy); else ctx.lineTo(pEq.sx, pEq.sy);
+    }
+    ctx.stroke();
+    ctx.strokeStyle = 'rgba(200,180,150,0.08)'; ctx.lineWidth = 0.5;
+    ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2); ctx.stroke();
+
+    var items = data.map(function(d) { return {n:d.n, la:d.la, lo:d.lo, c:d.c, p: project(d.la, d.lo)}; }).sort(function(a,b) { return a.p.z - b.p.z; });
+    CFG.cats.forEach(function(_, ci) {
+      var pts = items.filter(function(d) { return d.c === ci && d.p.z > -0.1; });
+      for (var i = 0; i < pts.length; i++) {
+        for (var j = i+1; j < pts.length; j++) {
+          var a = pts[i], b = pts[j];
+          ctx.strokeStyle = hexR(CFG.cats[ci][1], 0.04 + 0.06*(a.p.z > 0 && b.p.z > 0 ? 1 : 0.2));
+          ctx.lineWidth = 0.5;
+          ctx.beginPath(); ctx.moveTo(a.p.sx,a.p.sy); ctx.lineTo(b.p.sx,b.p.sy); ctx.stroke();
+        }
+      }
+    });
+    labelDiv.innerHTML = '';
+    items.forEach(function(d) {
+      var p = d.p, cc = CFG.cats[d.c][1];
+      var front = p.z > 0;
+      var alpha = front ? 1 : 0.3;
+      var weight = d.w || 1;
+      
+      var baseR = weight === 3 ? 8 : weight === 2 ? 5 : 2.5;
+      var dotR = (front ? baseR : baseR * 0.6) * (0.85 + Math.max(0, p.z * 0.12));
+      var glowR = dotR * (weight === 3 ? 12 : weight === 2 ? 7 : 4);
+      
+      // glow
+      var gr = ctx.createRadialGradient(p.sx, p.sy, 0, p.sx, p.sy, glowR);
+      gr.addColorStop(0, hexR(cc, (weight === 3 ? 0.12 : 0.08) * alpha));
+      gr.addColorStop(1, hexR(cc, 0));
+      ctx.fillStyle = gr;
+      ctx.beginPath();
+      ctx.arc(p.sx, p.sy, glowR, 0, Math.PI * 2);
+      ctx.fill();
+      
+      // dot
+      ctx.fillStyle = hexR(cc, alpha);
+      ctx.beginPath();
+      ctx.arc(p.sx, p.sy, dotR, 0, Math.PI * 2);
+      ctx.fill();
+      
+      // ring
+      ctx.strokeStyle = hexR(cc, 0.25 * alpha);
+      ctx.lineWidth = 0.5;
+      ctx.beginPath();
+      ctx.arc(p.sx, p.sy, dotR * 1.5, 0, Math.PI * 2);
+      ctx.stroke();
+      
+      // label (show for all, but w=1 smaller)
+      if (p.z > -0.1) {
+        var lbl = document.createElement('div');
+        lbl.textContent = d.n;
+        var fsize = weight === 3 ? 16 : weight === 2 ? 13 : 10;
+        var fw = weight === 3 ? '700' : weight === 2 ? '600' : '400';
+        lbl.style.cssText = 'position:absolute;left:' + p.sx + 'px;top:' + (p.sy - dotR - 10) + 'px;transform:translateX(-50%);color:' + cc + ';font-size:' + fsize + 'px;font-family:-apple-system,"PingFang SC",sans-serif;pointer-events:none;text-shadow:0 0 10px rgba(0,0,0,0.9);white-space:nowrap;opacity:' + Math.max(0.35, p.z * 0.5 + 0.5) + ';letter-spacing:1px;font-weight:' + fw + ';';
+        labelDiv.appendChild(lbl);
+      }
+    });
+    CFG.cats.forEach(function(cat,i) {
+      var p = project(8, [25,145,265][i], 1.5);
+      if (p.z > 0.1) {
+        var lbl = document.createElement('div');
+        lbl.textContent = cat[0];
+        lbl.style.cssText = 'position:absolute;left:'+p.sx+'px;top:'+p.sy+'px;transform:translateX(-50%);color:'+cat[1]+';font-size:13px;font-weight:600;letter-spacing:4px;opacity:0.45;font-family:"Noto Serif SC","STSong",serif;pointer-events:none;text-shadow:0 0 16px rgba(0,0,0,0.95),0 0 6px rgba(0,0,0,0.5);';
+        labelDiv.appendChild(lbl);
+      }
+    });
+  }
+
+  function anim() {
+    if (autoRotate) rotY += CFG.autoRotateSpeed;
+    rotY += velY; rotX += velX;
+    velY *= 0.95; velX *= 0.95;
+    rotX = Math.max(-0.8, Math.min(0.8, rotX));
+    draw();
+    requestAnimationFrame(anim);
+  }
+  anim();
+
+  canvas.addEventListener('pointerdown', function(e) {
+    dragging = true; lastX = e.clientX; lastY = e.clientY;
+    autoRotate = false; clearTimeout(autoTimer);
+  });
+  canvas.addEventListener('pointermove', function(e) {
+    if (!dragging) return;
+    velY = (e.clientX - lastX) * 0.003;
+    velX = -(e.clientY - lastY) * 0.003;
+    lastX = e.clientX; lastY = e.clientY;
+  });
+  canvas.addEventListener('pointerup', function() {
+    dragging = false;
+    autoTimer = setTimeout(function() { autoRotate = true; }, 4000);
+  });
+  canvas.addEventListener('pointerleave', function() {
+    if (dragging) { dragging = false; autoTimer = setTimeout(function() { autoRotate = true; }, 4000); }
+  });
+  canvas.addEventListener('click', function(e) {
+    var r = canvas.getBoundingClientRect();
+    var mx = e.clientX - r.left, my = e.clientY - r.top;
+    var best = null, bestD = 25;
+    data.forEach(function(d) {
+      var p = project(d.la, d.lo);
+      var dist = Math.hypot(p.sx - mx, p.sy - my);
+      if (dist < bestD && p.z > -0.1) { bestD = dist; best = d; }
+    });
+    if (best) {
+      var el = document.getElementById(CFG.cats[best.c][2]);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+  window.addEventListener('resize', resize);
+})();
+</script>
+</body>
+</html>

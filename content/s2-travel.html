@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>旅游 · 董楚妍的个人宇宙</title>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@200;400;600;700;900&family=ZCOOL+QingKe+HuangYou&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+::selection { background: rgba(196,58,49,0.35); }
+:root { --bg: #2c2520; --text: #e8ddd0; --red: #c43a31; }
+html, body { height: 100%; overflow: hidden; }
+body {
+  font-family: "Noto Serif SC","STSong",serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+/* 纸张纹理（含蓄） */
+body::before {
+  content: ''; position: fixed; inset: 0;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  pointer-events: none; z-index: 0;
+}
+
+/* ── 返回 ── */
+.back {
+  position: fixed; top: 32px; left: 32px; z-index: 30;
+  font-size: 13px; letter-spacing: 4px;
+  color: rgba(232,221,208,0.75);
+  text-decoration: none;
+  transition: all 0.2s;
+  padding: 6px 16px;
+  border: 1px solid rgba(232,221,208,0.08);
+  border-radius: 4px;
+  background: rgba(44,37,32,0.4);
+  backdrop-filter: blur(6px);
+}
+.back:hover {
+  color: rgba(232,221,208,0.95);
+  border-color: rgba(232,221,208,0.15);
+  background: rgba(44,37,32,0.6);
+}
+.back::before { content: '← '; }
+
+/* ── BGM ── */
+.music {
+  position: fixed; top: 32px; right: 32px; z-index: 30;
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; letter-spacing: 2px;
+  color: rgba(232,221,208,0.65);
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 5px 12px;
+  border: 1px solid rgba(232,221,208,0.06);
+  border-radius: 16px;
+  background: rgba(44,37,32,0.4);
+  backdrop-filter: blur(6px);
+}
+.music:hover {
+  color: rgba(232,221,208,0.9);
+  border-color: rgba(232,221,208,0.14);
+  background: rgba(44,37,32,0.6);
+}
+.music .dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: rgba(232,221,208,0.06);
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+.music .dot.on { background: var(--red); box-shadow: 0 0 10px rgba(196,58,49,0.4); }
+
+/* ── 横滑容器 ── */
+.scroll-wrap {
+  display: flex;
+  overflow-x: auto; overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  height: 100vh;
+}
+.scroll-wrap::-webkit-scrollbar { display: none; }
+
+/* ── 每页 ── */
+.page {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 100px 10% 80px 10%;
+  position: relative;
+}
+.page::-webkit-scrollbar { display: none; }
+
+
+/* ── 内容 ── */
+.content {
+  max-width: 640px;
+  margin: 0 auto;
+  position: relative; z-index: 2;
+}
+.content h2 {
+  font-family: "Ma Shan Zheng",cursive;
+  font-size: clamp(32px, 3.5vw, 46px);
+  font-weight: 400;
+  letter-spacing: 6px;
+  color: var(--text);
+  margin-bottom: 24px;
+  opacity: 0.9;
+  line-height: 1.2;
+}
+.content h2::after {
+  content: '';
+  display: block;
+  width: 40px; height: 1.5px;
+  background: var(--red); opacity: 0.2;
+  margin-top: 8px;
+}
+.content p {
+  font-size: clamp(15px, 1vw, 18px);
+  line-height: 2;
+  color: rgba(232,221,208,0.75);
+  margin-bottom: 16px;
+  font-weight: 300;
+}
+.content .subtitle {
+  font-family: "Noto Serif SC",serif;
+  font-size: clamp(14px, 0.9vw, 16px);
+  color: rgba(232,221,208,0.45);
+  letter-spacing: 8px;
+  margin-bottom: 32px;
+  font-weight: 200;
+}
+
+/* 照片 */
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  margin-top: 24px;
+}
+.photo-grid img {
+  width: 100%; height: auto;
+  display: block; cursor: pointer;
+  filter: sepia(0.15) brightness(0.9);
+  border-radius: 1px;
+  transition: all 0.4s ease;
+}
+.photo-grid img:hover {
+  filter: sepia(0) brightness(1.1) contrast(1.05);
+  transform: scale(1.03);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  border-radius: 2px;
+}
+video {
+  width: 100%;
+  display: block;
+  margin-top: 14px;
+  border-radius: 1px;
+  filter: sepia(0.1) brightness(0.92);
+  transition: all 0.4s ease;
+}
+video:hover {
+  filter: sepia(0) brightness(1.05) contrast(1.03);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
+
+/* ── 卷首目录 ── */
+.toc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 24px;
+  margin-top: 8px;
+}
+.toc-item {
+  font-family: "Ma Shan Zheng",cursive;
+  font-size: clamp(20px, 1.4vw, 26px);
+  letter-spacing: 4px;
+  color: rgba(232,221,208,0.65);
+  cursor: pointer;
+  padding: 8px 0 8px 20px;
+  border-left: 2px solid rgba(196,58,49,0.2);
+  transition: all 0.3s;
+  font-weight: 400;
+}
+.toc-item:hover {
+  color: rgba(232,221,208,0.8);
+  border-left-color: rgba(196,58,49,0.4);
+  padding-left: 20px;
+}
+
+/* ── 左右翻页 ── */
+.nav {
+  position: fixed; inset: 0;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.nav .arr {
+  position: absolute;
+  top: 50%; transform: translateY(-50%);
+  font-family: "Noto Serif SC",serif;
+  font-size: 52px;
+  color: rgba(232,221,208,0.6);
+  cursor: pointer;
+  background: none; border: none;
+  line-height: 1;
+  padding: 20px 12px;
+  transition: all 0.3s;
+  pointer-events: auto;
+  border-radius: 4px;
+}
+.nav .arr:hover {
+  color: rgba(232,221,208,0.9);
+  background: rgba(232,221,208,0.04);
+}
+#prevBtn { left: 6px; }
+#nextBtn { right: 6px; }
+
+.nav-dots {
+  position: absolute;
+  bottom: 28px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; align-items: center; gap: 6px;
+}
+.nav-dots .d {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: rgba(232,221,208,0.12);
+  cursor: pointer;
+  transition: all 0.3s;
+  pointer-events: auto;
+}
+.nav-dots .d.active {
+  background: var(--red);
+  width: 24px;
+  border-radius: 3px;
+  opacity: 0.7;
+}
+.nav-dots .d:hover { background: rgba(232,221,208,0.25); }
+
+
+
+/* ── Lightbox ── */
+.lightbox { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.9); }
+.lightbox.show { display: flex; justify-content: center; align-items: center; }
+.lightbox .stage { display: flex; justify-content: center; align-items: center; width: 95vw; height: 95vh; overflow: hidden; }
+.lightbox .stage img { display: block; max-width: 100%; max-height: 100%; object-fit: contain; cursor: zoom-in; border-radius: 2px; }
+.lightbox .stage.zoomed { display: block; overflow: auto; text-align: center; line-height: 0; }
+.lightbox .stage.zoomed img { max-width: none; max-height: none; width: auto; height: auto; cursor: grab; }
+.lightbox .stage.zoomed.grabbing img { cursor: grabbing; }
+
+@media (max-width: 700px) {
+  .page { padding: 90px 8% 60px 8%; }
+  .content h2 { font-size: clamp(24px, 5vw, 30px); }
+  .photo-grid { grid-template-columns: 1fr; }
+  .back { top: 28px; left: 20px; }
+  .music { top: 28px; right: 20px; }
+}
+</style>
+</head>
+<body>
+
+<a class="back" href="../personal_site.html#s2">返回</a>
+
+<div class="music" id="musicBtn">
+  <span class="dot" id="musicDot"></span>
+  <span>BGM</span>
+</div>
+<audio id="bgm" loop src="../site_assets/逍遥叹.flac" style="display:none"></audio>
+
+<div class="scroll-wrap" id="scrollWrap">
+
+  <!-- 卷首 · 行迹 -->
+  <section class="page" data-name="行迹">
+    <div class="content">
+      <h2>游踪</h2>
+      <p class="subtitle">所过之处，皆为风景</p>
+      <div class="toc-grid">
+        <span class="toc-item" data-i="0">新加坡 & 印尼</span>
+        <span class="toc-item" data-i="1">漳州</span>
+        <span class="toc-item" data-i="2">台北</span>
+        <span class="toc-item" data-i="3">潮汕</span>
+        <span class="toc-item" data-i="4">张家界 & 凤凰古城</span>
+        <span class="toc-item" data-i="5">吉隆坡</span>
+        <span class="toc-item" data-i="6">湖南浏阳</span>
+        <span class="toc-item" data-i="7">泰国</span>
+	        <span class="toc-item" data-i="8">顺德</span>
+	        <span class="toc-item" data-i="9">虎门</span>
+	        <span class="toc-item" data-i="10">佛山</span>
+	        <span class="toc-item" data-i="11">南京</span>
+	        <span class="toc-item" data-i="12">上海</span>
+	        <span class="toc-item" data-i="13">高雄</span>
+	        <span class="toc-item" data-i="14">台南</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 新加坡&印尼 -->
+  <section class="page" data-name="新加坡&印尼">
+    <div class="content">
+      <h2>新加坡 & 印尼</h2>
+      <p>每段精彩的旅程都免不了出现意外。比如这次的飞机出发和返程都再三延误，当我查询到航班准点率达到惊人的27%时，盘算着干脆游回国算了。</p>
+      <p>再比如离开印尼的时候被海关告知系统没有我的入境记录，因此我需要交罚款。我说这是你们的工作失误。经过一番争论后，海关小哥挥手让我离开了。</p>
+      <p>民丹岛足够原生态和非商业化，在这里见到了许多不同颜色不同大小不同毒性的蛇，见到了久违的萤火虫，在风中的小船上看着星空等等。「惟江上之清风，与山间之明月，耳得之为声，目遇之而成色，取之无禁，用之不竭」</p>
+      <p>世间广阔，万物皆我所用非我所有。回到熟悉的地方继续生活喽。</p>
+      <div class="photo-grid">
+        <img src="../site_assets/d39f13d62f80df6420d871b5f45f819d.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/37d31439140a2e1a4ec52afdd00c9a9b.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/b91d68ec58e4a7029b57e218fd55fc20.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/8cff88875e05c95bfca207566e32f2f3.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/e84431207eedeffcdd42f59fe0ce77c1.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/f7551ccb54d2e1ee13addb7a424130e4.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/2349509367cd3c9189773cfca6ba8d1f.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/c003180dbab455790d6ff7ddd99167b5.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/e4bc9bf373558dd9582b5482ca086d40.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+      </div>
+    </div>
+  </section>
+
+  <!-- 漳州 -->
+  <section class="page" data-name="漳州">
+    <div class="content">
+      <h2>漳州</h2>
+      <p>人已回深圳，无人机却永远留在了漳州灵通山。温馨提示：山上起雾快，飞行需谨慎。若被树枝碍，坠机又破财。</p>
+      <p>小红书上的网红餐厅要么难吃要么平平无奇，反倒是自己找的都很美味。</p>
+      <p>解锁开车新场景：夜间+无路灯+雷雨天+弯曲的山路。大片的山绵延起伏，黑黢黢的，道路外边看不到底，开了一个多小时都见不到车和人，我和同伴都怀疑不是来旅游是来冒险的…</p>
+      <p>本次冒险之旅的结局是，到家当晚开始发高烧，退了烧，烧了退，好在目前体温正常。除去意外的地方，其他都挺好…金钱-N，体验+1。</p>
+      <div class="photo-grid">
+        <img src="../site_assets/84399c71be3bb67adf89351416ff8a80.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/9333efe8c6e6517f410e35ddf2f21e99.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/e2338f4af37b12d6cddab65c8b8979b1.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/7326dd488e9637c34d6c353112753d5b.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/e9ea2cf91fcd2856a15f7287415962bb.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/9abe5f3a0155ff6160b8ca576bdd051d.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/c9fead4767ffd7e2e1a4ce28b868ff88.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/d93a92d73fe486a6eed9305dba57c721.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+      </div>
+    </div>
+  </section>
+
+  <!-- 台北 -->
+  <section class="page" data-name="台北">
+    <div class="content">
+      <h2>台北</h2>
+      <p>在十八岁的尾巴来一次个人旅行。想看的看到了，想听的听到了，想吃的发现都不好吃，总的来说基本按照出发前做的攻略走。台北是一个很酷的城市。遇见一些有意思的人和事。再见，台北。</p>
+      <div class="photo-grid" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr))">
+        <img src="../site_assets/24c9988a35a92d04262aac55b766e064.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/23d87eca021d4e15751da79ca09336ed.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/48438c51a71a641aad3e5cbd00f7b55b.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+      </div>
+    </div>
+  </section>
+
+  <!-- 潮汕 -->
+  <section class="page" data-name="潮汕">
+    <div class="content">
+      <h2>潮汕</h2>
+      <p>📍汕头 · 潮州</p>
+      <p>好吃·好喝·好玩·好挤</p>
+      <p>看了英歌舞还有10w发的海上烟花秀，过年仪式感拉满。</p>
+      <p>永远会为瞬间的美丽而感动，祝我们都有数不尽的烟火和浪漫。</p>
+      <div class="photo-grid">
+        <img src="../site_assets/chaoshan_01.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/chaoshan_02.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/chaoshan_03.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/chaoshan_04.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/chaoshan_05.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+      </div>
+    </div>
+  </section>
+
+  <!-- 张家界&凤凰古城 -->
+  <section class="page" data-name="张家界&凤凰古城">
+    <div class="content">
+      <h2>张家界 & 凤凰古城</h2>
+      <p>📍张家界丨来看大自然的鬼斧神工⛰️ 淡季人很少几乎不用排队。</p>
+      <p>📍凤凰古城丨在沱江边当上一次古国公主👸</p>
+      <div class="photo-grid">
+        <img src="../site_assets/dfe33bde418d099fc5972ce527ced8e3.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/f4f0b63712898f921eee4ea89403bc0a.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/1079caff96faa1a26dd096ce70efe07e.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/f4901e583c777fa0f24e41dd18107416.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/7c13437185017bcb950a76b0f6158f57.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/3ea4afba3c5af4802391b25bfeb61884.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/52de556a79946e2853f8aef1fbd2f083.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/fda6c13eaf760181757a21a03e7c6cde.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/68bb75ecd6add8e05a440b0ab586694c.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+      </div>
+    </div>
+  </section>
+
+  <!-- 吉隆坡 -->
+  <section class="page" data-name="吉隆坡">
+    <div class="content">
+      <h2>吉隆坡</h2>
+      <p>📍Kuala Lumpur</p>
+      <p>当出差遇上周末，于是有了一段愉快的马来之旅。</p>
+      <div class="photo-grid">
+        <img src="../site_assets/78f0ece819e4626dd3d3ee6a215c3b61.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/5ff8475137026a80bb8f739421bde38e.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/28926047bae4ebd7e63261917cdb873c.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/84bde831d730aeac84fe0240d8db9baf.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/8b4183e36185d00cf119efd1214b0d99.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/95d8af265e6f7911f0a5200c86b49e26.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/ed24f0756c02c8bf6188e216a07bf0ff.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+      </div>
+    </div>
+  </section>
+
+  <!-- 湖南浏阳 -->
+  <section class="page" data-name="湖南浏阳">
+    <div class="content">
+      <h2>湖南浏阳</h2>
+      <p>来浏阳看烟花🎆</p>
+      <div class="photo-grid" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr))">
+        <img src="../site_assets/f4b368dd521915c037e72ce594675093.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/dff81352df2bdc6a645b1ad437135a7d.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/6da3876ccce127a59bb25ad11b09be7f.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/87b24d5ad66a5b16487e166b0f98c9d1.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/cc41df563b445291545e23ac562cf8bb.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+      </div>
+      <video controls preload="metadata" src="../site_assets/微信视频2026-05-24_185052_908.mp4" onerror="this.style.display='none'"></video>
+    </div>
+  </section>
+
+  <!-- 泰国 -->
+  <section class="page" data-name="泰国">
+    <div class="content">
+      <h2>泰国</h2>
+      <p>萨瓦迪卡</p>
+      <div class="photo-grid" style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr))">
+        <img src="../site_assets/170ee78d54e2edbbcc9308135c308303.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/8d327223a6f90e23f36c2cabd6e2b48a.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/109e513e8ab3cacd5ae6115c00396716.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/2c5e92ca37a3419d9d8824d30738f2fb.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/378dd95f4a01ec60482a72dc1febcad9.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/7c526cfcd720c86af241e20da2827224.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/728450c8a5b1d6d0b3d89963204ad207.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/dda831181270b815527d15023ea13.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/00a87e109ed3c4fcadbcd14e3781bded.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/404519709029903070424b70b3e5d1a7.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/11a9702cfb024ae96a59e599686cdee0.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/caa0767accca7fb51ac77eac4fa9d2d2.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/9083d8e405b69b7ea87439ba45bdb6b6.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/f55cd07a8e7b3bf287f15bc018de3197.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/af03ce642a8e3b09f29efd5aa42e225f.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/59df95947ec8001d7d0746812b4edc85.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/15ad454e660f267ce110007de749faad.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/b73252b122641f4592710c7906d381ee.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/44b3ffbdad76dcf98971ae2c43892948.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/831124a762a3c63346d249ac1ebda244.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/939629d0c6650ce1c97c33e48bf2b7a3.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+      </div>
+    </div>
+  </section>
+
+  <!-- 顺德 -->
+  <section class="page" data-name="顺德">
+    <div class="content">
+      <h2>顺德</h2>
+      <p>挖个坑，以后有空再传</p>
+    </div>
+  </section>
+  <!-- 虎门 -->
+  <section class="page" data-name="虎门">
+    <div class="content">
+      <h2>虎门</h2>
+      <p>挖个坑，以后有空再传</p>
+    </div>
+  </section>
+  <!-- 佛山 -->
+  <section class="page" data-name="佛山">
+    <div class="content">
+      <h2>佛山</h2>
+      <p>挖个坑，以后有空再传</p>
+    </div>
+  </section>
+  <!-- 南京 -->
+  <section class="page" data-name="南京">
+    <div class="content">
+      <h2>南京</h2>
+      <p>挖个坑，以后有空再传</p>
+    </div>
+  </section>
+  <!-- 上海 -->
+  <section class="page" data-name="上海">
+    <div class="content">
+      <h2>上海</h2>
+      <p>挖个坑，以后有空再传</p>
+    </div>
+  </section>
+  <!-- 高雄 -->
+  <section class="page" data-name="高雄">
+    <div class="content">
+      <h2>高雄</h2>
+      <p>挖个坑，以后有空再传</p>
+    </div>
+  </section>
+  <!-- 台南 -->
+  <section class="page" data-name="台南">
+    <div class="content">
+      <h2>台南</h2>
+      <p>挖个坑，以后有空再传</p>
+    </div>
+  </section>
+</div>
+
+<!-- 底部导航 -->
+<div class="nav">
+  <button class="arr" id="prevBtn">‹</button>
+  <div class="nav-dots" id="navDots"></div>
+  <button class="arr" id="nextBtn">›</button>
+</div>
+
+<div class="lightbox" id="lightbox">
+  <div class="stage" id="imgStage">
+    <img id="lightboxImg" src="">
+  </div>
+</div>
+
+<script>
+(function() {
+  const wrap = document.getElementById('scrollWrap');
+  const pages = document.querySelectorAll('.page');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const dotsContainer = document.getElementById('navDots');
+  let current = 0;
+
+  // 生成dots
+  pages.forEach((_, i) => {
+    const d = document.createElement('span');
+    d.className = 'd' + (i === 0 ? ' active' : '');
+    d.dataset.i = i;
+    d.addEventListener('click', () => goTo(i));
+    dotsContainer.appendChild(d);
+  });
+  const dots = dotsContainer.querySelectorAll('.d');
+
+  function goTo(i) {
+    if (i < 0 || i >= pages.length) return;
+    pages[i].scrollIntoView({ behavior: 'smooth', inline: 'start' });
+  }
+
+  // 卷首页点击跳转
+  document.querySelectorAll('.toc-item').forEach(el => {
+    el.addEventListener('click', () => goTo(parseInt(el.dataset.i) + 1));
+  });
+
+  prevBtn.addEventListener('click', () => {
+    if (current <= 0) goTo(pages.length - 1);
+    else goTo(current - 1);
+  });
+  nextBtn.addEventListener('click', () => {
+    if (current >= pages.length - 1) goTo(0);
+    else goTo(current + 1);
+  });
+
+  function update(i) {
+    prevBtn.classList.remove('hidden');
+    nextBtn.classList.remove('hidden');
+    dots.forEach((d, idx) => d.classList.toggle('active', idx === i));
+  }
+
+  let ticking = false;
+  wrap.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        const idx = Math.round(wrap.scrollLeft / wrap.clientWidth);
+        if (idx >= 0 && idx < pages.length && idx !== current) {
+          current = idx;
+          update(idx);
+        }
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+  update(0);
+})();
+
+(function(){
+  const btn = document.getElementById('musicBtn');
+  const dot = document.getElementById('musicDot');
+  const audio = document.getElementById('bgm');
+  let playing = false;
+  const saved = localStorage.getItem('bgmPlaying');
+  const savedTime = localStorage.getItem('bgmTime');
+  if (saved === 'true' && savedTime) {
+    audio.currentTime = parseFloat(savedTime);
+    audio.play().catch(() => {});
+    dot.classList.add('on');
+    playing = true;
+  }
+  audio.addEventListener('timeupdate', () => {
+    localStorage.setItem('bgmTime', audio.currentTime);
+  });
+  btn.onclick = () => {
+    playing = !playing;
+    if (playing) {
+      audio.play().catch(() => { playing = false; });
+      dot.classList.add('on');
+      localStorage.setItem('bgmPlaying', 'true');
+    } else {
+      audio.pause();
+      dot.classList.remove('on');
+      localStorage.setItem('bgmPlaying', 'false');
+    }
+  };
+})();
+
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+const imgStage = document.getElementById('imgStage');
+let zoomed = false;
+
+function toggleZoom() {
+  zoomed = !zoomed;
+  imgStage.classList.toggle('zoomed', zoomed);
+  if (!zoomed) {
+    imgStage.scrollLeft = 0;
+    imgStage.scrollTop = 0;
+  }
+}
+
+function closeLightbox() {
+  zoomed = false;
+  imgStage.classList.remove('zoomed');
+  imgStage.scrollLeft = 0;
+  imgStage.scrollTop = 0;
+  lightbox.classList.remove('show');
+  lightboxImg.src = '';
+}
+
+function openLightbox(src) {
+  lightboxImg.src = src;
+  zoomed = false;
+  imgStage.classList.remove('zoomed');
+  imgStage.scrollLeft = 0;
+  imgStage.scrollTop = 0;
+  lightbox.classList.add('show');
+}
+
+// ─── 点击大图：切换缩放 ───
+lightboxImg.addEventListener('click', (e) => {
+  e.stopPropagation();
+  toggleZoom();
+});
+
+// ─── 点击背景（stage 或 lightbox）：关闭 ───
+lightbox.addEventListener('click', closeLightbox);
+
+// ─── 鼠标拖拽平移（仅缩放时） ───
+let isPan = false, panStartX, panStartY, panScrollL, panScrollT;
+
+imgStage.addEventListener('mousedown', (e) => {
+  if (e.button !== 0 || !zoomed) return;
+  isPan = true;
+  panStartX = e.pageX;
+  panStartY = e.pageY;
+  panScrollL = imgStage.scrollLeft;
+  panScrollT = imgStage.scrollTop;
+  imgStage.classList.add('grabbing');
+  e.preventDefault();
+});
+
+document.addEventListener('mousemove', (e) => {
+  if (!isPan) return;
+  imgStage.scrollLeft = panScrollL - (e.pageX - panStartX);
+  imgStage.scrollTop = panScrollT - (e.pageY - panStartY);
+  e.preventDefault();
+});
+
+document.addEventListener('mouseup', () => {
+  if (!isPan) return;
+  isPan = false;
+  imgStage.classList.remove('grabbing');
+});
+
+// ─── 触屏 ───
+imgStage.addEventListener('touchstart', (e) => {
+  if (e.touches.length !== 1 || !zoomed) return;
+  isPan = true;
+  panStartX = e.touches[0].pageX;
+  panStartY = e.touches[0].pageY;
+  panScrollL = imgStage.scrollLeft;
+  panScrollT = imgStage.scrollTop;
+}, { passive: true });
+
+document.addEventListener('touchmove', (e) => {
+  if (!isPan || e.touches.length !== 1) return;
+  imgStage.scrollLeft = panScrollL - (e.touches[0].pageX - panStartX);
+  imgStage.scrollTop = panScrollT - (e.touches[0].pageY - panStartY);
+}, { passive: true });
+
+document.addEventListener('touchend', () => {
+  isPan = false;
+});
+</script>
+</body>
+</html>

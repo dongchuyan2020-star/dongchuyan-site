@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阅读 · 董楚妍的个人宇宙</title>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@200;400;600;700;900&family=ZCOOL+QingKe+HuangYou&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+::selection { background: rgba(196,58,49,0.2); }
+:root { --paper: #ede7d9; --text: #2a2520; --red: #c43a31; }
+body {
+  font-family: "Microsoft YaHei","PingFang SC",sans-serif;
+  background: var(--paper);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+body::before {
+  content: ''; position: fixed; inset: 0;
+  opacity: 0.35;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  pointer-events: none; z-index: 0;
+  mix-blend-mode: multiply;
+}
+
+.back {
+  position: fixed; top: 32px; left: 32px; z-index: 30;
+  font-size: 13px; letter-spacing: 4px;
+  color: rgba(42,37,32,0.55);
+  text-decoration: none;
+  transition: all 0.2s;
+  padding: 6px 16px;
+  border: 1px solid rgba(42,37,32,0.08);
+  border-radius: 4px;
+  background: rgba(255,255,248,0.6);
+  backdrop-filter: blur(6px);
+}
+.back:hover { color: var(--red); border-color: rgba(196,58,49,0.2); }
+.back::before { content: '← '; }
+
+.music {
+  position: fixed; top: 32px; right: 32px; z-index: 30;
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; letter-spacing: 2px;
+  color: rgba(42,37,32,0.35);
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 5px 12px;
+  border: 1px solid rgba(42,37,32,0.06);
+  border-radius: 16px;
+  background: rgba(255,255,248,0.6);
+  backdrop-filter: blur(6px);
+}
+.music:hover { color: var(--red); border-color: rgba(196,58,49,0.15); }
+.music .dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: rgba(42,37,32,0.08);
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+.music .dot.on { background: var(--red); box-shadow: 0 0 10px rgba(196,58,49,0.4); }
+
+.wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 100px 24px 80px;
+  position: relative; z-index: 1;
+}
+
+.content-header { margin-bottom: 40px; }
+.content-header h1 {
+  font-family: "Ma Shan Zheng",cursive;
+  font-size: clamp(36px, 4vw, 52px);
+  font-weight: 400;
+  letter-spacing: 12px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.content-header .sub {
+  font-size: 13px; color: rgba(42,37,32,0.4);
+  letter-spacing: 4px; line-height: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.content-header .count {
+  display: flex; align-items: baseline; gap: 4px;
+  flex-shrink: 0;
+}
+.content-header .count .num {
+  font-size: 18px; font-weight: 700;
+  color: var(--text); line-height: 1;
+}
+.content-header .count .unit {
+  font-size: 13px;
+  color: rgba(42,37,32,0.4); letter-spacing: 2px;
+}
+
+.book-section {
+  opacity: 0; transform: translateY(30px);
+  transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  margin-bottom: 44px;
+}
+.book-section.reveal { opacity: 1; transform: translateY(0); }
+
+.book-section h2 {
+  font-family: "Noto Serif SC","STSong",serif;
+  font-size: 18px; font-weight: 700;
+  letter-spacing: 4px; color: var(--text);
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(196,58,49,0.15);
+}
+
+.tag-cloud { display: flex; flex-wrap: wrap; gap: 10px 20px; }
+.tag-cloud span {
+  font-size: 15px;
+  color: rgba(42,37,32,0.55);
+  padding: 4px 16px;
+  border: 1px solid rgba(42,37,32,0.08);
+  border-radius: 4px;
+  transition: all 0.2s;
+  line-height: 1.7;
+}
+.tag-cloud span:hover {
+  border-color: rgba(196,58,49,0.2);
+  color: var(--red);
+  background: rgba(196,58,49,0.06);
+}
+
+.section-divider {
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: 6px;
+  color: rgba(42,37,32,0.12);
+  margin: -16px 0 32px;
+}
+
+@media (max-width: 700px) {
+  .back { top: 20px; left: 20px; }
+  .music { top: 20px; right: 20px; }
+  .wrap { padding: 80px 16px 60px; }
+  .content-header h1 { font-size: 26px; }
+}
+</style>
+</head>
+<body>
+
+<a class="back" href="../personal_site.html#s3">返回</a>
+
+<div class="music" id="musicBtn">
+  <span class="dot" id="musicDot"></span>
+  <span>BGM</span>
+</div>
+<audio id="bgm" loop src="../site_assets/逍遥叹.flac" style="display:none"></audio>
+
+<div class="wrap">
+
+<div class="content-header">
+  <h1>阅读</h1>
+  <div class="sub">
+    <span>以心理学为导向，兼及自我成长、文学与哲学</span>
+    <span class="count"><span class="num">89</span><span class="unit">本书</span></span>
+  </div>
+</div>
+
+<div class="book-section">
+  <h2>心理学 · 自我成长</h2>
+  <div class="tag-cloud">
+    <span>心流</span><span>被讨厌的勇气</span><span>存在主义心理治疗</span>
+    <span>焦虑的意义</span><span>心理治疗中的依恋</span><span>自我关怀的力量</span>
+    <span>蛤蟆先生去看心理医生</span><span>我好，你好</span><span>精力管理</span>
+    <span>我们为什么要睡觉？</span><span>高难度谈话</span><span>关键对话</span>
+    <span>精神分析诊断</span><span>心理动力学疗法</span><span>找到意想不到的自己</span>
+    <span>叙事疗法实践地图</span><span>改善情绪的正念疗法</span><span>创伤与记忆</span>
+    <span>心理创伤疗愈之道</span><span>重塑大脑 重塑人生</span><span>唤醒老虎</span>
+    <span>大脑在作怪</span><span>自我成长的力量</span><span>人的潜能和价值</span>
+    <span>身体从未忘记</span><span>心智的构建</span><span>贪婪的大脑</span>
+    <span>聚焦取向的心理治疗</span><span>学会接受你自己</span><span>心理治疗的新趋势</span>
+    <span>情绪的解析</span><span>痊愈的本能</span><span>情绪急救</span>
+    <span>自我训练</span><span>幸福的方法</span><span>爱的艺术</span>
+    <span>个人形成论</span><span>控制焦虑</span><span>思维改变生活</span>
+    <span>我战胜了抑郁症</span><span>瞬变</span><span>我真的坐不住了</span>
+    <span>改变</span><span>幸福之路</span>
+  </div>
+</div>
+
+<div class="section-divider">· · ·</div>
+
+<div class="book-section">
+  <h2>文学 · 诗歌</h2>
+  <div class="tag-cloud">
+    <span>活着</span><span>追风筝的人</span><span>倾城之恋</span>
+    <span>呼兰河传</span><span>月亮和六便士</span><span>白夜行</span>
+    <span>撒哈拉的故事</span><span>呼啸山庄</span><span>茶花女</span>
+    <span>变形记</span><span>孤独六讲</span><span>悟空传</span>
+    <span>十一种孤独</span><span>牧羊少年奇幻之旅</span><span>夏洛的网</span>
+    <span>幻城</span><span>岛</span><span>失物之书</span>
+    <span>生活在别处</span><span>痴人之爱</span><span>天帝妖狐</span>
+    <span>夏天·烟火·我的尸体</span><span>费尔南多·佩索阿诗选</span><span>我曾这样寂寞生活</span>
+    <span>万物静默如谜</span><span>事物的味道，我尝得太早了</span>
+  </div>
+</div>
+
+<div class="section-divider">· · ·</div>
+
+<div class="book-section">
+  <h2>实用 · 工具 · 社科</h2>
+  <div class="tag-cloud">
+    <span>学会提问</span><span>黑客与画家</span><span>你是你吃出来的</span>
+    <span>中国近代史</span><span>神堂记忆</span><span>癌症·真相</span>
+    <span>肠子的小心思</span><span>哪来的天才？</span><span>活用一輩子的筆記術</span>
+    <span>如何有效整理信息</span><span>摄影美学七问</span><span>小狗钱钱</span>
+    <span>富爸爸，穷爸爸</span><span>小强升职记</span><span>生涯咨询与辅导</span>
+    <span>特权</span><span>不平等的童年</span><span>The Five People You Meet in Heaven</span>
+  </div>
+</div>
+
+</div>
+
+<script>
+(function(){
+  const btn = document.getElementById('musicBtn');
+  const dot = document.getElementById('musicDot');
+  const audio = document.getElementById('bgm');
+  let playing = false;
+  const saved = localStorage.getItem('bgmPlaying');
+  const savedTime = localStorage.getItem('bgmTime');
+  if (saved === 'true' && savedTime) {
+    audio.currentTime = parseFloat(savedTime);
+    audio.play().catch(() => {});
+    dot.classList.add('on');
+    playing = true;
+  }
+  audio.addEventListener('timeupdate', () => {
+    localStorage.setItem('bgmTime', audio.currentTime);
+  });
+  btn.onclick = () => {
+    playing = !playing;
+    if (playing) {
+      audio.play().catch(() => { playing = false; });
+      dot.classList.add('on');
+      localStorage.setItem('bgmPlaying', 'true');
+    } else {
+      audio.pause();
+      dot.classList.remove('on');
+      localStorage.setItem('bgmPlaying', 'false');
+    }
+  };
+})();
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('reveal'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.book-section').forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

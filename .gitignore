@@ -1,0 +1,11 @@
+# OS files
+.DS_Store
+Thumbs.db
+*.pyc
+__pycache__/
+*.py
+# Large media (not stored in git)
+*.mp4
+*.flac
+site_assets/backup/
+site_assets/backup2/

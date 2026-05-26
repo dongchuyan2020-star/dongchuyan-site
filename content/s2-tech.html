@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>工具 · 科技 · 品牌 · 董楚妍的个人宇宙</title>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@200;400;600;700;900&family=ZCOOL+QingKe+HuangYou&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+::selection { background: rgba(196,58,49,0.2); }
+:root { --paper: #ede7d9; --text: #2a2520; --red: #c43a31; }
+body {
+  font-family: "Microsoft YaHei","PingFang SC",sans-serif;
+  background: var(--paper);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+body::before {
+  content: ''; position: fixed; inset: 0;
+  opacity: 0.35;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  pointer-events: none; z-index: 0;
+  mix-blend-mode: multiply;
+}
+
+.back {
+  position: fixed; top: 32px; left: 32px; z-index: 30;
+  font-size: 13px; letter-spacing: 4px;
+  color: rgba(42,37,32,0.55);
+  text-decoration: none;
+  transition: all 0.2s;
+  padding: 6px 16px;
+  border: 1px solid rgba(42,37,32,0.08);
+  border-radius: 4px;
+  background: rgba(255,255,248,0.6);
+  backdrop-filter: blur(6px);
+}
+.back:hover { color: var(--red); border-color: rgba(196,58,49,0.2); }
+.back::before { content: '← '; }
+
+.music {
+  position: fixed; top: 32px; right: 32px; z-index: 30;
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; letter-spacing: 2px;
+  color: rgba(42,37,32,0.35);
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 5px 12px;
+  border: 1px solid rgba(42,37,32,0.06);
+  border-radius: 16px;
+  background: rgba(255,255,248,0.6);
+  backdrop-filter: blur(6px);
+}
+.music:hover { color: var(--red); border-color: rgba(196,58,49,0.15); }
+.music .dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: rgba(42,37,32,0.08);
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+.music .dot.on { background: var(--red); box-shadow: 0 0 10px rgba(196,58,49,0.4); }
+
+.wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 100px 24px 80px;
+  position: relative; z-index: 1;
+}
+
+.content-header { margin-bottom: 48px; }
+.content-header h1 {
+  font-family: "Ma Shan Zheng",cursive;
+  font-size: clamp(36px, 4vw, 52px);
+  font-weight: 400;
+  letter-spacing: 12px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.content-header .sub {
+  font-size: 13px;
+  color: rgba(42,37,32,0.4);
+  letter-spacing: 4px;
+}
+
+.tech-section {
+  opacity: 0; transform: translateY(30px);
+  transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  margin-bottom: 44px;
+}
+.tech-section.reveal { opacity: 1; transform: translateY(0); }
+
+.tech-section h2 {
+  font-family: "Noto Serif SC","STSong",serif;
+  font-size: 18px; font-weight: 700;
+  letter-spacing: 4px; color: var(--text);
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(196,58,49,0.15);
+}
+
+.item-list { display: flex; flex-wrap: wrap; gap: 10px; }
+.item-list span {
+  font-size: 15px;
+  color: rgba(42,37,32,0.55);
+  padding: 4px 16px;
+  border: 1px solid rgba(42,37,32,0.08);
+  border-radius: 4px;
+  transition: all 0.2s;
+  line-height: 1.7;
+}
+.item-list span:hover {
+  border-color: rgba(196,58,49,0.2);
+  color: var(--red);
+  background: rgba(196,58,49,0.06);
+}
+
+.section-divider {
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: 6px;
+  color: rgba(42,37,32,0.12);
+  margin: -16px 0 32px;
+}
+
+@media (max-width: 700px) {
+  .back { top: 20px; left: 20px; }
+  .music { top: 20px; right: 20px; }
+  .wrap { padding: 80px 16px 60px; }
+  .content-header h1 { font-size: 26px; }
+}
+</style>
+</head>
+<body>
+
+<a class="back" href="../personal_site.html#s2">返回</a>
+
+<div class="music" id="musicBtn">
+  <span class="dot" id="musicDot"></span>
+  <span>BGM</span>
+</div>
+<audio id="bgm" loop src="../site_assets/逍遥叹.flac" style="display:none"></audio>
+
+<div class="wrap">
+
+<div class="content-header">
+  <h1>工具 · 科技 · 品牌</h1>
+  <div class="sub">触摸世界的接口</div>
+</div>
+
+<div class="tech-section">
+  <h2>已有设备</h2>
+  <div class="item-list">
+    <span>iPhone 15</span>
+    <span>大疆 Action 5 Pro</span>
+    <span>小米 Civi 4 Pro</span>
+    <span>尼康 D7200</span>
+    <span>小米运动手环</span>
+  </div>
+</div>
+
+<div class="section-divider">· · ·</div>
+
+<div class="tech-section">
+  <h2>常用工具</h2>
+  <div class="item-list">
+    <span>Obsidian</span>
+    <span>Flomo</span>
+    <span>微信读书</span>
+    <span>Claude Code</span>
+    <span>剪映</span>
+    <span>飞书</span>
+    <span>Steam</span>
+    <span>小红书</span>
+    <span>B站</span>
+    <span>DeepSeek</span>
+	    <span>ChatGPT</span>
+    <span>简单心理</span>
+    <span>美图秀秀</span>
+  </div>
+</div>
+
+<div class="section-divider">· · ·</div>
+
+<div class="tech-section">
+  <h2>本项目网站用到的工具</h2>
+  <div class="item-list">
+    <span>Claude Code + DeepSeek</span>
+    <span>Obsidian + Flomo</span>
+    <span>ChatGPT Image 2</span>
+    <span>豆包</span>
+  </div>
+  <p style="margin-top:24px; font-size:14px; color:rgba(42,37,32,0.5); letter-spacing:2px; line-height:1.8;">
+    本网站项目花费6天时间——4天整理资料、搭建网站骨架，2天 vibe coding。
+  </p>
+</div>
+
+</div>
+
+<script>
+(function(){
+  const btn = document.getElementById('musicBtn');
+  const dot = document.getElementById('musicDot');
+  const audio = document.getElementById('bgm');
+  let playing = false;
+  const saved = localStorage.getItem('bgmPlaying');
+  const savedTime = localStorage.getItem('bgmTime');
+  if (saved === 'true' && savedTime) {
+    audio.currentTime = parseFloat(savedTime);
+    audio.play().catch(() => {});
+    dot.classList.add('on');
+    playing = true;
+  }
+  audio.addEventListener('timeupdate', () => {
+    localStorage.setItem('bgmTime', audio.currentTime);
+  });
+  btn.onclick = () => {
+    playing = !playing;
+    if (playing) {
+      audio.play().catch(() => { playing = false; });
+      dot.classList.add('on');
+      localStorage.setItem('bgmPlaying', 'true');
+    } else {
+      audio.pause();
+      dot.classList.remove('on');
+      localStorage.setItem('bgmPlaying', 'false');
+    }
+  };
+})();
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('reveal'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.tech-section').forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

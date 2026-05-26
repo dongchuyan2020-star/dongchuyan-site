@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>观影 · 董楚妍的个人宇宙</title>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@200;400;600;700;900&family=ZCOOL+QingKe+HuangYou&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+::selection { background: rgba(196,58,49,0.2); }
+:root { --paper: #ede7d9; --text: #2a2520; --red: #c43a31; }
+body {
+  font-family: "Microsoft YaHei","PingFang SC",sans-serif;
+  background: var(--paper);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+body::before {
+  content: ''; position: fixed; inset: 0;
+  opacity: 0.35;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  pointer-events: none; z-index: 0;
+  mix-blend-mode: multiply;
+}
+
+.back {
+  position: fixed; top: 32px; left: 32px; z-index: 30;
+  font-size: 13px; letter-spacing: 4px;
+  color: rgba(42,37,32,0.55);
+  text-decoration: none;
+  transition: all 0.2s;
+  padding: 6px 16px;
+  border: 1px solid rgba(42,37,32,0.08);
+  border-radius: 4px;
+  background: rgba(255,255,248,0.6);
+  backdrop-filter: blur(6px);
+}
+.back:hover { color: var(--red); border-color: rgba(196,58,49,0.2); }
+.back::before { content: '← '; }
+
+.music {
+  position: fixed; top: 32px; right: 32px; z-index: 30;
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; letter-spacing: 2px;
+  color: rgba(42,37,32,0.35);
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 5px 12px;
+  border: 1px solid rgba(42,37,32,0.06);
+  border-radius: 16px;
+  background: rgba(255,255,248,0.6);
+  backdrop-filter: blur(6px);
+}
+.music:hover { color: var(--red); border-color: rgba(196,58,49,0.15); }
+.music .dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: rgba(42,37,32,0.08);
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+.music .dot.on { background: var(--red); box-shadow: 0 0 10px rgba(196,58,49,0.4); }
+
+.wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 100px 24px 80px;
+  position: relative; z-index: 1;
+}
+
+.content-header { margin-bottom: 40px; }
+.content-header h1 {
+  font-family: "Ma Shan Zheng",cursive;
+  font-size: clamp(36px, 4vw, 52px);
+  font-weight: 400;
+  letter-spacing: 12px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.content-header .sub {
+  font-size: 13px; color: rgba(42,37,32,0.4);
+  letter-spacing: 4px; line-height: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.content-header .count {
+  display: flex; align-items: baseline; gap: 4px;
+  flex-shrink: 0;
+}
+.content-header .count .num {
+  font-size: 18px; font-weight: 700;
+  color: var(--text); line-height: 1;
+}
+.content-header .count .unit {
+  font-size: 13px;
+  color: rgba(42,37,32,0.4); letter-spacing: 2px;
+}
+
+.movie-section {
+  opacity: 0; transform: translateY(30px);
+  transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  margin-bottom: 44px;
+}
+.movie-section.reveal { opacity: 1; transform: translateY(0); }
+
+.movie-section h2 {
+  font-family: "Noto Serif SC","STSong",serif;
+  font-size: 18px; font-weight: 700;
+  letter-spacing: 4px; color: var(--text);
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(196,58,49,0.15);
+}
+
+.tag-cloud { display: flex; flex-wrap: wrap; gap: 10px 20px; }
+.tag-cloud span {
+  font-size: 15px;
+  color: rgba(42,37,32,0.55);
+  padding: 4px 16px;
+  border: 1px solid rgba(42,37,32,0.08);
+  border-radius: 4px;
+  transition: all 0.2s;
+  line-height: 1.7;
+}
+.tag-cloud span:hover {
+  border-color: rgba(196,58,49,0.2);
+  color: var(--red);
+  background: rgba(196,58,49,0.06);
+}
+
+.section-divider {
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: 6px;
+  color: rgba(42,37,32,0.12);
+  margin: -16px 0 32px;
+}
+
+@media (max-width: 700px) {
+  .back { top: 20px; left: 20px; }
+  .music { top: 20px; right: 20px; }
+  .wrap { padding: 80px 16px 60px; }
+  .content-header h1 { font-size: 26px; }
+}
+</style>
+</head>
+<body>
+
+<a class="back" href="../personal_site.html#s3">返回</a>
+
+<div class="music" id="musicBtn">
+  <span class="dot" id="musicDot"></span>
+  <span>BGM</span>
+</div>
+<audio id="bgm" loop src="../site_assets/逍遥叹.flac" style="display:none"></audio>
+
+<div class="wrap">
+
+<div class="content-header">
+  <h1>观影</h1>
+  <div class="sub">
+    <span>从 indie 短片到商业大片</span>
+    <span class="count"><span class="num">327</span><span class="unit">部</span></span>
+  </div>
+</div>
+
+<div class="movie-section">
+  <h2>华语电影</h2>
+  <div class="tag-cloud">
+    <span>霸王别姬</span><span>花样年华</span><span>重庆森林</span>
+    <span>让子弹飞</span><span>功夫</span><span>大话西游之月光宝盒</span>
+    <span>无间道</span><span>色戒</span><span>倩女幽魂</span>
+    <span>青蛇</span><span>新龙门客栈</span><span>东方不败之风云再起</span>
+    <span>笑傲江湖2：东方不败</span><span>阿飞正传</span><span>东邪西毒</span>
+    <span>射雕英雄传之东成西就</span><span>喜剧之王</span><span>芳华</span>
+    <span>中国合伙人</span><span>可可西里</span><span>大佛普拉斯</span>
+    <span>血观音</span><span>一一</span><span>岁月神偷</span>
+    <span>志明与春娇</span><span>海角七号</span><span>听说</span>
+    <span>那些年，我们一起追的女孩</span><span>我的少女时代</span><span>少女时代</span>
+    <span>雄狮少年</span><span>深海</span><span>热辣滚烫</span>
+    <span>好东西</span><span>年少日记</span><span>独行月球</span>
+    <span>长津湖</span><span>奇迹·笨小孩</span><span>流浪地球2</span>
+    <span>你好，李焕英</span><span>二十二</span><span>看见台湾</span>
+  </div>
+</div>
+
+<div class="section-divider">· · ·</div>
+
+<div class="movie-section">
+  <h2>日本 · 动画</h2>
+  <div class="tag-cloud">
+    <span>千与千寻</span><span>龙猫</span><span>风之谷</span>
+    <span>天空之城</span><span>侧耳倾听</span><span>萤火之森</span>
+    <span>穿越时空的少女</span><span>你的名字</span><span>言叶之庭</span>
+    <span>虫师</span><span>灌篮高手</span>
+    <span>命运石之门</span><span>反叛的鲁路修</span><span>反叛的鲁路修R2</span>
+    <span>刀剑神域</span><span>冰果</span><span>东京食尸鬼</span>
+    <span>罪恶王冠</span><span>未来日记</span><span>樱花庄的宠物女孩</span>
+    <span>龙与虎</span><span>中二病也要谈恋爱</span><span>我的青春恋爱物语果然有问题</span>
+    <span>Angel Beats!</span><span>某科学的超电磁炮</span><span>某科学的超电磁炮S</span>
+    <span>境界的彼方</span><span>花开伊吕波</span><span>真实之泪</span>
+    <span>斩·赤红之瞳</span><span>笨蛋·测验·召唤兽</span><span>狼与香辛料</span>
+    <span>未麻的部屋</span><span>红辣椒</span><span>星际牛仔</span>
+    <span>野良神</span><span>来自风平浪静的明天</span>
+  </div>
+</div>
+
+<div class="section-divider">· · ·</div>
+
+<div class="movie-section">
+  <h2>日剧 · 日影</h2>
+  <div class="tag-cloud">
+    <span>悠长假期</span><span>交响情人梦</span><span>东京爱情故事</span>
+    <span>魔女的条件</span><span>逃避虽可耻但有用</span><span>胜者即是正义</span>
+    <span>情书</span><span>无人知晓</span><span>入殓师</span>
+    <span>花束般的恋爱</span><span>小偷家族</span><span>海街日记</span>
+    <span>比海更深</span><span>下妻物语</span><span>花魁</span>
+    <span>告白</span><span>摄影机不要停</span><span>怒</span>
+    <span>哥哥太爱我了怎么办</span><span>父女七日变</span><span>女子的生活</span>
+  </div>
+</div>
+
+<div class="section-divider">· · ·</div>
+
+<div class="movie-section">
+  <h2>欧美电影 · 剧情</h2>
+  <div class="tag-cloud">
+    <span>爆裂鼓手</span><span>肖申克的救赎</span><span>阿甘正传</span>
+    <span>楚门的世界</span><span>搏击俱乐部</span><span>这个杀手不太冷</span>
+    <span>海上钢琴师</span><span>美丽人生</span><span>盗梦空间</span>
+    <span>星际穿越</span><span>教父</span><span>发条橙</span>
+    <span>闪灵</span><span>飞越疯人院</span><span>美丽心灵</span>
+    <span>心灵捕手</span><span>勇敢的心</span><span>美国丽人</span>
+    <span>消失的爱人</span><span>禁闭岛</span><span>记忆碎片</span>
+    <span>致命ID</span><span>七宗罪</span><span>恐怖游轮</span>
+    <span>蝴蝶效应</span><span>梦之安魂曲</span><span>超脱</span>
+    <span>海边的曼彻斯特</span><span>荒蛮故事</span><span>perfect stranger</span>
+    <span>看不见的客人</span><span>狩猎</span><span>着魔</span>
+    <span>银翼杀手</span><span>2001太空漫游</span><span>月球</span>
+    <span>布达佩斯大饭店</span><span>午夜巴黎</span><span>少年派的奇幻漂流</span>
+    <span>本杰明·巴顿奇事</span><span>泰坦尼克号</span><span>剪刀手爱德华</span>
+    <span>怦然心动</span><span>穿普拉达的女王</span><span>人工智能</span>
+    <span>两杆大烟枪</span><span>低俗小说</span><span>杀死比尔</span>
+    <span>杀死比尔2</span><span>阿凡达</span>
+    <span>沙丘2</span><span>奥本海默</span><span>芭比</span>
+    <span>困在时间里的父亲</span><span>新蝙蝠侠</span><span>钢铁侠</span>
+    <span>银河护卫队3</span><span>关于我和鬼变成家人的那件事</span>
+  </div>
+</div>
+
+<div class="section-divider">· · ·</div>
+
+<div class="movie-section">
+  <h2>剧集 · 韩剧 · 其他</h2>
+  <div class="tag-cloud">
+    <span>老友记(全10季)</span><span>IT狂人 第一季</span><span>9号秘事(全4季)</span>
+    <span>性爱自修室 第一季</span><span>去他*的世界 第一季</span><span>伦敦生活 第一季</span>
+    <span>婚情咨文 第一季</span><span>无可救药 第一季</span>
+    <span>后宫·甄嬛传</span><span>一年一度喜剧大赛2</span><span>脱口秀大会5</span>
+    <span>请回答1988</span><span>我的解放日志</span><span>黑暗荣耀</span>
+    <span>鱿鱼游戏</span><span>寄生虫</span><span>燃烧</span>
+    <span>辩护人</span><span>阳光姐妹淘</span><span>狼少年</span>
+    <span>恐怖直播</span><span>出租车司机</span><span>潘神的迷宫</span>
+    <span>上帝之城</span><span>小鞋子</span><span>完美陌生人</span>
+    <span>天才枪手</span><span>初恋这件小事</span><span>亲爱的伽利略</span>
+  </div>
+</div>
+
+<div class="section-divider">· · ·</div>
+
+<div class="movie-section">
+  <h2>纪录片 · 短片</h2>
+  <div class="tag-cloud">
+    <span>浮生一日</span><span>地球之盐</span><span>海豚湾</span>
+    <span>人生果实</span><span>纪实72小时系列</span><span>戴安娜：她的自述</span>
+    <span>平衡</span><span>雇佣人生</span><span>调音师(短片)</span>
+    <span>精神分裂症</span><span>黑洞</span><span>自杀热线</span>
+    <span>打，打个大西瓜</span><span>水滴</span><span>宇宙快递</span>
+    <span>一指城</span><span>8号房间</span><span>视界</span>
+    <span>守坝员</span><span>雨之城</span><span>时光钟摆</span>
+    <span>她和她的猫</span><span>猫的集会</span><span>文森特</span>
+    <span>无翼鸟</span><span>苍蝇一分钟的生命</span><span>负空间</span>
+    <span>红气球</span><span>山水情</span>
+  </div>
+</div>
+
+</div>
+
+<script>
+(function(){
+  const btn = document.getElementById('musicBtn');
+  const dot = document.getElementById('musicDot');
+  const audio = document.getElementById('bgm');
+  let playing = false;
+  const saved = localStorage.getItem('bgmPlaying');
+  const savedTime = localStorage.getItem('bgmTime');
+  if (saved === 'true' && savedTime) {
+    audio.currentTime = parseFloat(savedTime);
+    audio.play().catch(() => {});
+    dot.classList.add('on');
+    playing = true;
+  }
+  audio.addEventListener('timeupdate', () => {
+    localStorage.setItem('bgmTime', audio.currentTime);
+  });
+  btn.onclick = () => {
+    playing = !playing;
+    if (playing) {
+      audio.play().catch(() => { playing = false; });
+      dot.classList.add('on');
+      localStorage.setItem('bgmPlaying', 'true');
+    } else {
+      audio.pause();
+      dot.classList.remove('on');
+      localStorage.setItem('bgmPlaying', 'false');
+    }
+  };
+})();
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('reveal'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.movie-section').forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

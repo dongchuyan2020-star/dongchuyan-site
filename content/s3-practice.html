@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>修行 · 董楚妍的个人宇宙</title>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@200;400;600;700;900&family=ZCOOL+QingKe+HuangYou&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+::selection { background: rgba(196,58,49,0.2); }
+:root { --paper: #ede7d9; --text: #2a2520; --red: #c43a31; }
+body {
+  font-family: "Microsoft YaHei","PingFang SC",sans-serif;
+  background: var(--paper);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+body::before {
+  content: ''; position: fixed; inset: 0;
+  opacity: 0.35;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  pointer-events: none; z-index: 0;
+  mix-blend-mode: multiply;
+}
+
+.back {
+  position: fixed; top: 32px; left: 32px; z-index: 30;
+  font-size: 13px; letter-spacing: 4px;
+  color: rgba(42,37,32,0.55);
+  text-decoration: none;
+  transition: all 0.2s;
+  padding: 6px 16px;
+  border: 1px solid rgba(42,37,32,0.08);
+  border-radius: 4px;
+  background: rgba(255,255,248,0.6);
+  backdrop-filter: blur(6px);
+}
+.back:hover { color: var(--red); border-color: rgba(196,58,49,0.2); }
+.back::before { content: '← '; }
+
+.music {
+  position: fixed; top: 32px; right: 32px; z-index: 30;
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; letter-spacing: 2px;
+  color: rgba(42,37,32,0.35);
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 5px 12px;
+  border: 1px solid rgba(42,37,32,0.06);
+  border-radius: 16px;
+  background: rgba(255,255,248,0.6);
+  backdrop-filter: blur(6px);
+}
+.music:hover { color: var(--red); border-color: rgba(196,58,49,0.15); }
+.music .dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: rgba(42,37,32,0.08);
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+.music .dot.on { background: var(--red); box-shadow: 0 0 10px rgba(196,58,49,0.4); }
+
+.wrap {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 100px 24px 80px;
+  position: relative; z-index: 1;
+}
+
+.content-header { margin-bottom: 48px; }
+.content-header h1 {
+  font-family: "Ma Shan Zheng",cursive;
+  font-size: clamp(36px, 4vw, 52px);
+  font-weight: 400;
+  letter-spacing: 12px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.content-header .sub {
+  font-size: 13px;
+  color: rgba(42,37,32,0.4);
+  letter-spacing: 4px;
+}
+
+.writing-section {
+  opacity: 0; transform: translateY(30px);
+  transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  margin-bottom: 64px;
+}
+.writing-section.reveal { opacity: 1; transform: translateY(0); }
+
+.writing-section h2 {
+  font-family: "Noto Serif SC","STSong",serif;
+  font-size: 20px; font-weight: 700;
+  letter-spacing: 4px;
+  color: var(--text);
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(196,58,49,0.15);
+}
+
+.writing-section p {
+  font-size: 16px; line-height: 2.2;
+  color: var(--text); margin-bottom: 18px;
+  text-indent: 2em;
+}
+
+.section-divider {
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: 6px;
+  color: rgba(42,37,32,0.12);
+  margin: -24px 0 48px;
+}
+
+@media (max-width: 700px) {
+  .back { top: 20px; left: 20px; }
+  .music { top: 20px; right: 20px; }
+  .wrap { padding: 80px 16px 60px; }
+  .content-header h1 { font-size: 26px; }
+}
+</style>
+</head>
+<body>
+
+<a class="back" href="../personal_site.html#s3">返回</a>
+
+<div class="music" id="musicBtn">
+  <span class="dot" id="musicDot"></span>
+  <span>BGM</span>
+</div>
+<audio id="bgm" loop src="../site_assets/逍遥叹.flac" style="display:none"></audio>
+
+<div class="wrap">
+
+<div class="content-header">
+  <h1>修行</h1>
+  <div class="sub">在日常中觉察，在痛苦中领悟</div>
+</div>
+
+<div class="writing-section">
+  <h2>与父母</h2>
+  <p>母亲，爱我是你的谎言</p>
+  <p>母亲，很久之前，我就没有称呼你为妈妈了，这个称呼太亲密，说出来烫嘴，不适合我们的关系。</p>
+  <p>母亲，我们的最后一次吵架，是很小的事情。当它发生时，我坐着静静消化情绪。大厦将倾，冰面将裂，我想着用什么角度解构它，以便我能够保持平静来维持我们表面的和平。但不仅是那个当下的我，是每个时空里的我都在呐喊，她们叠加在一起的声音足够震碎我的五脏六腑，她们在哭泣、在大喊、在愤怒撕扯东西，她们说为什么凭什么，为什么你还是没有帮我。尖锐的刀子、生锈的菜刀、断了一半的晾衣杆、敲碎玻璃的石块、青色和紫色的伤疤、红色的血、醉酒失控的车子、猫眼后的小偷、黑暗的房间、疾病与疼痛，消毒水和白色床单，软弱和泪水，饥饿与恐惧。你不是爱我吗，母亲，你口口声声说的，那为什么你一次次丢下我，为什么你让我独自面对，为什么你从来不理会我的求助。</p>
+  <p>母亲，爱我是你的谎言，我从小就识破了。7岁的我比29岁的你自己都看得清你的自私与软弱，既没有解决问题的意愿，也没有解决问题的能力。我本以为我们会新生，是你自己亲手把你我推到深渊还冠之以为我好的名义。母亲，你消化不了的痛苦倾泻在我头上，你吞不下的泪水灼烧我的皮肤，可是7岁的我又能做些什么呢？我只有陷入一次又一次的绝望与愧疚，然后被你拿去作为滋养情绪的创可贴。</p>
+  <p>母亲，爱我是你的谎言，漫长的时光里，我将之刻在心上。在你说身边人都劝你扔了我的时候，你动摇了多少次呢。母亲，在你说我克你的时候，是在遗憾没有早点把我遗弃，还是在怨恨我的出生？母亲，在你对我极尽侮辱的词汇，转头又说爱我时，你认为我该相信你爱我，还是相信我是个不该出生的废物呢。母亲，你花费一辆代步车的金钱把我养大，我给你带来世俗意义上的教育成功的证据时，你是觉得自己驾驭有术，还是觉得我真好控制呢？</p>
+  <p>母亲，我累了。今生母女一场24年，是上天安排我借由你来到这个世上，可我们既没有认知上的共鸣，也没有情绪上的相惜。我的出生给你带来痛苦，本就是你作为成年人应该评估环境与自身条件而做出的决定后该承受的。而你带给我的痛苦，母亲，我常说我早过了讨伐原生家庭的年纪。无论过去如何，我都不在意了。我自不会削肉剔骨，但我也再不欠你什么了。</p>
+  <p>母亲，我们就此别过，不必再见。</p>
+</div>
+
+<div class="section-divider">· · ·</div>
+
+<div class="writing-section">
+  <h2>母亲节感悟</h2>
+  <p>今天母亲节，我过去一直在试图理解"为什么我的痛苦如此多"，我以为源于自己不够努力和不够好，我看了大量西方心理学、脑神经科学、西方文学。后来我以为源于父母不够好。而我今天忽然理解一个更大的图景：代际的苦痛像一条沉默的河流，从祖辈流到父母，再从父母流到我。新中国成立后的斗地主和文化大革命给我的祖辈们家道中落带来家庭和性格的苦痛，我的父母是同辈里最反叛的人，结合到一起生下我，所以我又成为了同辈里最反叛的那一个。有大量的心理能量需要在社会和人际中被洗掉和撞碎。</p>
+  <p>我居然开始真正理解命理学的缘起性空。过去时空里的发生过的事、起过的念、执着的放不下的，这些全都化为因，当时间推进到此时此刻，当我对一件事，外部所有条件刚好凑齐，这是缘，内部的因和外部的缘相互交织，不可逆转地结出了一个果。这就是业力的牵引。过去的因已经种下，现在的缘正在汇聚，果正在发生，而理解这一切，就是修行的开始。</p>
+</div>
+
+<div class="section-divider">· · ·</div>
+
+<div class="writing-section">
+  <h2>命理学</h2>
+  <p>在母亲节悟到因缘果。然后开始研究八字命理。还在学习中，慢慢来。</p>
+</div>
+
+</div>
+
+<script>
+(function(){
+  const btn = document.getElementById('musicBtn');
+  const dot = document.getElementById('musicDot');
+  const audio = document.getElementById('bgm');
+  let playing = false;
+  const saved = localStorage.getItem('bgmPlaying');
+  const savedTime = localStorage.getItem('bgmTime');
+  if (saved === 'true' && savedTime) {
+    audio.currentTime = parseFloat(savedTime);
+    audio.play().catch(() => {});
+    dot.classList.add('on');
+    playing = true;
+  }
+  audio.addEventListener('timeupdate', () => {
+    localStorage.setItem('bgmTime', audio.currentTime);
+  });
+  btn.onclick = () => {
+    playing = !playing;
+    if (playing) {
+      audio.play().catch(() => { playing = false; });
+      dot.classList.add('on');
+      localStorage.setItem('bgmPlaying', 'true');
+    } else {
+      audio.pause();
+      dot.classList.remove('on');
+      localStorage.setItem('bgmPlaying', 'false');
+    }
+  };
+})();
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('reveal'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.writing-section').forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

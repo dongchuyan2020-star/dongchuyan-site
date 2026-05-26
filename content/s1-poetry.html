@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>诗歌 · 董楚妍的个人宇宙</title>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@200;400;600;700;900&family=ZCOOL+QingKe+HuangYou&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+::selection { background: rgba(196,58,49,0.2); }
+:root { --paper: #ede7d9; --text: #2a2520; --red: #c43a31; }
+body {
+  font-family: "Microsoft YaHei","PingFang SC",sans-serif;
+  background: var(--paper);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+body::before {
+  content: ''; position: fixed; inset: 0;
+  opacity: 0.35;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  pointer-events: none; z-index: 0;
+  mix-blend-mode: multiply;
+}
+
+.back {
+  position: fixed; top: 32px; left: 32px; z-index: 30;
+  font-size: 13px; letter-spacing: 4px;
+  color: rgba(42,37,32,0.55);
+  text-decoration: none;
+  transition: all 0.2s;
+  padding: 6px 16px;
+  border: 1px solid rgba(42,37,32,0.08);
+  border-radius: 4px;
+  background: rgba(255,255,248,0.6);
+  backdrop-filter: blur(6px);
+}
+.back:hover { color: var(--red); border-color: rgba(196,58,49,0.2); }
+.back::before { content: '← '; }
+
+.music {
+  position: fixed; top: 32px; right: 32px; z-index: 30;
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; letter-spacing: 2px;
+  color: rgba(42,37,32,0.35);
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 5px 12px;
+  border: 1px solid rgba(42,37,32,0.06);
+  border-radius: 16px;
+  background: rgba(255,255,248,0.6);
+  backdrop-filter: blur(6px);
+}
+.music:hover { color: var(--red); border-color: rgba(196,58,49,0.15); }
+.music .dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: rgba(42,37,32,0.08);
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+.music .dot.on { background: var(--red); box-shadow: 0 0 10px rgba(196,58,49,0.4); }
+
+.wrap {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 100px 24px 80px;
+  position: relative; z-index: 1;
+}
+
+.content-header { margin-bottom: 48px; text-align: center; }
+.content-header h1 {
+  font-family: "Ma Shan Zheng",cursive;
+  font-size: clamp(36px, 4vw, 52px);
+  font-weight: 400;
+  letter-spacing: 12px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.content-header .sub {
+  font-size: 13px; color: rgba(42,37,32,0.4);
+  letter-spacing: 4px; line-height: 2;
+}
+
+.poem {
+  opacity: 0; transform: translateY(20px);
+  transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  padding: 40px 0;
+}
+.poem.reveal { opacity: 1; transform: translateY(0); }
+.poem p {
+  font-size: 17px; line-height: 2.6;
+  color: var(--text); text-align: center;
+  font-family: "STSong","SimSun","Songti SC",serif;
+  letter-spacing: 2px;
+}
+.poem-divider {
+  text-align: center;
+  color: rgba(42,37,32,0.12);
+  font-size: 12px; letter-spacing: 6px;
+  padding: 4px 0;
+}
+
+@media (max-width: 700px) {
+  .back { top: 20px; left: 20px; }
+  .music { top: 20px; right: 20px; }
+  .wrap { padding: 80px 16px 60px; }
+  .content-header h1 { font-size: 26px; }
+}
+</style>
+</head>
+<body>
+
+<a class="back" href="../personal_site.html#s1">返回</a>
+
+<div class="music" id="musicBtn">
+  <span class="dot" id="musicDot"></span>
+  <span>BGM</span>
+</div>
+<audio id="bgm" loop src="../site_assets/逍遥叹.flac" style="display:none"></audio>
+
+<div class="wrap">
+
+<div class="content-header">
+  <h1>诗歌</h1>
+  <div class="sub">我喜欢用文字宣泄情绪，它足够深度<br>当记忆被放入文字里，就不会留在脑子里了</div>
+</div>
+
+<div class="poem">
+<p>有时候睁开眼就想：快让我死掉吧</p>
+<p>这样就不会因为爱而痛了</p>
+<p>死亡和爱竟然是邻居</p>
+<p>中间的墙壁是苦痛</p>
+</div>
+<div class="poem-divider">· · ·</div>
+
+<div class="poem">
+<p>我是一个容器</p>
+<p>过去承载母亲的泪水</p>
+<p>后来承载你的泪水</p>
+<p>黑色部分被我吸收</p>
+<p>于是我开始往外呕吐</p>
+</div>
+<div class="poem-divider">· · ·</div>
+
+<div class="poem">
+<p>我好像并不是一个实体，一具肉体</p>
+<p>我是一团意识，是史莱姆凝胶</p>
+<p>被云、雨和风捏造</p>
+<p>世间万物挤压着我</p>
+<p>我尖叫着成为每一种奇怪的模样</p>
+</div>
+<div class="poem-divider">· · ·</div>
+
+<div class="poem">
+<p>我憎恨写作</p>
+<p>写作意味着心怀痛苦</p>
+<p>我体内的黑色河流流淌出来成为文字</p>
+<p>我不要黑色河流</p>
+<p>我喜欢郁郁葱葱的树林</p>
+</div>
+<div class="poem-divider">· · ·</div>
+
+<div class="poem">
+<p>我像是风</p>
+<p>不定形</p>
+<p>来来去去</p>
+<p>到处走</p>
+</div>
+<div class="poem-divider">· · ·</div>
+
+<div class="poem">
+<p>我开始苦心专研八字。</p>
+<p>寅申相冲，日支与时支相冲</p>
+<p>感情是我命理最大的课题</p>
+<p>原来如此。果然如此。</p>
+<p>于是我开始责怪八字</p>
+<p>责怪命运</p>
+<p>责怪宇宙</p>
+<p>责怪路过的行人</p>
+<p>责怪脚边的蚂蚁、海上的台风、山间呼啸而过的子弹</p>
+<p>责怪一切使我们分离的原因</p>
+<p>正如我曾责怪我们不能分离一样</p>
+</div>
+<div class="poem-divider">· · ·</div>
+
+<div class="poem">
+<p>恋爱脑？</p>
+<p>不不不我很理性</p>
+<p>有才华？</p>
+<p>不不不我要挣钱</p>
+<p>事实上我既不理性</p>
+<p>也没挣着钱</p>
+<p>我既没有爱可恋</p>
+<p>也没有才可露</p>
+<p>我空荡荡的大脑，空荡荡的钱包</p>
+<p>和空荡荡的心</p>
+<p>在空荡荡的风中摇曳</p>
+</div>
+<div class="poem-divider">· · ·</div>
+
+<div class="poem">
+<p>让我发疯吧</p>
+<p>肉体见不了上帝</p>
+<p>先让意识漫游到牠头上</p>
+<p>圣洁的教堂，白色的修女</p>
+<p>我开始大放厥词</p>
+<p>惊起乌鸦瑟瑟</p>
+<p>羽毛掉落在神父皱起的眉头上</p>
+</div>
+<div class="poem-divider">· · ·</div>
+
+<div class="poem">
+<p>我想像擀面杖一样从山坡上滚下去</p>
+<p>路上的石子尖角在我身上留下划痕</p>
+<p>咕咚咕咚像极了被生活锤打的声音</p>
+</div>
+<div class="poem-divider">· · ·</div>
+
+<div class="poem">
+<p>好累</p>
+<p>我已经不知道怎么做了</p>
+<p>也不想要一个答案</p>
+<p>宇宙万物之间都没有答案</p>
+<p>只有空洞的风呼啸而过</p>
+</div>
+<div class="poem-divider">· · ·</div>
+
+<div class="poem">
+<p>我觉得上帝在我的身体里装了消声器</p>
+<p>我发出的声音外界听不到</p>
+<p>外界的声音也进不来</p>
+</div>
+<div class="poem-divider">· · ·</div>
+
+<div class="poem">
+<p>我不再是我</p>
+<p>我是愤怒、悲伤、焦虑和抑郁的容器</p>
+<p>我是悬浮的虚空</p>
+<p>我是化不开的黑色烟雾</p>
+</div>
+<div class="poem-divider">· · ·</div>
+
+<div class="poem">
+<p>他們一個個都離開了</p>
+<p>那些說會永遠陪著我的人</p>
+<p>像被上帝之手刻意拉快的進度條</p>
+<p>轉瞬間，花枯萎，叶掉落</p>
+<p>手裏緊攥的氣球飛到高空</p>
+<p>他們的臉模糊在冬季雨天的玻璃窗外</p>
+</div>
+
+</div>
+
+<script>
+(function(){
+  const btn = document.getElementById('musicBtn');
+  const dot = document.getElementById('musicDot');
+  const audio = document.getElementById('bgm');
+  let playing = false;
+  const saved = localStorage.getItem('bgmPlaying');
+  const savedTime = localStorage.getItem('bgmTime');
+  if (saved === 'true' && savedTime) {
+    audio.currentTime = parseFloat(savedTime);
+    audio.play().catch(() => {});
+    dot.classList.add('on');
+    playing = true;
+  }
+  audio.addEventListener('timeupdate', () => {
+    localStorage.setItem('bgmTime', audio.currentTime);
+  });
+  btn.onclick = () => {
+    playing = !playing;
+    if (playing) {
+      audio.play().catch(() => { playing = false; });
+      dot.classList.add('on');
+      localStorage.setItem('bgmPlaying', 'true');
+    } else {
+      audio.pause();
+      dot.classList.remove('on');
+      localStorage.setItem('bgmPlaying', 'false');
+    }
+  };
+})();
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('reveal'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.poem').forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

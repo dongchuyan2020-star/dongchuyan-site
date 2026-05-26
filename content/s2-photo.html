@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>摄影 · 董楚妍的个人宇宙</title>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@200;400;600;700;900&family=ZCOOL+QingKe+HuangYou&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+::selection { background: rgba(196,58,49,0.35); }
+:root { --bg: #2c2520; --text: #e8ddd0; --red: #c43a31; }
+html, body { height: 100%; overflow: hidden; }
+body {
+  font-family: "Noto Serif SC","STSong",serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content: ''; position: fixed; inset: 0;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  pointer-events: none; z-index: 0;
+}
+
+.back {
+  position: fixed; top: 32px; left: 32px; z-index: 30;
+  font-size: 13px; letter-spacing: 4px;
+  color: rgba(232,221,208,0.75);
+  text-decoration: none;
+  transition: all 0.2s;
+  padding: 6px 16px;
+  border: 1px solid rgba(232,221,208,0.08);
+  border-radius: 4px;
+  background: rgba(44,37,32,0.4);
+  backdrop-filter: blur(6px);
+}
+.back:hover {
+  color: rgba(232,221,208,0.95);
+  border-color: rgba(232,221,208,0.15);
+  background: rgba(44,37,32,0.6);
+}
+.back::before { content: '← '; }
+
+.music {
+  position: fixed; top: 32px; right: 32px; z-index: 30;
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; letter-spacing: 2px;
+  color: rgba(232,221,208,0.65);
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 5px 12px;
+  border: 1px solid rgba(232,221,208,0.06);
+  border-radius: 16px;
+  background: rgba(44,37,32,0.4);
+  backdrop-filter: blur(6px);
+}
+.music:hover {
+  color: rgba(232,221,208,0.9);
+  border-color: rgba(232,221,208,0.14);
+  background: rgba(44,37,32,0.6);
+}
+.music .dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: rgba(232,221,208,0.06);
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+.music .dot.on { background: var(--red); box-shadow: 0 0 10px rgba(196,58,49,0.4); }
+
+.scroll-wrap {
+  display: flex;
+  overflow-x: auto; overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  height: 100vh;
+}
+.scroll-wrap::-webkit-scrollbar { display: none; }
+
+.page {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 100px 10% 80px 10%;
+  position: relative;
+}
+.page::-webkit-scrollbar { display: none; }
+
+.content {
+  max-width: 640px;
+  margin: 0 auto;
+  position: relative; z-index: 2;
+}
+.content h2 {
+  font-family: "Ma Shan Zheng",cursive;
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 400;
+  letter-spacing: 6px;
+  color: var(--text);
+  margin-bottom: 20px;
+  opacity: 0.9;
+  line-height: 1.2;
+}
+.content h2::after {
+  content: '';
+  display: block;
+  width: 36px; height: 1.5px;
+  background: var(--red); opacity: 0.2;
+  margin-top: 6px;
+}
+.content .subtitle {
+  font-family: "Noto Serif SC",serif;
+  font-size: clamp(14px, 0.9vw, 16px);
+  color: rgba(232,221,208,0.45);
+  letter-spacing: 8px;
+  margin-bottom: 32px;
+  font-weight: 200;
+}
+
+.toc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 24px;
+  margin-top: 8px;
+}
+.toc-item {
+  font-family: "Ma Shan Zheng",cursive;
+  font-size: clamp(18px, 1.3vw, 24px);
+  letter-spacing: 4px;
+  color: rgba(232,221,208,0.65);
+  cursor: pointer;
+  padding: 8px 0 8px 20px;
+  border-left: 2px solid rgba(196,58,49,0.2);
+  transition: all 0.3s;
+  font-weight: 400;
+}
+.toc-item:hover {
+  color: rgba(232,221,208,0.8);
+  border-left-color: rgba(196,58,49,0.4);
+  padding-left: 20px;
+}
+
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 8px;
+  margin-top: 16px;
+}
+.photo-grid img {
+  width: 100%; height: auto;
+  display: block; cursor: pointer;
+  filter: sepia(0.15) brightness(0.9);
+  border-radius: 1px;
+  transition: all 0.4s ease;
+}
+.photo-grid img:hover {
+  filter: sepia(0) brightness(1.1) contrast(1.05);
+  transform: scale(1.03);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  border-radius: 2px;
+}
+
+.nav {
+  position: fixed; inset: 0;
+  z-index: 20;
+  pointer-events: none;
+}
+.nav .arr {
+  position: absolute;
+  top: 50%; transform: translateY(-50%);
+  font-family: "Noto Serif SC",serif;
+  font-size: 52px;
+  color: rgba(232,221,208,0.6);
+  cursor: pointer;
+  background: none; border: none;
+  line-height: 1;
+  padding: 20px 12px;
+  transition: all 0.3s;
+  pointer-events: auto;
+  border-radius: 4px;
+}
+.nav .arr:hover {
+  color: rgba(232,221,208,0.9);
+  background: rgba(232,221,208,0.04);
+}
+#prevBtn { left: 6px; }
+#nextBtn { right: 6px; }
+
+.nav-dots {
+  position: absolute;
+  bottom: 28px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; align-items: center; gap: 6px;
+}
+.nav-dots .d {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: rgba(232,221,208,0.12);
+  cursor: pointer;
+  transition: all 0.3s;
+  pointer-events: auto;
+}
+.nav-dots .d.active {
+  background: var(--red);
+  width: 24px;
+  border-radius: 3px;
+  opacity: 0.7;
+}
+.nav-dots .d:hover { background: rgba(232,221,208,0.25); }
+
+/* ── Lightbox ── */
+.lightbox { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.9); }
+.lightbox.show { display: flex; justify-content: center; align-items: center; }
+.lightbox .stage { display: flex; justify-content: center; align-items: center; width: 95vw; height: 95vh; overflow: hidden; }
+.lightbox .stage img { display: block; max-width: 100%; max-height: 100%; object-fit: contain; cursor: zoom-in; border-radius: 2px; }
+.lightbox .stage.zoomed { display: block; overflow: auto; text-align: center; line-height: 0; }
+.lightbox .stage.zoomed img { max-width: none; max-height: none; width: auto; height: auto; cursor: grab; }
+.lightbox .stage.zoomed.grabbing img { cursor: grabbing; }
+
+@media (max-width: 700px) {
+  .page { padding: 90px 8% 60px 8%; }
+  .content h2 { font-size: clamp(22px, 5vw, 28px); }
+  .photo-grid { grid-template-columns: 1fr; }
+  .back { top: 28px; left: 20px; }
+  .music { top: 28px; right: 20px; }
+}
+</style>
+</head>
+<body>
+
+<a class="back" href="../personal_site.html#s2">返回</a>
+
+<div class="music" id="musicBtn">
+  <span class="dot" id="musicDot"></span>
+  <span>BGM</span>
+</div>
+<audio id="bgm" loop src="../site_assets/逍遥叹.flac" style="display:none"></audio>
+
+<div class="scroll-wrap" id="scrollWrap">
+
+  <!-- 卷首 · 光影 -->
+  <section class="page">
+    <div class="content">
+      <h2>光影</h2>
+      <p class="subtitle">用镜头收集世界</p>
+      <div class="toc-grid">
+        <span class="toc-item" data-i="0">广东·12月</span>
+        <span class="toc-item" data-i="1">Colorwalk</span>
+        <span class="toc-item" data-i="2">散步扫街</span>
+        <span class="toc-item" data-i="3">模特·圣诞</span>
+        <span class="toc-item" data-i="4">模特·eye contact</span>
+        <span class="toc-item" data-i="5">春天约拍</span>
+        <span class="toc-item" data-i="6">模特·少年感</span>
+        <span class="toc-item" data-i="7">拍他人</span>
+        <span class="toc-item" data-i="8">宁夏</span>
+        <span class="toc-item" data-i="9">香港</span>
+        <span class="toc-item" data-i="10">前海石</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 广东·12月 -->
+  <section class="page">
+    <div class="content">
+      <h2>12月的广东还在穿短袖</h2>
+      <div class="photo-grid">
+        <img src="../site_assets/photo_01.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/photo_02.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/photo_03.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/photo_04.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/photo_05.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/photo_06.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/photo_07.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/photo_08.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/photo_09.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+      </div>
+    </div>
+  </section>
+
+  <!-- Colorwalk -->
+  <section class="page">
+    <div class="content">
+      <h2>Colorwalk · 用色彩收集公园</h2>
+      <div class="photo-grid">
+        <img src="../site_assets/9764506d42928402782025507449554f.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/6578b6ab05c3081052105f6b3032ff3d.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/b0b4e0d0b11c635590a85ba622cc1658.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/e3859bc974b361dd96144604e836491d.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/f8da02aec9d1f3175c7eb099bae985cf.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/4623268f5b02ef8faf5ceeb8357861de.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+      </div>
+    </div>
+  </section>
+
+  
+
+  
+
+  <!-- 散步扫街 -->
+  <section class="page">
+    <div class="content">
+      <h2>散步扫街 · 抓住夜的宁静</h2>
+      <div class="photo-grid">
+        <img src="../site_assets/fb06b8eed14bd95c749da3b188f98aa4.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/e15f9f056e097bbb3bbaab05ac177eaf.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/ab3576185d645d8f1ac0f2dcfa7b4a84.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/7431f418a86d7ecb26bc7457ffd43503.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/c5da9aa17e184210e0ec193c836d320a.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/762472899e00da8c780932031f41a96a.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/a17d13ee86f3a766ee634f262d785197.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+      </div>
+    </div>
+  </section>
+
+  <!-- 模特·圣诞 -->
+  <section class="page">
+    <div class="content">
+      <h2>作为模特 · 圣诞节</h2>
+      <div class="photo-grid" style="grid-template-columns:repeat(auto-fill,minmax(320px,1fr))">
+        <img src="../site_assets/be7de90dfc457f0601aa972e9548715a.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/ed524fde66e026a2b909d2b4b7814247.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/93d45249078bb324cc9a3c6df939830f.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+      </div>
+    </div>
+  </section>
+
+  <!-- 模特·eye contact -->
+  <section class="page">
+    <div class="content">
+      <h2>作为模特 · eye contact</h2>
+      <div class="photo-grid" style="grid-template-columns:1fr">
+        <img src="../site_assets/e35e0e55f516ca7636e425cbc4a0401a.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+      </div>
+    </div>
+  </section>
+
+  <!-- 春天约拍 -->
+  <section class="page">
+    <div class="content">
+      <h2>春天约拍</h2>
+      <div class="photo-grid">
+        <img src="../site_assets/81ad7e6f0be06cdc39e0b7cef808d6ec.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/fef4d2b98e15bcb27f63680f73370d5e.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/ae74d4a8ac2a256a09c5a7fe7b87e558.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+                <img src="../site_assets/d8eeb5252bfb81b7932e4f02d92bcb37.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/a391ea689b70ee2a2073b3875d4e0199.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/b9ed1d81718efcbc393cd7ad5458724e.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/a1797a401eaa058966f6459c6bd62f43.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/90eea6d3e5d895d84e1a1601110a3e28.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/bc8edf6b23b8b61e7fbb4f0115758dfd.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/9c65a61202fa54733b8c1684022deeb1.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/35cc5e29cd4badfc88af2b9103c01dfa.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/8c74a89ae43b4851a92b955a1de44a0a.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/5803058f7fb7109793e6abc389137e3f.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/d03214fba492653e1e0e9fbec905bf38.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/6b48aacae6b04e21d6e4816d2a49a33a.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+      </div>
+    </div>
+  </section>
+
+  <!-- 少年感风格 -->
+  <section class="page">
+    <div class="content">
+      <h2>作为模特 · 少年感风格</h2>
+      <div class="photo-grid" style="grid-template-columns:repeat(auto-fill,minmax(320px,1fr))">
+        <img src="../site_assets/3546cdf619e6c124d18c9268ef0217b4.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/176d79343ac0b73cb19a322131a6d501.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/5d5e74e98c193d81b63df6850a27fb59.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/e46b85fec0ac4b6def2c433d45b4621e.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/992f13e147681583e74e9c8f7db2e12c.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/c091b08a602313a2e9840215cbac8ed4.png" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+      </div>
+    </div>
+  </section>
+
+  <!-- 拍他人 -->
+  <section class="page">
+    <div class="content">
+      <h2>拍他人</h2>
+      <div class="photo-grid">
+        <img src="../site_assets/6b79eb424af21570db35f125ac4c24ec.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/d35f27e67a2d2fb8227b83f9df7ecd31.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/36740ba39a83e9aea2e4ed6ad4fe3c0e.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/487eda41c8c029374a01e1deaf4fb466.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/69b31d3d4dbfee234329b64498102682.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+      </div>
+    </div>
+  </section>
+
+  <!-- 宁夏 -->
+  <section class="page">
+    <div class="content">
+      <h2>宁夏</h2>
+      <div class="photo-grid">
+        <img src="../site_assets/1a9b6bfc8c91c5e0d516dc174be4d94c.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/e5efd0c394f082a81f1d60a0b2a277f6.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/673cf4672cc4c9a255fad3e14697d001.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/083b531de1f8b58ef8188005cf2baa9d.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/2b0eac141520f17655d58c17cc632dab.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/73b1a301afded9484624d09e37abb0bb.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/bc419b4a715e255b6b896314d3075ca6.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/ffc5c8a8f4faff3b834244aebb470d7e.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/dc31e1c391ee22d26b04bb6c6883df7a.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/309ae05f86277ce9aa349cad791cf5aa.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/60244e27de8da729116d886f1279efa3.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+      </div>
+    </div>
+  </section>
+
+  <!-- 香港 -->
+  <section class="page">
+    <div class="content">
+      <h2>香港</h2>
+      <div class="photo-grid" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr))">
+        <img src="../site_assets/963b734f98a7423d769bc2abaf630a4a.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/058183372a68a61fe9c25d9b4507fa50.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/9ef8b7ab5065f5d3b1e121debc29ec6c.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/3b299382ce63bd7532c511bb22f8d778.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/804383dd50b26dfa575c31c07c878b8e.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/0bfb2a62e8827627e02fad8a403db615.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/a947d33862d44d6163276ccb81393359.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/ecb246c1414d10ac3e401721a0882d6e.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/40c848fd3ea044847cd4ef504cc0353a.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/182d9570103f1d03d584cd84825c01dd.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/e21cc1b68caed06a15659b2110c7a835.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/081029dd9bfa63e8f8eb8d38257dd247.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/5ad548a5c9fa7a1b351cbb93183fc545.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/daf21994148f86fd8391bb0a5ab49ba7.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/fbaf05ede653bf72045b5d771297e005.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/e9d2fba46cc67ac886e5551e5c03c04b.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/199d853fe635cd17d2a61bb27fb79d56.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/1106cd166385dd9e5d27404433a85984.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+      </div>
+    </div>
+  </section>
+
+  <!-- 前海石公园 -->
+  <section class="page">
+    <div class="content">
+      <h2>前海石公园</h2>
+      <div class="photo-grid" style="grid-template-columns:repeat(auto-fill,minmax(320px,1fr))">
+        <img src="../site_assets/0fb01573532b11489c648f276a0c75f2.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/ab3d281133a4421ce49ba99c24ee8041.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/c50908c2d1aeff002389251f2396503a.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/592ac5051c34f0fe3e3bf6f6265f6a58.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/a5a26cf82ec97ff3aa689cd1ddac7de8.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        <img src="../site_assets/353b866b3b4664c92d0194822890eda0.jpg" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="nav">
+  <button class="arr" id="prevBtn">‹</button>
+  <div class="nav-dots" id="navDots"></div>
+  <button class="arr" id="nextBtn">›</button>
+</div>
+
+<div class="lightbox" id="lightbox">
+  <div class="stage" id="imgStage">
+    <img id="lightboxImg" src="">
+  </div>
+</div>
+
+<script>
+(function() {
+  const wrap = document.getElementById('scrollWrap');
+  const pages = document.querySelectorAll('.page');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const dotsContainer = document.getElementById('navDots');
+  let current = 0;
+
+  pages.forEach((_, i) => {
+    const d = document.createElement('span');
+    d.className = 'd' + (i === 0 ? ' active' : '');
+    d.dataset.i = i;
+    d.addEventListener('click', () => goTo(i));
+    dotsContainer.appendChild(d);
+  });
+  const dots = dotsContainer.querySelectorAll('.d');
+
+  function goTo(i) {
+    if (i < 0 || i >= pages.length) return;
+    pages[i].scrollIntoView({ behavior: 'smooth', inline: 'start' });
+  }
+
+  document.querySelectorAll('.toc-item').forEach(el => {
+    el.addEventListener('click', () => goTo(parseInt(el.dataset.i) + 1));
+  });
+
+  prevBtn.addEventListener('click', () => {
+    if (current <= 0) goTo(pages.length - 1);
+    else goTo(current - 1);
+  });
+  nextBtn.addEventListener('click', () => {
+    if (current >= pages.length - 1) goTo(0);
+    else goTo(current + 1);
+  });
+
+  function update(i) {
+    dots.forEach((d, idx) => d.classList.toggle('active', idx === i));
+  }
+
+  let ticking = false;
+  wrap.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        const idx = Math.round(wrap.scrollLeft / wrap.clientWidth);
+        if (idx >= 0 && idx < pages.length && idx !== current) {
+          current = idx;
+          update(idx);
+        }
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+  update(0);
+})();
+
+(function(){
+  const btn = document.getElementById('musicBtn');
+  const dot = document.getElementById('musicDot');
+  const audio = document.getElementById('bgm');
+  let playing = false;
+  const saved = localStorage.getItem('bgmPlaying');
+  const savedTime = localStorage.getItem('bgmTime');
+  if (saved === 'true' && savedTime) {
+    audio.currentTime = parseFloat(savedTime);
+    audio.play().catch(() => {});
+    dot.classList.add('on');
+    playing = true;
+  }
+  audio.addEventListener('timeupdate', () => {
+    localStorage.setItem('bgmTime', audio.currentTime);
+  });
+  btn.onclick = () => {
+    playing = !playing;
+    if (playing) {
+      audio.play().catch(() => { playing = false; });
+      dot.classList.add('on');
+      localStorage.setItem('bgmPlaying', 'true');
+    } else {
+      audio.pause();
+      dot.classList.remove('on');
+      localStorage.setItem('bgmPlaying', 'false');
+    }
+  };
+})();
+
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+const imgStage = document.getElementById('imgStage');
+let zoomed = false;
+
+function toggleZoom() {
+  zoomed = !zoomed;
+  imgStage.classList.toggle('zoomed', zoomed);
+  if (!zoomed) { imgStage.scrollLeft = 0; imgStage.scrollTop = 0; }
+}
+
+function closeLightbox() {
+  zoomed = false; imgStage.classList.remove('zoomed');
+  imgStage.scrollLeft = 0; imgStage.scrollTop = 0;
+  lightbox.classList.remove('show'); lightboxImg.src = '';
+}
+
+function openLightbox(src) {
+  lightboxImg.src = src; zoomed = false;
+  imgStage.classList.remove('zoomed');
+  imgStage.scrollLeft = 0; imgStage.scrollTop = 0;
+  lightbox.classList.add('show');
+}
+
+lightboxImg.addEventListener('click', (e) => {
+  e.stopPropagation(); toggleZoom();
+});
+lightbox.addEventListener('click', closeLightbox);
+
+let isPan = false, panStartX, panStartY, panScrollL, panScrollT;
+imgStage.addEventListener('mousedown', (e) => {
+  if (e.button !== 0 || !zoomed) return;
+  isPan = true; panStartX = e.pageX; panStartY = e.pageY;
+  panScrollL = imgStage.scrollLeft; panScrollT = imgStage.scrollTop;
+  imgStage.classList.add('grabbing'); e.preventDefault();
+});
+document.addEventListener('mousemove', (e) => {
+  if (!isPan) return;
+  imgStage.scrollLeft = panScrollL - (e.pageX - panStartX);
+  imgStage.scrollTop = panScrollT - (e.pageY - panStartY);
+  e.preventDefault();
+});
+document.addEventListener('mouseup', () => {
+  if (!isPan) return; isPan = false; imgStage.classList.remove('grabbing');
+});
+
+imgStage.addEventListener('touchstart', (e) => {
+  if (e.touches.length !== 1 || !zoomed) return;
+  isPan = true; panStartX = e.touches[0].pageX; panStartY = e.touches[0].pageY;
+  panScrollL = imgStage.scrollLeft; panScrollT = imgStage.scrollTop;
+}, { passive: true });
+document.addEventListener('touchmove', (e) => {
+  if (!isPan || e.touches.length !== 1) return;
+  imgStage.scrollLeft = panScrollL - (e.touches[0].pageX - panStartX);
+  imgStage.scrollTop = panScrollT - (e.touches[0].pageY - panStartY);
+}, { passive: true });
+document.addEventListener('touchend', () => { isPan = false; });
+</script>
+</body>
+</html>
