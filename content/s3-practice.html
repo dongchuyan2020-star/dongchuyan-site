@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://gstatic.loli.net" crossorigin>
 <link href="https://fonts.loli.net/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@200;400;600;700;900&family=ZCOOL+QingKe+HuangYou&display=swap" rel="stylesheet">
 <style>
+@keyframes pageIn { from { opacity: 0.6; } to { opacity: 1; } }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 ::selection { background: rgba(196,58,49,0.2); }
 :root { --paper: #ede7d9; --text: #2a2520; --red: #c43a31; }
@@ -17,6 +18,7 @@ body {
   color: var(--text);
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
+  animation: pageIn 0.35s ease;
 }
 body::before {
   content: ''; position: fixed; inset: 0;
@@ -152,6 +154,13 @@ body::before {
 .theme-index a:last-child { border-right: none; }
 .theme-index a:hover { color: var(--red); }
 .theme-index a.active { color: var(--red); }
+.theme-index-label {
+  font-size: 13px; letter-spacing: 2px;
+  color: rgba(42,37,32,0.85);
+  padding: 4px 14px;
+  border-right: 1px solid rgba(42,37,32,0.12);
+  line-height: 2;
+}
 
 .theme-label {
   text-align: center;
@@ -198,7 +207,7 @@ body::before {
 </head>
 <body>
 
-<a class="back" href="../index.html#s3" onclick="history.back();return false">返回</a>
+<a class="back" href="../index.html#s3" onclick="var s=this; history.back(); setTimeout(function(){window.location=s.href}, 300); return false;">返回</a>
 
 <div class="music" id="musicBtn">
   <span class="dot" id="musicDot"></span>
@@ -216,11 +225,12 @@ body::before {
 </div>
 
 <div class="theme-index">
+  <span class="theme-index-label">主题：</span>
   <a href="#theme-self">关系与自我</a>
   <a href="#theme-dharma">悟道</a>
 </div>
 
-<div class="theme-label" id="theme-self">关系与自我</div>
+<div class="theme-label" id="theme-self">主题 · 关系与自我</div>
 
 <div class="writing-section">
   <h2 id="parent">与父母</h2>
@@ -250,9 +260,9 @@ body::before {
   <p>我被钉在十字架上被神惩罚，多少次我激烈反抗，我说不，我不接受。每一次反抗又会再一次遭遇惩罚。我是弃子，我是石头上的苔藓，我是毛躁的头发，被轻飘飘地扔在地上。我勃然大怒，凭什么？我的拳头化作刀刃，挥刀刺向空中，停顿，转折，刀尖转了一个方向，转头刺向我的心脏。而今我紧紧攥着刀尖，阻止它的侵入，鲜血顺着我的手心缓缓往下淌，我的生命力日渐虚弱，我说，不要，我知道你可以伤害我，但是求求你，不要，不要伤害我。我闭上眼睛，流着泪。等待着那把剑在我的手中渐渐消失。</p>
 </div>
 
-<div class="related-link">关联阅读：<a href="../content/s1-poetry.html#theme-mother">诗歌·十字架</a></div>
+<div class="related-link">关联阅读：<a href="../content/s1-poetry.html#cross">诗歌·十字架</a></div>
 
-<div class="theme-label" id="theme-dharma">悟道</div>
+<div class="theme-label" id="theme-dharma">主题 · 悟道</div>
 
 <div class="writing-section">
   <h2>母亲节感悟</h2>
@@ -317,7 +327,7 @@ function updateTheme() {
   let current = '';
   themeLabels.forEach(l => {
     const rect = l.getBoundingClientRect();
-    if (rect.top <= 140) current = l.textContent;
+    if (rect.top <= 140) current = l.textContent.replace('主题 · ', '');
   });
   if (current) {
     themeIndicator.textContent = '主题·' + current;

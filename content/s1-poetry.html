@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://gstatic.loli.net" crossorigin>
 <link href="https://fonts.loli.net/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@200;400;600;700;900&family=ZCOOL+QingKe+HuangYou&display=swap" rel="stylesheet">
 <style>
+@keyframes pageIn { from { opacity: 0.6; } to { opacity: 1; } }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 ::selection { background: rgba(196,58,49,0.2); }
 :root { --paper: #ede7d9; --text: #2a2520; --red: #c43a31; }
@@ -17,6 +18,7 @@ body {
   color: var(--text);
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
+  animation: pageIn 0.35s ease;
 }
 body::before {
   content: ''; position: fixed; inset: 0;
@@ -110,9 +112,11 @@ body::before {
 .theme-index a.active { color: var(--red); }
 .theme-index-label {
   font-size: 13px; letter-spacing: 2px;
-  color: rgba(42,37,32,0.5);
+  color: rgba(42,37,32,0.85);
   padding: 4px 14px;
+  border-right: 1px solid rgba(42,37,32,0.12);
   line-height: 2;
+}
 }
 
 .theme-current {
@@ -199,7 +203,7 @@ body::before {
 </head>
 <body>
 
-<a class="back" href="../index.html#s1" onclick="history.back();return false">返回</a>
+<a class="back" href="../index.html#s1" onclick="var s=this; history.back(); setTimeout(function(){window.location=s.href}, 300); return false;">返回</a>
 
 <div class="theme-current" id="themeCurrent"></div>
 
@@ -217,7 +221,7 @@ body::before {
 </div>
 
 <div class="theme-index">
-  <span class="theme-index-label">主题</span>
+  <span class="theme-index-label">主题：</span>
   <a href="#theme-mother">与母亲</a>
   <a href="#theme-self">存在与自我</a>
   <a href="#theme-writing">写作与表达</a>
@@ -261,7 +265,7 @@ body::before {
 </div>
 <div class="poem-divider">— — —</div>
 
-<div class="poem">
+<div class="poem" id="cross">
 <p>我被钉在十字架上被神惩罚，多少次我激烈反抗，</p>
 <p>我说不，我不接受。每一次反抗又会再一次遭遇惩罚。</p>
 <p>我是弃子，</p>

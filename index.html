@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://gstatic.loli.net" crossorigin>
 <link href="https://fonts.loli.net/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@200;400;600;700;900&family=ZCOOL+QingKe+HuangYou&display=swap" rel="stylesheet">
 <style>
+@keyframes pageIn { from { opacity: 0.6; } to { opacity: 1; } }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 ::selection { background: rgba(196,58,49,0.25); }
 :root {
@@ -28,6 +29,7 @@ body {
   color: var(--text);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  animation: pageIn 0.35s ease;
 }
 
 /* ===== TOP BAR ===== */
@@ -663,7 +665,7 @@ body {
   color: var(--text3);
 }
 
-/* ===== 涉猎星球 ===== */
+/* ===== 涉猎宇宙 ===== */
 #planet.scroll-section {
   background: #2c2520;
   display: flex;
@@ -687,8 +689,8 @@ body {
 #planet .globe-hint {
   position: absolute; bottom: 30px; left: 50%;
   transform: translateX(-50%);
-  color: rgba(255,200,150,0.25);
-  font-size: 11px; letter-spacing: 4px;
+  color: rgba(232,221,208,0.85);
+  font-size: 14px; letter-spacing: 6px;
   font-family: "Noto Serif SC","Songti SC",serif;
   pointer-events: none;
   z-index: 4;
@@ -901,7 +903,7 @@ body {
     <div class="top-logo"><span class="ln">董楚妍</span><span class="ls">的个人宇宙</span></div>
     <nav class="top-nav" id="topNav">
       <a href="#home" class="active">个人主页</a>
-      <a href="#planet">涉猎星球</a>
+      <a href="#planet">涉猎宇宙</a>
       <a href="#s1">见自己</a>
       <a href="#s2">见天地</a>
       <a href="#s3">见众生</a>
@@ -1121,11 +1123,11 @@ body {
 
 
 
-<!-- ===== 涉猎星球 ===== -->
+<!-- ===== 涉猎宇宙 ===== -->
 <section class="scroll-section" id="planet">
-  <div class="globe-ch">✦ 涉 猎 星 球</div>
+  <div class="globe-ch">✦ 涉 猎 宇 宙</div>
   <div class="globe-mantra">一 花 一 叶 一 宇 宙</div>
-  <div class="globe-hint">· 转 动 星 辰 ·</div>
+  <div class="globe-hint">· 拖 拽 探 索 ·</div>
   <div id="globe-container">
     <canvas id="globe-canvas"></canvas>
     <div id="globe-labels"></div>
@@ -1156,7 +1158,7 @@ body {
   <a onclick="goSection('s1')" class="sn-label">壹 见自己</a>
   <a onclick="goSection('s2')" class="sn-label">贰 见天地</a>
   <a onclick="goSection('s3')" class="sn-label">叁 见众生</a>
-  <a onclick="goSection('planet')" class="sn-label">星球</a>
+  <a onclick="goSection('planet')" class="sn-label">涉猎宇宙</a>
   <a onclick="goSection('connect')" class="sn-label">联系</a>
 </div>
 
@@ -1252,7 +1254,7 @@ btn.onclick = () => {
 
 
 
-// === 涉猎星球 Globe ===
+// === 涉猎宇宙 Globe ===
 (function(){
   var CFG = {
     cats: [
@@ -1264,16 +1266,43 @@ btn.onclick = () => {
     starCount: 300,
   };
   var data = [
+    // ── 见自己 ──
     { n:'生死', la:10, lo:5, c:0, w:2 }, { n:'金钱', la:22, lo:18, c:0, w:1 }, { n:'感情', la:32, lo:8, c:0, w:3 },
     { n:'事业心', la:-12, lo:22, c:0, w:2 }, { n:'生活', la:-28, lo:5, c:0, w:1 }, { n:'精神', la:15, lo:35, c:0, w:1 },
     { n:'创作', la:5, lo:45, c:0, w:2 }, { n:'诗歌', la:35, lo:15, c:0, w:3 }, { n:'积木', la:25, lo:52, c:0, w:2 },
     { n:'舞蹈', la:-2, lo:50, c:0, w:2 }, { n:'滑板', la:-12, lo:40, c:0, w:3 },
+    { n:'母亲', la:40, lo:0, c:0, w:2 }, { n:'存在', la:-22, lo:30, c:0, w:2 }, { n:'写作', la:12, lo:60, c:0, w:2 },
+    { n:'命运', la:30, lo:-5, c:0, w:2 }, { n:'忧郁', la:-18, lo:15, c:0, w:2 }, { n:'修行', la:-35, lo:25, c:0, w:2 },
+    { n:'觉察', la:8, lo:25, c:0, w:1 }, { n:'高尔夫', la:-8, lo:55, c:0, w:2 }, { n:'穿搭', la:20, lo:70, c:0, w:2 },
+    { n:'义工', la:-15, lo:65, c:0, w:1 }, { n:'冥想', la:-25, lo:48, c:0, w:1 }, { n:'画画', la:5, lo:75, c:0, w:1 },
+    { n:'业力', la:-5, lo:-15, c:0, w:1 }, { n:'愿力', la:-32, lo:-8, c:0, w:1 }, { n:'空', la:18, lo:-20, c:0, w:2 },
+    { n:'意识流', la:-40, lo:12, c:0, w:1 }, { n:'代际', la:10, lo:-12, c:0, w:1 },
+    // 尝试过的兴趣爱好
+    { n:'剧本杀', la:-20, lo:85, c:0, w:1 }, { n:'狼人杀', la:5, lo:90, c:0, w:1 }, { n:'密室', la:35, lo:-28, c:0, w:1 },
+    { n:'看展', la:-10, lo:78, c:0, w:1 }, { n:'唱K', la:20, lo:-25, c:0, w:1 }, { n:'做饭', la:-18, lo:-22, c:0, w:1 },
+    { n:'追星', la:38, lo:-15, c:0, w:1 }, { n:'写同人文', la:-28, lo:-18, c:0, w:1 }, { n:'拍立得', la:5, lo:85, c:0, w:1 },
+    { n:'Steam', la:-35, lo:-5, c:0, w:1 },
+    // ── 见天地 ──
     { n:'新加坡', la:20, lo:125, c:1, w:2 }, { n:'漳州', la:10, lo:140, c:1, w:1 }, { n:'台北', la:0, lo:130, c:1, w:2 },
     { n:'潮汕', la:-15, lo:148, c:1, w:1 }, { n:'张家界', la:-25, lo:138, c:1, w:1 }, { n:'吉隆坡', la:15, lo:158, c:1, w:2 },
     { n:'事业', la:-18, lo:118, c:1, w:2 },
+    { n:'泰国', la:5, lo:165, c:1, w:2 }, { n:'浏阳', la:-5, lo:145, c:1, w:1 }, { n:'香港', la:-12, lo:170, c:1, w:1 },
+    { n:'宁夏', la:-28, lo:155, c:1, w:1 }, { n:'南京', la:18, lo:148, c:1, w:1 }, { n:'上海', la:25, lo:135, c:1, w:1 },
+    { n:'凤凰古城', la:-22, lo:125, c:1, w:1 }, { n:'印尼', la:8, lo:175, c:1, w:1 }, { n:'民丹岛', la:-10, lo:180, c:1, w:1 },
+    { n:'相机', la:10, lo:110, c:1, w:2 }, { n:'无人机', la:-8, lo:105, c:1, w:1 }, { n:'剪映', la:0, lo:115, c:1, w:1 },
+    { n:'Obsidian', la:-22, lo:108, c:1, w:1 },
+    { n:'Flomo', la:18, lo:95, c:1, w:1 }, { n:'微信读书', la:28, lo:100, c:1, w:1 }, { n:'DeepSeek', la:-15, lo:95, c:1, w:1 },
+    { n:'Claude', la:5, lo:98, c:1, w:1 },
+    // ── 见众生 ──
     { n:'与父母', la:20, lo:248, c:2, w:2 }, { n:'摄影', la:10, lo:270, c:2, w:3 }, { n:'视频', la:0, lo:258, c:2, w:1 },
     { n:'命理学', la:-15, lo:278, c:2, w:2 }, { n:'社媒', la:25, lo:272, c:2, w:2 }, { n:'阅读', la:5, lo:295, c:2, w:3 },
     { n:'观影', la:-8, lo:308, c:2, w:3 },
+    { n:'心理学', la:18, lo:225, c:2, w:2 }, { n:'文学', la:-5, lo:240, c:2, w:2 }, { n:'纪录片', la:-20, lo:260, c:2, w:1 },
+    { n:'日剧', la:-25, lo:300, c:2, w:1 }, { n:'韩剧', la:12, lo:320, c:2, w:1 }, { n:'华语', la:30, lo:295, c:2, w:2 },
+    { n:'日本动画', la:28, lo:260, c:2, w:2 }, { n:'B站', la:15, lo:285, c:2, w:1 }, { n:'小红书', la:-2, lo:340, c:2, w:1 },
+    { n:'甄嬛传', la:-10, lo:230, c:2, w:1 }, { n:'老友记', la:-28, lo:320, c:2, w:1 }, { n:'请回答1988', la:-5, lo:335, c:2, w:1 },
+    { n:'短片', la:22, lo:240, c:2, w:1 },
+    { n:'科技', la:5, lo:215, c:2, w:1 }, { n:'品牌', la:-22, lo:218, c:2, w:1 },
   ];
 
   var ctn = document.getElementById('globe-container');
@@ -1401,9 +1430,11 @@ btn.onclick = () => {
       if (p.z > -0.1) {
         var lbl = document.createElement('div');
         lbl.textContent = d.n;
-        var fsize = weight === 3 ? 16 : weight === 2 ? 13 : 10;
+        var fsize = weight === 3 ? 22 : weight === 2 ? 13 : 10;
         var fw = weight === 3 ? '700' : weight === 2 ? '600' : '400';
-        lbl.style.cssText = 'position:absolute;left:' + p.sx + 'px;top:' + (p.sy - dotR - 10) + 'px;transform:translateX(-50%);color:' + cc + ';font-size:' + fsize + 'px;font-family:-apple-system,"PingFang SC",sans-serif;pointer-events:none;text-shadow:0 0 10px rgba(0,0,0,0.9);white-space:nowrap;opacity:' + Math.max(0.35, p.z * 0.5 + 0.5) + ';letter-spacing:1px;font-weight:' + fw + ';';
+        var txtColor = weight === 3 ? '#c43a31' : cc;
+        var txtShadow = weight === 3 ? '0 0 20px rgba(0,0,0,0.95),0 0 8px rgba(0,0,0,0.8)' : '0 0 10px rgba(0,0,0,0.9)';
+        lbl.style.cssText = 'position:absolute;left:' + p.sx + 'px;top:' + (p.sy - dotR - 14) + 'px;transform:translateX(-50%);color:' + txtColor + ';font-size:' + fsize + 'px;font-family:-apple-system,"PingFang SC",sans-serif;pointer-events:none;text-shadow:' + txtShadow + ';white-space:nowrap;opacity:' + Math.max(0.35, p.z * 0.5 + 0.5) + ';letter-spacing:2px;font-weight:' + fw + ';';
         labelDiv.appendChild(lbl);
       }
     });
@@ -1412,7 +1443,7 @@ btn.onclick = () => {
       if (p.z > 0.1) {
         var lbl = document.createElement('div');
         lbl.textContent = cat[0];
-        lbl.style.cssText = 'position:absolute;left:'+p.sx+'px;top:'+p.sy+'px;transform:translateX(-50%);color:'+cat[1]+';font-size:13px;font-weight:600;letter-spacing:4px;opacity:0.45;font-family:"Noto Serif SC","STSong",serif;pointer-events:none;text-shadow:0 0 16px rgba(0,0,0,0.95),0 0 6px rgba(0,0,0,0.5);';
+        lbl.style.cssText = 'position:absolute;left:'+p.sx+'px;top:'+p.sy+'px;transform:translateX(-50%);color:rgba(255,220,180,0.6);font-size:16px;font-weight:400;letter-spacing:10px;font-family:"Noto Serif SC","STSong",serif;pointer-events:none;text-shadow:0 0 30px rgba(200,180,150,0.15),0 0 60px rgba(200,180,150,0.08);';
         labelDiv.appendChild(lbl);
       }
     });
@@ -1440,7 +1471,7 @@ btn.onclick = () => {
   });
   canvas.addEventListener('pointerup', function() {
     dragging = false;
-    autoTimer = setTimeout(function() { autoRotate = true; }, 4000);
+    autoTimer = setTimeout(function() { autoRotate = true; }, 1000);
   });
   canvas.addEventListener('pointerleave', function() {
     if (dragging) { dragging = false; autoTimer = setTimeout(function() { autoRotate = true; }, 4000); }

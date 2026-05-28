@@ -122,6 +122,14 @@ body::before {
   margin-bottom: 24px;
   font-weight: 200;
 }
+.content .subtitle {
+  font-family: "Noto Serif SC",serif;
+  font-size: clamp(14px, 0.9vw, 16px);
+  color: rgba(232,221,208,0.45);
+  letter-spacing: 8px;
+  margin-bottom: 32px;
+  font-weight: 200;
+}
 
 .hobby-text {
     font-size: clamp(14px, 1vw, 16px);
@@ -161,6 +169,28 @@ video {
 video:hover {
   filter: sepia(0) brightness(1.05) contrast(1.03);
   box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
+
+.toc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 24px;
+  margin-top: 8px;
+}
+.toc-item {
+  font-family: "Ma Shan Zheng",cursive;
+  font-size: clamp(20px, 1.4vw, 26px);
+  letter-spacing: 4px;
+  color: rgba(232,221,208,0.65);
+  cursor: pointer;
+  padding: 8px 0 8px 20px;
+  border-left: 2px solid rgba(196,58,49,0.2);
+  transition: all 0.3s;
+  font-weight: 400;
+}
+.toc-item:hover {
+  color: rgba(232,221,208,0.8);
+  border-left-color: rgba(196,58,49,0.4);
 }
 
 .nav {
@@ -231,7 +261,7 @@ video:hover {
 </head>
 <body>
 
-<a class="back" href="../index.html#s1" onclick="history.back();return false">返回</a>
+<a class="back" href="../index.html#s1" onclick="var s=this; history.back(); setTimeout(function(){window.location=s.href}, 300); return false;">返回</a>
 
 <div class="music" id="musicBtn">
   <span class="dot" id="musicDot"></span>
@@ -240,6 +270,22 @@ video:hover {
 <audio id="bgm" loop src="../site_assets/逍遥叹.flac" style="display:none"></audio>
 
 <div class="scroll-wrap" id="scrollWrap">
+
+  <!-- 总览 -->
+  <section class="page">
+    <div class="content">
+      <h2>兴趣爱好</h2>
+      <p class="subtitle">收集生命体验</p>
+      <div class="toc-grid">
+        <span class="toc-item" data-i="0">滑板</span>
+        <span class="toc-item" data-i="1">高尔夫</span>
+        <span class="toc-item" data-i="2">原创穿搭</span>
+        <span class="toc-item" data-i="3">积木</span>
+        <span class="toc-item" data-i="4">舞蹈</span>
+        <span class="toc-item" data-i="5">尝试过的兴趣爱好</span>
+      </div>
+    </div>
+  </section>
 
   <!-- 滑板 -->
   <section class="page">
@@ -422,6 +468,10 @@ video:hover {
   function update(i) {
     dots.forEach((d, idx) => d.classList.toggle('active', idx === i));
   }
+
+  document.querySelectorAll('.toc-item').forEach(el => {
+    el.addEventListener('click', () => goTo(parseInt(el.dataset.i) + 1));
+  });
 
   let ticking = false;
   wrap.addEventListener('scroll', () => {

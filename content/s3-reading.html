@@ -81,7 +81,7 @@ body::before {
   margin-bottom: 8px;
 }
 .content-header .sub {
-  font-size: 13px; color: rgba(42,37,32,0.4);
+  font-size: 13px; color: rgba(42,37,32,0.85);
   letter-spacing: 4px; line-height: 2;
   display: flex;
   justify-content: space-between;
@@ -97,7 +97,7 @@ body::before {
 }
 .content-header .count .unit {
   font-size: 13px;
-  color: rgba(42,37,32,0.4); letter-spacing: 2px;
+  color: rgba(42,37,32,0.85); letter-spacing: 2px;
 }
 
 .book-section {
@@ -150,7 +150,7 @@ body::before {
 </head>
 <body>
 
-<a class="back" href="../index.html#s3" onclick="history.back();return false">返回</a>
+<a class="back" href="../index.html#s3" onclick="var s=this; history.back(); setTimeout(function(){window.location=s.href}, 300); return false;">返回</a>
 
 <div class="music" id="musicBtn">
   <span class="dot" id="musicDot"></span>

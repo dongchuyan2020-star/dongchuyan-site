@@ -267,7 +267,7 @@ video:hover {
 </head>
 <body>
 
-<a class="back" href="../index.html#s2" onclick="history.back();return false">返回</a>
+<a class="back" href="../index.html#s2" onclick="var s=this; history.back(); setTimeout(function(){window.location=s.href}, 300); return false;">返回</a>
 
 <div class="music" id="musicBtn">
   <span class="dot" id="musicDot"></span>
