@@ -30,7 +30,7 @@ body::before {
 .back {
   position: fixed; top: 32px; left: 32px; z-index: 30;
   font-size: 13px; letter-spacing: 4px;
-  color: rgba(42,37,32,0.55);
+  color: rgba(42,37,32,0.85);
   text-decoration: none;
   transition: all 0.2s;
   padding: 6px 16px;
@@ -46,7 +46,7 @@ body::before {
   position: fixed; top: 32px; right: 32px; z-index: 30;
   display: flex; align-items: center; gap: 6px;
   font-size: 12px; letter-spacing: 2px;
-  color: rgba(42,37,32,0.35);
+  color: rgba(42,37,32,0.85);
   cursor: pointer;
   transition: all 0.2s;
   padding: 5px 12px;
@@ -82,7 +82,7 @@ body::before {
 }
 .content-header .sub {
   font-size: 13px;
-  color: rgba(42,37,32,0.4);
+  color: rgba(42,37,32,0.85);
   letter-spacing: 4px;
 }
 
@@ -117,23 +117,96 @@ body::before {
   margin: -24px 0 48px;
 }
 
+.related-link {
+  text-align: center;
+  font-size: 14px; letter-spacing: 2px;
+  font-style: italic;
+  color: rgba(42,37,32,0.85);
+  margin-top: -32px; margin-bottom: 48px;
+}
+.related-link a {
+  color: rgba(42,37,32,0.85);
+  font-style: italic;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(42,37,32,0.4);
+  transition: color 0.2s;
+}
+.related-link a:hover { color: var(--red); text-decoration-color: var(--red); }
+
+.theme-index {
+  display: flex; flex-wrap: wrap; gap: 0;
+  justify-content: center;
+  margin: 20px 0 32px;
+  padding: 0;
+}
+.theme-index a {
+  font-size: 13px; letter-spacing: 2px;
+  color: rgba(42,37,32,0.85);
+  text-decoration: none;
+  padding: 4px 14px;
+  border-right: 1px solid rgba(42,37,32,0.12);
+  transition: color 0.2s;
+  line-height: 2;
+}
+.theme-index a:last-child { border-right: none; }
+.theme-index a:hover { color: var(--red); }
+.theme-index a.active { color: var(--red); }
+
+.theme-label {
+  text-align: center;
+  font-family: "Noto Serif SC","STSong",serif;
+  font-size: 20px;
+  letter-spacing: 10px;
+  font-weight: 700;
+  color: var(--text);
+  padding: 48px 0 32px;
+  position: relative;
+}
+.theme-label::before {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 2px;
+  background: var(--red);
+  margin: 0 auto 18px;
+  opacity: 0.6;
+}
+
+.theme-current {
+  position: fixed;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  pointer-events: none;
+  font-family: "Noto Serif SC","STSong",serif;
+  font-size: 13px;
+  letter-spacing: 6px;
+  color: var(--red);
+  writing-mode: vertical-rl;
+}
+
 @media (max-width: 700px) {
   .back { top: 20px; left: 20px; }
   .music { top: 20px; right: 20px; }
   .wrap { padding: 80px 16px 60px; }
   .content-header h1 { font-size: 26px; }
+  .theme-current { display: none; }
 }
 </style>
 </head>
 <body>
 
-<a class="back" href="../index.html#s3">返回</a>
+<a class="back" href="../index.html#s3" onclick="history.back();return false">返回</a>
 
 <div class="music" id="musicBtn">
   <span class="dot" id="musicDot"></span>
   <span>BGM</span>
 </div>
 <audio id="bgm" loop src="../site_assets/逍遥叹.flac" style="display:none"></audio>
+
+<div class="theme-current" id="themeCurrent"></div>
 
 <div class="wrap">
 
@@ -142,8 +215,15 @@ body::before {
   <div class="sub">在日常中觉察，在痛苦中领悟</div>
 </div>
 
+<div class="theme-index">
+  <a href="#theme-self">关系与自我</a>
+  <a href="#theme-dharma">悟道</a>
+</div>
+
+<div class="theme-label" id="theme-self">关系与自我</div>
+
 <div class="writing-section">
-  <h2>与父母</h2>
+  <h2 id="parent">与父母</h2>
   <p>母亲，爱我是你的谎言</p>
   <p>母亲，很久之前，我就没有称呼你为妈妈了，这个称呼太亲密，说出来烫嘴，不适合我们的关系。</p>
   <p>母亲，我们的最后一次吵架，是很小的事情。当它发生时，我坐着静静消化情绪。大厦将倾，冰面将裂，我想着用什么角度解构它，以便我能够保持平静来维持我们表面的和平。但不仅是那个当下的我，是每个时空里的我都在呐喊，她们叠加在一起的声音足够震碎我的五脏六腑，她们在哭泣、在大喊、在愤怒撕扯东西，她们说为什么凭什么，为什么你还是没有帮我。尖锐的刀子、生锈的菜刀、断了一半的晾衣杆、敲碎玻璃的石块、青色和紫色的伤疤、红色的血、醉酒失控的车子、猫眼后的小偷、黑暗的房间、疾病与疼痛，消毒水和白色床单，软弱和泪水，饥饿与恐惧。你不是爱我吗，母亲，你口口声声说的，那为什么你一次次丢下我，为什么你让我独自面对，为什么你从来不理会我的求助。</p>
@@ -153,7 +233,26 @@ body::before {
   <p>母亲，我们就此别过，不必再见。</p>
 </div>
 
+<div class="related-link">关联阅读：<a href="../content/s1-poetry.html#theme-mother">诗歌·与母亲</a></div>
+
 <div class="section-divider">· · ·</div>
+
+<div class="writing-section">
+  <h2 id="wanren">我是一个完整的人</h2>
+  <p>我是一个完整的人，拥有不应被批判的感受和情绪，值得尊重和平等，我不为任何人而存在，我生来是为了成就自己，而不是成为谁的工具，我不是谁的工具，不是谁的所有物，不是谁欲望的载体，不是谁的情绪垃圾桶，也不是为了满足别人的需求而存在，任何不尊重我和伤害我的人都将被永远排除在我的世界之外。</p>
+</div>
+
+<div class="section-divider">· · ·</div>
+
+<div class="writing-section">
+  <h2 id="yishiliu">一段意识流</h2>
+  <p>付完款后我和理发师道别。我知道这大概率是我们最后一次见面。生命就是这样，不止那些重要的人，很多不重要的擦肩而过的人也都是路过我们的生命。就好像石头投入大海，只有一丝丝波澜，很快就消失，在生命的长河里，短短一瞬，从离店的那一刻起，大脑的注意力就不会再为此停留一刻。于是我开始感觉到一种茫然，一条条的，像揉了很久的纸巾，有一些纸屑慢慢脱落。这样的感觉。我以前从不关心他人，不关心细节，不关心物理存在。我关心抽象概念，关心模式，关心信念，关心情绪，关心过去与未来。我最喜欢的爱情小说是呼啸山庄，我最爱的电影是发条橙和告白，我欣赏的内在形象是猜火车里的叛逆少年，少年还会滑滑板。我欣赏癫狂，疯狂，我脑子里的意象是众人之间举起右手反抗的少女，是把背后的剑拔出来的愤怒少女，是拥抱着母亲然后用刀捅入她背后的复仇少女。"我对林顿的爱，就像挂在林子里的一簇簇树叶，时光会改变它，我很知道，到了冬天，树叶片儿就要凋落了。我对希克厉的爱，好比是脚下的永恒的岩石，从那里流出很少的、看得见的快乐的泉源，可是却必不可少"。多亏，因为，然而，尽管。会发生什么事情，如果不是。一只手，一只脚。一步之隔，一发之差，凑巧刚好。平淡的，空白的，像白开水一样，我开始允许这些无聊占据我的生活，占据我的注意力，我不再是钉在十架上接受神罚，我开始观察世间普通万物。荒原里的野风永不停歇，杂草比人高。"我觉得即使是我死在我母亲面前，她也不会多看我一眼，也不会为我停留"。"怪了，你凭什么是那个操纵我的天神？"。</p>
+  <p>我被钉在十字架上被神惩罚，多少次我激烈反抗，我说不，我不接受。每一次反抗又会再一次遭遇惩罚。我是弃子，我是石头上的苔藓，我是毛躁的头发，被轻飘飘地扔在地上。我勃然大怒，凭什么？我的拳头化作刀刃，挥刀刺向空中，停顿，转折，刀尖转了一个方向，转头刺向我的心脏。而今我紧紧攥着刀尖，阻止它的侵入，鲜血顺着我的手心缓缓往下淌，我的生命力日渐虚弱，我说，不要，我知道你可以伤害我，但是求求你，不要，不要伤害我。我闭上眼睛，流着泪。等待着那把剑在我的手中渐渐消失。</p>
+</div>
+
+<div class="related-link">关联阅读：<a href="../content/s1-poetry.html#theme-mother">诗歌·十字架</a></div>
+
+<div class="theme-label" id="theme-dharma">悟道</div>
 
 <div class="writing-section">
   <h2>母亲节感悟</h2>
@@ -164,9 +263,12 @@ body::before {
 <div class="section-divider">· · ·</div>
 
 <div class="writing-section">
-  <h2>命理学</h2>
+  <h2 id="mingli">命理学</h2>
   <p>在母亲节悟到因缘果。然后开始研究八字命理。还在学习中，慢慢来。</p>
+  <p>得到APP创始人罗振宇的一句话我很认同：愿力大于业力大于能力。过去的经历让我明白了一个道理：能力再强，也会被业力束缚而无法发挥全部力量，但难道业力就是不可逾越的障碍吗？不是的。靠愿力去超越。而修行本身能让人心静，当超越得失的二元视角，再来看待世界，才能真正地去创造点什么。站在修行的起点，我深知自己离这样的境界还差太多，为此愿意用长长久久的时间与不断的经历去靠近。</p>
 </div>
+
+<div class="related-link">关联阅读：<a href="../content/s1-poetry.html#theme-fate">诗歌·命运与感情</a></div>
 
 </div>
 
@@ -204,7 +306,26 @@ body::before {
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('reveal'); });
 }, { threshold: 0.08 });
-document.querySelectorAll('.writing-section').forEach(s => observer.observe(s));
+setTimeout(() => {
+  document.querySelectorAll('.writing-section').forEach(s => observer.observe(s));
+}, 100);
+
+const themeIndicator = document.getElementById('themeCurrent');
+const themeLabels = document.querySelectorAll('.theme-label');
+const themeLinks = document.querySelectorAll('.theme-index a');
+function updateTheme() {
+  let current = '';
+  themeLabels.forEach(l => {
+    const rect = l.getBoundingClientRect();
+    if (rect.top <= 140) current = l.textContent;
+  });
+  if (current) {
+    themeIndicator.textContent = '主题·' + current;
+    themeLinks.forEach(a => a.classList.toggle('active', a.textContent === current));
+  }
+}
+window.addEventListener('scroll', updateTheme, { passive: true });
+updateTheme();
 </script>
 </body>
 </html>

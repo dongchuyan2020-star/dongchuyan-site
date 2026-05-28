@@ -30,7 +30,7 @@ body::before {
 .back {
   position: fixed; top: 32px; left: 32px; z-index: 30;
   font-size: 13px; letter-spacing: 4px;
-  color: rgba(42,37,32,0.55);
+  color: rgba(42,37,32,0.85);
   text-decoration: none;
   transition: all 0.2s;
   padding: 6px 16px;
@@ -46,7 +46,7 @@ body::before {
   position: fixed; top: 32px; right: 32px; z-index: 30;
   display: flex; align-items: center; gap: 6px;
   font-size: 12px; letter-spacing: 2px;
-  color: rgba(42,37,32,0.35);
+  color: rgba(42,37,32,0.85);
   cursor: pointer;
   transition: all 0.2s;
   padding: 5px 12px;
@@ -81,8 +81,52 @@ body::before {
   margin-bottom: 8px;
 }
 .content-header .sub {
-  font-size: 13px; color: rgba(42,37,32,0.4);
+  font-size: 13px; color: rgba(42,37,32,0.85);
   letter-spacing: 4px; line-height: 2;
+}
+.content-header::after {
+  content: ''; display: block;
+  width: 36px; height: 2px;
+  background: var(--red); margin-top: 16px; opacity: 0.35;
+}
+
+.theme-index {
+  display: flex; flex-wrap: wrap; gap: 0;
+  justify-content: center;
+  margin: 20px 0 32px;
+  padding: 0;
+}
+.theme-index a {
+  font-size: 13px; letter-spacing: 2px;
+  color: rgba(42,37,32,0.85);
+  text-decoration: none;
+  padding: 4px 14px;
+  border-right: 1px solid rgba(42,37,32,0.12);
+  transition: color 0.2s;
+  line-height: 2;
+}
+.theme-index a:last-child { border-right: none; }
+.theme-index a:hover { color: var(--red); }
+.theme-index a.active { color: var(--red); }
+.theme-index-label {
+  font-size: 13px; letter-spacing: 2px;
+  color: rgba(42,37,32,0.5);
+  padding: 4px 14px;
+  line-height: 2;
+}
+
+.theme-current {
+  position: fixed;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  pointer-events: none;
+  font-family: "Noto Serif SC","STSong",serif;
+  font-size: 13px;
+  letter-spacing: 6px;
+  color: var(--red);
+  writing-mode: vertical-rl;
 }
 
 .poem {
@@ -93,7 +137,7 @@ body::before {
 .poem.reveal { opacity: 1; transform: translateY(0); }
 .poem p {
   font-size: 17px; line-height: 2.6;
-  color: var(--text); text-align: center;
+  color: #000; text-align: center;
   font-family: "STSong","SimSun","Songti SC",serif;
   letter-spacing: 2px;
 }
@@ -104,17 +148,60 @@ body::before {
   padding: 4px 0;
 }
 
+.theme-label {
+  text-align: center;
+  font-family: "Noto Serif SC","STSong",serif;
+  font-size: 20px;
+  letter-spacing: 10px;
+  font-weight: 700;
+  color: var(--text);
+  padding: 48px 0 16px;
+  position: relative;
+}
+.theme-label::before {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 2px;
+  background: var(--red);
+  margin: 0 auto 18px;
+  opacity: 0.6;
+}
+
+.related-link {
+  text-align: center;
+  font-size: 14px; letter-spacing: 2px;
+  font-style: italic;
+  color: rgba(42,37,32,0.85);
+  padding: 10px 0 20px;
+}
+.related-link a {
+  color: rgba(42,37,32,0.85);
+  font-style: italic;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(42,37,32,0.4);
+  transition: color 0.2s;
+}
+.related-link a:hover {
+  color: var(--red);
+  text-decoration-color: var(--red);
+}
+
 @media (max-width: 700px) {
   .back { top: 20px; left: 20px; }
   .music { top: 20px; right: 20px; }
   .wrap { padding: 80px 16px 60px; }
   .content-header h1 { font-size: 26px; }
+  .theme-current { display: none; }
 }
 </style>
 </head>
 <body>
 
-<a class="back" href="../index.html#s1">返回</a>
+<a class="back" href="../index.html#s1" onclick="history.back();return false">返回</a>
+
+<div class="theme-current" id="themeCurrent"></div>
 
 <div class="music" id="musicBtn">
   <span class="dot" id="musicDot"></span>
@@ -126,25 +213,74 @@ body::before {
 
 <div class="content-header">
   <h1>诗歌</h1>
-  <div class="sub">我喜欢用文字宣泄情绪，它足够深度<br>当记忆被放入文字里，就不会留在脑子里了</div>
+  <div class="sub">也可以称之为吐槽<br>但我不能接受吐槽没有文字美感<br>所以自作主张把这些破烂玩意称之为"诗歌"<br>换句话说：<br>我喜欢用文字宣泄情绪，它足够深度<br>当情绪被放入文字里，就不会留在脑子里了</div>
 </div>
 
+<div class="theme-index">
+  <span class="theme-index-label">主题</span>
+  <a href="#theme-mother">与母亲</a>
+  <a href="#theme-self">存在与自我</a>
+  <a href="#theme-writing">写作与表达</a>
+  <a href="#theme-fate">命运与感情</a>
+  <a href="#theme-despair">忧郁与虚无</a>
+</div>
+
+<div class="theme-label" id="theme-mother">主题 · 与母亲</div>
+
 <div class="poem">
-<p>有时候睁开眼就想：快让我死掉吧</p>
-<p>这样就不会因为爱而痛了</p>
-<p>死亡和爱竟然是邻居</p>
-<p>中间的墙壁是苦痛</p>
+<p>母亲 你想伤害我就直说</p>
+<p>大胆地、直白地、锋利地、坦诚地</p>
+<p>不必遮掩，不必托词，何需客气</p>
+<p>不必拿坏掉的伞、找不到的书、包子铺的人流当挡箭牌</p>
+<p>不必拿孝道、白眼狼、冷血和随时丢掉我营造道德和权力高地</p>
+<p>你直说生下我就是为了要个奴隶</p>
+<p>你直说你想控制我而不必否认</p>
+<p>你直说我是你成就感的来源所以你必须绑定我</p>
+<p>你直说所有的阴暗面而不必粉饰为阳光的、美好的、伟大的母爱</p>
+<p>你必须承认</p>
+<p>在你过去混乱失序的人生里，我是你唯一可以全面掌控的人</p>
+<p>让我们打开天窗说亮话</p>
+<p>让你直白承认你想成为主宰我命运的天神</p>
+<p>而我完全承认：是的。没错。</p>
+<p>在我前二十几年的人生里</p>
+<p>你做到了。</p>
+<p>你开心吗？</p>
+</div>
+<div class="poem">
+<p>在向你屈服和下地狱之间</p>
+<p>我也会毫不犹豫转身推开地狱的大门，纵身投入那炎炎火焰中</p>
+<p>我亲爱的母亲</p>
+<p>我宁可粉身碎骨</p>
+<p>也不会再让你伤害我分毫</p>
 </div>
 <div class="poem-divider">· · ·</div>
 
 <div class="poem">
-<p>我是一个容器</p>
-<p>过去承载母亲的泪水</p>
-<p>后来承载你的泪水</p>
-<p>黑色部分被我吸收</p>
-<p>于是我开始往外呕吐</p>
+<p>"我觉得即使是我死在我母亲面前，她也不会多看我一眼，也不会为我停留"。</p>
+<p>"怪了，你凭什么是那个操纵我的天神？！"</p>
 </div>
-<div class="poem-divider">· · ·</div>
+<div class="poem-divider">— — —</div>
+
+<div class="poem">
+<p>我被钉在十字架上被神惩罚，多少次我激烈反抗，</p>
+<p>我说不，我不接受。每一次反抗又会再一次遭遇惩罚。</p>
+<p>我是弃子，</p>
+<p>我是石头上的苔藓，</p>
+<p>我是毛躁的头发，被轻飘飘地扔在地上。</p>
+<p>我勃然大怒，凭什么？</p>
+<p>我的拳头化作刀刃，</p>
+<p>挥刀刺向空中，停顿，转折，</p>
+<p>刀尖转了一个方向，转头刺向我的心脏。</p>
+<p>而今我紧紧攥着刀尖，阻止它的侵入，</p>
+<p>鲜血顺着我的手心缓缓往下淌，我的生命力日渐虚弱，</p>
+<p>我说，不要，我知道你可以伤害我，</p>
+<p>但是求求你，不要，不要伤害我。</p>
+<p>我闭上眼睛，流着泪。</p>
+<p>等待着那把剑在我的手中渐渐消失。</p>
+</div>
+<div class="related-link">关联阅读：<a href="../content/s3-practice.html#parent">修行·与父母</a> · <a href="../content/s3-practice.html#yishiliu">修行·一段意识流</a></div>
+
+<div class="theme-label" id="theme-self">主题 · 存在与自我</div>
 
 <div class="poem">
 <p>我好像并不是一个实体，一具肉体</p>
@@ -156,21 +292,61 @@ body::before {
 <div class="poem-divider">· · ·</div>
 
 <div class="poem">
+<p>我不再是我</p>
+<p>我是愤怒、悲伤、焦虑和抑郁的容器</p>
+<p>我是悬浮的虚空</p>
+<p>我是化不开的黑色烟雾</p>
+</div>
+<div class="poem-divider">· · ·</div>
+
+<div class="poem">
+<p>我的命运早已写好</p>
+<p>我本就不需要抵抗</p>
+<p>我不再抵抗了</p>
+<p>我不要抵抗了</p>
+<p>我承认我是悲剧人物</p>
+<p>所以不介意撕开伪装的面具</p>
+<p>把发生在我身上的悲剧呈现给世人</p>
+</div>
+<div class="poem-divider">· · ·</div>
+
+<div class="poem">
+<p>其实这世上没什么是重要的</p>
+<p>爱与被爱不是</p>
+<p>成功与否不是</p>
+<p>幸福与否不是</p>
+<p>有钱与否不是</p>
+<p>内心平静还是不平静也不是</p>
+<p>甚至活着还是死亡都不是</p>
+<p>这就是"空"</p>
+<p>空是世间本质</p>
+<p>人有了分别心，才觉得有什么事情重要</p>
+<p>但宇宙本就是一，本就是空</p>
+</div>
+<div class="related-link">关联阅读：<a href="../content/s1-thought.html#xiuxing">思想精神·关于修行</a></div>
+
+<div class="theme-label" id="theme-writing">主题 · 写作与表达</div>
+
+<div class="poem">
 <p>我憎恨写作</p>
 <p>写作意味着心怀痛苦</p>
 <p>我体内的黑色河流流淌出来成为文字</p>
 <p>我不要黑色河流</p>
 <p>我喜欢郁郁葱葱的树林</p>
+<p>可是我的内心种不出来绿色</p>
+<p>黑色掩盖了大地</p>
+<p>我憎恨黑色</p>
 </div>
 <div class="poem-divider">· · ·</div>
 
 <div class="poem">
-<p>我像是风</p>
-<p>不定形</p>
-<p>来来去去</p>
-<p>到处走</p>
+<p>我觉得上帝在我的身体里装了消声器</p>
+<p>我发出的声音外界听不到</p>
+<p>外界的声音也进不来</p>
 </div>
-<div class="poem-divider">· · ·</div>
+<div class="related-link">关联阅读：<a href="../content/s1-thought.html#biaoda">思想精神·关于表达</a></div>
+
+<div class="theme-label" id="theme-fate">主题 · 命运与感情</div>
 
 <div class="poem">
 <p>我开始苦心专研八字。</p>
@@ -184,6 +360,14 @@ body::before {
 <p>责怪脚边的蚂蚁、海上的台风、山间呼啸而过的子弹</p>
 <p>责怪一切使我们分离的原因</p>
 <p>正如我曾责怪我们不能分离一样</p>
+</div>
+<div class="poem-divider">· · ·</div>
+
+<div class="poem">
+<p>有时候睁开眼就想：快让我死掉吧</p>
+<p>这样就不会因为爱而痛了</p>
+<p>死亡和爱竟然是邻居</p>
+<p>中间的墙壁是苦痛</p>
 </div>
 <div class="poem-divider">· · ·</div>
 
@@ -203,22 +387,16 @@ body::before {
 <div class="poem-divider">· · ·</div>
 
 <div class="poem">
-<p>让我发疯吧</p>
-<p>肉体见不了上帝</p>
-<p>先让意识漫游到牠头上</p>
-<p>圣洁的教堂，白色的修女</p>
-<p>我开始大放厥词</p>
-<p>惊起乌鸦瑟瑟</p>
-<p>羽毛掉落在神父皱起的眉头上</p>
+<p>他們一個個都離開了</p>
+<p>那些說會永遠陪著我的人</p>
+<p>像被上帝之手刻意拉快的進度條</p>
+<p>轉瞬間，花枯萎，叶掉落</p>
+<p>手裏緊攥的氣球飛到高空</p>
+<p>他們的臉模糊在冬季雨天的玻璃窗外</p>
 </div>
-<div class="poem-divider">· · ·</div>
+<div class="related-link">关联阅读：<a href="../content/s3-practice.html#mingli">修行·命理学</a></div>
 
-<div class="poem">
-<p>我想像擀面杖一样从山坡上滚下去</p>
-<p>路上的石子尖角在我身上留下划痕</p>
-<p>咕咚咕咚像极了被生活锤打的声音</p>
-</div>
-<div class="poem-divider">· · ·</div>
+<div class="theme-label" id="theme-despair">主题 · 忧郁与虚无</div>
 
 <div class="poem">
 <p>好累</p>
@@ -230,27 +408,38 @@ body::before {
 <div class="poem-divider">· · ·</div>
 
 <div class="poem">
-<p>我觉得上帝在我的身体里装了消声器</p>
-<p>我发出的声音外界听不到</p>
-<p>外界的声音也进不来</p>
+<p>这世上没有什么是永垂不朽的</p>
+<p>爱会消失，信任会崩塌，成功会消逝</p>
+<p>美好像石头一样沉闷地砸在水里沉入海底</p>
+<p>只有痛苦是永恒的</p>
 </div>
 <div class="poem-divider">· · ·</div>
 
 <div class="poem">
-<p>我不再是我</p>
-<p>我是愤怒、悲伤、焦虑和抑郁的容器</p>
-<p>我是悬浮的虚空</p>
-<p>我是化不开的黑色烟雾</p>
+<p>这世界烂得要死</p>
+<p>看起来繁荣实则一片废墟</p>
+<p>看起来美好实则炼狱本色</p>
+<p>站在这垃圾堆里，我不愿意眼里只有这些垃圾</p>
+<p>去做点什么吧。去创造点什么吧</p>
+<p>好对抗这虚无的、垃圾堆一样的地方！</p>
 </div>
 <div class="poem-divider">· · ·</div>
 
 <div class="poem">
-<p>他們一個個都離開了</p>
-<p>那些說會永遠陪著我的人</p>
-<p>像被上帝之手刻意拉快的進度條</p>
-<p>轉瞬間，花枯萎，叶掉落</p>
-<p>手裏緊攥的氣球飛到高空</p>
-<p>他們的臉模糊在冬季雨天的玻璃窗外</p>
+<p>我想像擀面杖一样从山坡上滚下去</p>
+<p>路上的石子尖角在我身上留下划痕</p>
+<p>咕咚咕咚像极了被生活锤打的声音</p>
+</div>
+<div class="poem-divider">· · ·</div>
+
+<div class="poem">
+<p>让我发疯吧</p>
+<p>肉体见不了上帝</p>
+<p>先让意识漫游到牠头上</p>
+<p>圣洁的教堂，白色的修女</p>
+<p>我开始大放厥词</p>
+<p>惊起乌鸦瑟瑟</p>
+<p>羽毛掉落在神父皱起的眉头上</p>
 </div>
 
 </div>
@@ -289,7 +478,27 @@ body::before {
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('reveal'); });
 }, { threshold: 0.08 });
-document.querySelectorAll('.poem').forEach(s => observer.observe(s));
+setTimeout(() => {
+  document.querySelectorAll('.poem').forEach(s => observer.observe(s));
+}, 100);
+
+const themeIndicator = document.getElementById('themeCurrent');
+const themeLabels = document.querySelectorAll('.theme-label');
+const themeLinks = document.querySelectorAll('.theme-index a');
+
+function updateTheme() {
+  let current = '';
+  themeLabels.forEach(l => {
+    const rect = l.getBoundingClientRect();
+    if (rect.top <= 140) current = l.textContent.replace('主题 · ', '');
+  });
+  if (current) {
+    themeIndicator.textContent = '主题·' + current;
+    themeLinks.forEach(a => a.classList.toggle('active', a.textContent === current));
+  }
+}
+window.addEventListener('scroll', updateTheme, { passive: true });
+updateTheme();
 </script>
 </body>
 </html>

@@ -30,7 +30,7 @@ body::before {
 .back {
   position: fixed; top: 32px; left: 32px; z-index: 30;
   font-size: 13px; letter-spacing: 4px;
-  color: rgba(42,37,32,0.55);
+  color: rgba(42,37,32,0.85);
   text-decoration: none;
   transition: all 0.2s;
   padding: 6px 16px;
@@ -46,7 +46,7 @@ body::before {
   position: fixed; top: 32px; right: 32px; z-index: 30;
   display: flex; align-items: center; gap: 6px;
   font-size: 12px; letter-spacing: 2px;
-  color: rgba(42,37,32,0.35);
+  color: rgba(42,37,32,0.85);
   cursor: pointer;
   transition: all 0.2s;
   padding: 5px 12px;
@@ -85,7 +85,7 @@ body::before {
 }
 .content-header .sub {
   font-size: 13px;
-  color: rgba(42,37,32,0.4);
+  color: rgba(42,37,32,0.85);
   letter-spacing: 4px;
 }
 .content-header::after {
@@ -116,7 +116,7 @@ body::before {
 
 .thought-section .tag {
   display: inline-block;
-  font-size: 12px; color: rgba(42,37,32,0.5);
+  font-size: 12px; color: rgba(42,37,32,0.85);
   padding: 2px 10px;
   border: 1px solid rgba(42,37,32,0.08);
   border-radius: 3px;
@@ -130,6 +130,23 @@ body::before {
   margin: -16px 0 40px;
 }
 
+.related-link {
+  text-align: center;
+  font-size: 14px; letter-spacing: 2px;
+  font-style: italic;
+  color: rgba(42,37,32,0.85);
+  margin-top: -24px; margin-bottom: 40px;
+}
+.related-link a {
+  color: rgba(42,37,32,0.85);
+  font-style: italic;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(42,37,32,0.4);
+  transition: color 0.2s;
+}
+.related-link a:hover { color: var(--red); text-decoration-color: var(--red); }
+
 @media (max-width: 700px) {
   .back { top: 20px; left: 20px; }
   .music { top: 20px; right: 20px; }
@@ -140,7 +157,7 @@ body::before {
 </head>
 <body>
 
-<a class="back" href="../index.html#s1">返回</a>
+<a class="back" href="../index.html#s1" onclick="history.back();return false">返回</a>
 
 <div class="music" id="musicBtn">
   <span class="dot" id="musicDot"></span>
@@ -164,9 +181,11 @@ body::before {
 <div class="section-divider">· · ·</div>
 
 <div class="thought-section">
-  <h2>关于表达</h2>
+  <h2 id="biaoda">关于表达</h2>
   <p>在没有频繁书写、和DeepSeek或者和朋友深度对话之前，我的思考和感受很散漫。但大量表达之后，很多东西越来越清晰——我热爱滑板，我不遵守外部评价体系，我用幸福指数和内在自由指数衡量自己，还有非常非常多明确的事情……表达本身就是生产，它长成了我这个人本身。</p>
 </div>
+
+<div class="related-link">关联阅读：<a href="../content/s1-poetry.html#theme-writing">诗歌·写作与表达</a></div>
 
 <div class="section-divider">· · ·</div>
 
@@ -192,9 +211,11 @@ body::before {
 <div class="section-divider">· · ·</div>
 
 <div class="thought-section">
-  <h2>关于修行</h2>
+  <h2 id="xiuxing">关于修行</h2>
   <p>关于心境的愿景是什么呢？我觉得是空。无悲无喜，没有分别心，没有二元对立。但需要我不断修行来靠近，不断修掉我执。</p>
 </div>
+
+<div class="related-link">关联阅读：<a href="../content/s1-poetry.html#theme-self">诗歌·存在与自我</a> · <a href="../content/s3-practice.html#mingli">修行·命理学</a></div>
 
 <div class="section-divider">· · ·</div>
 
